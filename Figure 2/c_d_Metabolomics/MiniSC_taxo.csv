@@ -1,0 +1,17 @@
+Strain,RA (%),Prevalence,Kingdom,Speciesold,Species,Assembly size (Mbp),# of scaffolds,Scaffold N50
+R565,14.4,"0,7",Bacteria,Achromobacter sp.,Achromobacter R565,5.1,23,NA
+R147,1.8,"0,4",Bacteria,Bacillus sp.,Bacillus R147,5.6,28,NA
+R16,1.5,"0,6",Bacteria,Burkholderia sp.,Burkholderia R16D2,6.7,7,1
+R318,1.4,"1,0",Bacteria,Variovorax sp.,Variovorax R318D1,5.7,2,1
+R568,1.5,"0,8",Bacteria,Acidovorax sp.,Acidovorax R568,5.1,1,1
+R420,1.5,"0,8",Bacteria,Flavobacterium sp.,Flavobacterium R420,5.7,3,1
+R695,0.3,"0,4",Bacteria,Mesorhizobium sp.,Mesorhizobium R695,6.5,5,1
+R329,9.7,"1,0",Bacteria,Pseudomonas sp.,Pseudomonas R329,6.7,51,NA
+R09,3.2,"1,0",Bacteria,Pseudomonas sp.,Pseudomonas R09,6.6,5,1
+R651,1.2,"0,5",Bacteria,Agrobacterium sp.,Agrobacterium R651,5.8,34,NA
+R431,1.4,"0,5",Bacteria,Streptomyces sp.,Streptomyces R431,6.5,2,1
+F147,9.6,"0,9",Fungi,Dactylonectria macrodidyma,Dactylonectria R147,77.3,87,10
+F16,2.7,"1,0",Fungi,Plectosphaerella cucumerina,Plectosphaerella R16,36.5,11,3
+F212,6.1,"1,0",Fungi,Fusarium oxysporum,Fusarium R212,55.7,66,5
+F243,0.5,"0,8",Fungi,Dendryphion nanum,Dendryphion R243,41.1,59,8
+Media,Media,Media,Media,Media,Media,Media,Media,Media

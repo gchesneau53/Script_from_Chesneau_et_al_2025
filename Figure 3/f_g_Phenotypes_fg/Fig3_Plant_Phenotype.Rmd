@@ -1,0 +1,233 @@
+---
+title: "MetaFlowTrain: a highly-parallelized and modular fluidic system to study exometabolite-mediated inter-organismal Interaction"
+author: "Chesneau et al., 2025, Guillaume Chesneau"
+date: "06/09/2024"
+output:
+  html_document:
+    toc: yes
+    toc_float: yes
+  word_document:
+    toc: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache=FALSE, autodep = TRUE, warning = FALSE)
+#Set working direction
+knitr::opts_knit$set(root.dir = "") 
+```
+
+This script has been made on R 4.2.2 (and Rstudio 2022.12.0+353)
+```{r R version}
+R.version
+library(ggthemes)
+theme_set(theme_bw())
+```
+
+# A] Germination rate
+
+```{r, echo=FALSE, message=FALSE, fig.show='hide'}
+#library
+library(ggplot2)
+
+#Read table
+Pheno <- read.table(file="df_phenotype.txt",sep="\t",dec = ".",header=TRUE) 
+
+#Make binary table
+Pheno$Length2<- ifelse(Pheno$Length ==0 ,0,
+                                    ifelse(1,1))
+#Plot             
+#Change name for plotting
+Pheno$ORGANISM2 <- ifelse(Pheno$ORGANISM == "Media-Media" , "MF","BFSC")
+
+#Order plot
+Pheno$ORGANISM2 <- factor(Pheno$ORGANISM2, 
+                         levels = c("MF", "BFSC"))
+
+# New facet label names for dose variable
+names_germ <- c(0,1)
+names(names_germ) <- c("Germinated","Not Germinated")
+
+# New facet label names for dose variable
+name_soil <- c("Peat","Peat + Plant","Peat + Plant + SynCom")
+names(name_soil) <- c("Peat","Peat+Plant","Peat+Plant+B+F")
+
+#Stats
+# Load necessary libraries
+library(dplyr)
+library(broom)
+
+# Function to perform the comparison
+compare_proportions <- function(data) {
+  # Calculate proportions
+  proportion_data <- data %>%
+    group_by(TREATMENT_1, ORGANISM2, Length2) %>%
+    summarise(count = n(), .groups = "drop") %>%
+    group_by(TREATMENT_1, ORGANISM2) %>%
+    mutate(total = sum(count)) %>%
+    mutate(proportion = count / total) %>%
+    pivot_wider(names_from = Length2, values_from = proportion, values_fill = 0) %>%
+    ungroup()
+
+  # Perform Chi-Square Test or Fisher's Exact Test
+  chi_sq_test <- chisq.test(as.matrix(proportion_data[, -(1:2)])) # Excluding TREATMENT_1 and ORGANISM2
+  fisher_test <- fisher.test(as.matrix(proportion_data[, -(1:2)]))
+
+  # Return results
+  return(list(
+    proportions = proportion_data,
+    chi_sq_test = tidy(chi_sq_test),
+    fisher_test = tidy(fisher_test)
+  ))
+}
+
+# Apply the function while keeping TREATMENT_1
+library(tidyr)
+results <- Pheno %>%
+  group_split(TREATMENT_1) %>%
+  lapply(compare_proportions)
+
+# Combine results into a single data frame for easy viewing
+final_results <- bind_rows(lapply(results, function(x) x$proportions))
+
+# Print results
+results
+
+#Extract fisher
+Control <- results[[1]]$fisher_test
+Control$TREATMENT_1 <- c("Peat")
+Plant <- results[[2]]$fisher_test
+Plant$TREATMENT_1 <- c("Peat+Plant")
+Plant_SC <- results[[3]]$fisher_test
+Plant_SC$TREATMENT_1 <- c("Peat+Plant+B+F")
+
+Stats_Germ <- data.frame(rbind(Control, Plant, Plant_SC))
+Stats_Germ$ORGANISM2 <- c("MF")
+Stats_Germ$Length2 <- c("0")
+
+#Plot
+conta.all.pheno <- ggplot(Pheno, aes(ORGANISM2, fill = factor(Length2, levels=c("0", "1")))) + 
+  geom_bar(position="fill") +
+  labs(fill="CFU detected") +
+  scale_fill_manual("Germination", values=c( "#888686", "#4643433B"), labels = c("Not Germinated", "Germinated")) +
+  facet_wrap(~TREATMENT_1, scales = "free", nrow = 1, labeller = labeller(TREATMENT_1 = name_soil)) +
+  theme(
+    strip.background = element_rect(color="white", fill="#585858", size=1, linetype="solid"),
+    strip.text.x = element_text(size = 12, color = "white"),
+    strip.text.y = element_text(size = 12, color = "white"),
+    axis.title.y = element_text( size = 12),
+    axis.title.x = element_blank(),
+    plot.title = element_text(size = 16),
+    axis.text.x = element_text(),
+    axis.text.y = element_text()
+  ) +
+  ylab ("Germination rate (%)") +
+  geom_text(data = Stats_Germ, 
+            mapping = aes(x = ORGANISM2, y = 1.05, label = paste0("p.value = ", round(p.value, 4))),
+            size = 4, hjust=0.25) +   # Adjusted position and added vjust for better text placement
+  theme(legend.position = "bottom")
+
+conta.all.pheno
+
+```
+
+
+# B]  Plant length
+
+```{r, echo=FALSE, message=FALSE, results="hide", fig.show='hide'}
+
+#Read table
+Pheno <- read.table(file="df_phenotype.txt",sep="\t",dec = ".",header=TRUE) 
+
+#Remove 0, focus on root length
+Pheno2 <- subset(Pheno, !Length %in% c(0))
+    
+#Stats
+df <- Pheno2
+
+# List of time points
+time_points <- unique(df$TREATMENT_1)
+
+# Create a function to perform t-test for a specific time point
+
+perform_t_tests <- function(data) {
+  time_points <- unique(data$TREATMENT_1)
+  t_test_results <- list()
+  
+  for (time_point in time_points) {
+    subset_df <- subset(data, TREATMENT_1 == time_point)
+    
+    if (nrow(subset_df) >= 2) {
+      t_test_result <- wilcox.test(Length ~ ORGANISM, data = subset_df, p.adjust.method = "bonferroni")
+      adjusted_p_value <- p.adjust(t_test_result$p.value, method = "bonferroni")  # Adjust p-value
+      t_test_result$p.value <- adjusted_p_value  # Replace original p-value with adjusted p-value
+      t_test_results[[as.character(time_point)]] <- t_test_result
+    }
+  }
+  
+  return(t_test_results)
+}
+
+
+# Perform t-tests for each time point
+t_test_results <- perform_t_tests(df)
+result_df <- do.call(rbind, t_test_results)
+
+# Extract relevant information from t-test results
+groups_results <- data.frame(TREATMENT_1 = time_points, p_value = sapply(t_test_results, function(x) x$p.value))
+
+# Add the 'stars' column based on p-value
+groups_results$stars <- ifelse(groups_results$p_value < 0.05, "*", "")
+
+#Arrange table to fit the metadata
+groups_results$ORGANISM2 <- c("MF")
+
+# New facet label names for dose variable
+name_soil <- c("Peat","Peat + Plant","Peat + Plant + SynCom")
+names(name_soil) <- c("Peat","Peat+Plant","Peat+Plant+B+F")
+
+#Change name
+Pheno2$ORGANISM2 <- ifelse(Pheno2$ORGANISM == "Media-Media" , "MF","BFSC")
+groups_results$ORGANISM2 <- ifelse(groups_results$ORGANISM == "Media-Media" , "MF","BFSC")
+
+#New group for plotting colors
+Pheno2$ORGANISMEF <- paste(Pheno2$ORGANISM, "-", Pheno2$TREATMENT_1)
+
+#Order
+Pheno2$ORGANISM2 <- factor(Pheno2$ORGANISM2, levels = c ("MF", "BFSC"))
+
+#Plot
+Plot_box_root <- ggplot() + 
+geom_boxplot(data = Pheno2, aes(x = ORGANISM2, y = Length, fill = ORGANISMEF, color = ORGANISMEF), outlier.shape = NA) +
+geom_jitter(data = Pheno2, aes(x = ORGANISM2, y = Length, fill = ORGANISMEF), size = 0.5, alpha = 0.5) +
+#geom_errorbar(data = Root_means_se, aes(ymin=lower_limit, ymax=upper_limit)) +
+  ylab ("Root length (mm)") +
+  ggtitle("")+
+  scale_fill_manual("Microchambers", values=c( "#DDD5D0", "#988071", "#3B312B" ,"white","white","white"),labels = c( "BFSC Peat", "BFSC Peat + Plant", "BFSC Peat + Plant + SynCom","MF Peat", "MF Peat + Plant","MF Peat + Plant + SynCom")) +
+  scale_color_manual("Microchambers", values=c("black", "black", "black","#DDD5D0", "#988071", "#3B312B"),labels = c( "BFSC Peat", "BFSC Peat + Plant", "BFSC Peat + Plant + SynCom","MF Peat", "MF Peat + Plant", "MF Peat + Plant + SynCom")) +
+  facet_wrap(~TREATMENT_1, scales = "free", nrow = 1, labeller = labeller(TREATMENT_1 = name_soil)) +
+  theme(
+        strip.background = element_rect(color="black", fill="lightgray", size=1, linetype="solid"),
+        strip.text.x = element_text(size = 12, color = "black"),
+        strip.text.y = element_text(size = 12, color = "white"),
+        axis.title.y = element_text( size = 12),
+        axis.title.x = element_blank(),
+        plot.title = element_text(size = 16),
+        axis.text.x = element_text(), 
+        axis.text.y = element_text()) +  
+    geom_text(data    = groups_results, mapping = aes(x = ORGANISM2, y = 75,  label = paste0("p.value = ", round(p_value, 4))),size = 4, hjust=1) +
+  theme(legend.position = "bottom") + ylim (0,75)
+  Plot_box_root
+  
+
+# Calculate count per condition
+Pheno2$bin <- c(1)
+Count <- Pheno2 %>%
+    group_by(ORGANISM2, TREATMENT_1, bin) %>%
+    summarise(count = n(), .groups = "drop")
+```
+
+*****
+
+# End of script
+
+*****

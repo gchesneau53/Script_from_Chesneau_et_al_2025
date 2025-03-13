@@ -1,0 +1,198 @@
+---
+title: "MetaFlowTrain: a highly-parallelized and modular fluidic system to study exometabolite-mediated inter-organismal Interaction"
+author: "Chesneau et al., 2025, Guillaume Chesneau"
+date: "06/09/2024"
+output:
+  html_document:
+    toc: yes
+    toc_float: yes
+  word_document:
+    toc: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache=FALSE, autodep = TRUE, warning = FALSE)
+#Set working direction
+knitr::opts_knit$set(root.dir = "") 
+```
+
+# A] Prepare Data
+```{r, echo=FALSE, message=FALSE, results="hide", fig.show='hide'}
+#Load Package
+library(tidyr)
+library(dplyr)
+library(ggplot2)
+library(ggthemes)
+library(dplyr)
+theme_set(theme_bw())
+
+#Load table
+Table <- read.table(file="qPCR_R401.txt",sep="\t",dec = ".",header=TRUE, row.names=1)
+
+#Control bottle clean, remove
+Table <- subset(Table, !Combinaison %in% c("Control_Bottle_1", "Control_Bottle_2"))
+Table2 <- Table %>%
+  mutate_all(~gsub("MR401", "ΔR401", .))
+Table2
+
+#Numeric
+Table2$Ct <- as.numeric(Table2$Ct)
+
+# Filter out rows with values above the min of the control no microbes
+min_value <- Table2 %>%
+  filter(Chamber_strain == "C") %>%  # Filter rows where Chamber_1 is "C"
+  summarise(min_Ct = min(Ct, na.rm = TRUE)) %>% # Find the minimum Ct value
+  pull(min_Ct)  # Extract the value
+filtered_Table2 <- Table2 %>%
+filter(Ct <= min_value)
+
+# Remove rows where Ct is NA
+filtered_Table2 <- filtered_Table2 %>% filter(!is.na(Ct))
+
+#Split
+filtered_Table2_B <- subset(filtered_Table2, Manip %in% c("Bacteria"))
+filtered_Table2_F <- subset(filtered_Table2, Manip %in% c("Fungi"))
+```
+# B] Statistics
+
+```{r, echo=FALSE, message=FALSE, results="hide", fig.show='hide'}
+# Load necessary packages
+library(PMCMRplus)
+library(dunn.test)
+
+#Keep stats just for Chamber 2
+df <- filtered_Table2
+df <- subset(df, Chamber_num %in% c("Chamber 2"))
+
+# Get unique conditions
+unique_conditions <- unique(df$Manip)
+
+# Create empty data frames to store the results
+kruskal_results <- data.frame()
+dunn_results <- data.frame()
+
+# Loop over unique conditions and perform tests
+for (condition in unique_conditions) {
+  # Subset the data for the current condition
+  subset_data <- df[df$Manip == condition, ]
+  
+  # Perform Kruskal-Wallis test
+  kruskal_result <- kruskal.test(Ct ~ Combinaison, data = subset_data)
+  
+  # Perform Dunn's test for post hoc comparisons
+  dunn_result <- dunn.test(subset_data$Ct, g = subset_data$Combinaison, method = "bh")
+  
+  # Store the results in data frames
+  kruskal_results <- rbind(kruskal_results, c(Condition = condition, kruskal_result$P.adjusted))
+  dunn_results <- rbind(dunn_results, data.frame(dunn_result$comparison, dunn_result$P.adjusted, condition))
+}
+
+# Print Kruskal-Wallis results
+print(kruskal_results)
+
+# Print Dunn test results
+print(dunn_results)
+
+#Create groups letters
+library(rcompanion)
+
+# Create empty data frames to store the results
+groups_results <- data.frame()
+
+for (condition in unique_conditions) {
+  # Subset the data for the current condition
+  subset_data <- dunn_results[dunn_results$condition == condition, ]
+   
+  group <- cldList(comparison = subset_data$dunn_result.comparison, 
+                    p.value    = subset_data$dunn_result.P.adjusted,
+                    threshold  = 0.05, remove.zero = FALSE)
+  # Create a data frame for the results of the current condition
+  condition_results <- data.frame(Condition = condition,
+                                  Group = group$Group,
+                                  Letter = group$Letter,
+                                  MonoLetter = group$MonoLetter)
+  
+# Append the results to the groups_results data frame
+  groups_results <- rbind(groups_results, condition_results)
+
+}
+groups_results
+
+#Arrange table
+colnames(groups_results) <- c("Manip", "Combinaison", "Letter", "MonoLetter")
+groups_results$Chamber_num <- c("Chamber 2")
+```
+
+# B] Plot
+
+```{r, echo=FALSE, message=FALSE, results="hide", fig.show='hide'}
+
+#Filter out for Bacteria plot (TOP)
+groups_results_B <- subset(groups_results,Manip %in% c("Bacteria") )
+groups_results_B$Chamber_strain <- c("BSC")
+
+filtered_Table2_B$Combinaison <- factor(filtered_Table2_B$Combinaison, levels = c ("ΔR401_BSC", "R401_BSC", "MF_BSC"))
+
+groups_results_B$Combinaison <- factor(groups_results_B$Combinaison, levels = c ("ΔR401_BSC", "R401_BSC", "MF_BSC"))
+
+#Plot
+Plot_FULL_B = ggplot(filtered_Table2_B, aes(x=Ct, y=  Combinaison, fill=Chamber_num)) + 
+  geom_boxplot(outlier.shape = NA) +
+    geom_jitter(alpha=0.6) +
+  #theme(legend.position="none")+
+  # geom_text(data = Stats_merged, aes(label = Letter , y = 27), colour="black", size=4, vjust =0, angle = 90) + 
+  ggtitle("") + xlab("Ct") + ylab("") +
+   theme(strip.background = element_rect(color="black", fill="white", size=1, linetype="solid"), strip.text.x = element_text(size = 12, color = "black"), strip.text.y = element_text(size = 12, color = "black")) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))+
+  facet_grid(Manip~Chamber_num, space="fixed", scales="fixed") +
+  scale_x_continuous(trans = "reverse")+
+ scale_fill_manual(values= c("white", "#4757c8")) +
+   geom_text( data   = groups_results_B, mapping = aes(x = 13.5, label = Letter), size = 4) 
+
+#Filter out for Fungal plot (BOTTOM)
+groups_results_F <- subset(groups_results,Manip %in% c("Fungi"))
+groups_results_F$Chamber_strain <- c("FSC")
+
+#Order
+filtered_Table2_F$Combinaison <- factor(filtered_Table2_F$Combinaison, levels = c ("ΔR401_FSC", "R401_FSC", "MF_FSC"))
+
+groups_results_F$Combinaison <- factor(groups_results_F$Combinaison, levels = c ("ΔR401_FSC", "R401_FSC", "MF_FSC"))
+
+#Plot
+Plot_FULL_F = ggplot(filtered_Table2_F, aes(x=Ct, y=  Combinaison, fill=Chamber_num)) + 
+  geom_boxplot(outlier.shape = NA) +
+    geom_jitter(alpha=0.6) +
+  #theme(legend.position="none")+
+  # geom_text(data = Stats_merged, aes(label = Letter , y = 27), colour="black", size=4, vjust =0, angle = 90) + 
+  ggtitle("") + xlab("Ct") + ylab("") +
+   theme(strip.background = element_rect(color="black", fill="white", size=1, linetype="solid"), strip.text.x = element_text(size = 12, color = "black"), strip.text.y = element_text(size = 12, color = "black")) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))+
+  facet_grid(Manip~Chamber_num, space="fixed", scales="fixed") +
+  scale_x_continuous(trans = "reverse")+
+ scale_fill_manual(values= c("white", "#4757c8")) +
+   geom_text( data   = groups_results_F, mapping = aes(x = 15, label = Letter), size = 4)
+
+#Combine plots 
+# Combine the plots side by side
+library(cowplot)
+
+Final_plot <- plot_grid(Plot_FULL_B, Plot_FULL_F,rel_heights = c(1,1), rel_widths = c(1,1), ncol=1, nrow=2, align = 'hv')
+Final_plot
+
+# Group by 'Combinaison' and calculate the median of 'Ct'
+summary_F <- filtered_Table2_F %>%
+  group_by(Combinaison,Chamber_num) %>%
+  summarize(Median_Ct = median(Ct))
+summary_F
+
+summary_B <- filtered_Table2_B %>%
+  group_by(Combinaison,Chamber_num) %>%
+  summarize(Median_Ct = median(Ct))
+summary_B
+```
+
+*****
+
+# End of script
+ 
+*****

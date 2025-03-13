@@ -1,0 +1,212 @@
+---
+title: "MetaFlowTrain: a highly-parallelized and modular fluidic system to study exometabolite-mediated inter-organismal Interaction"
+author: "Chesneau et al., 2025, Guillaume Chesneau"
+date: "06/09/2024"
+output:
+  html_document:
+    toc: yes
+    toc_float: yes
+  word_document:
+    toc: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache=FALSE, autodep = TRUE, warning = FALSE)
+#Set working direction
+knitr::opts_knit$set(root.dir = "") 
+```
+
+This script has been made on R 4.2.2 (and Rstudio 2022.12.0+353)
+```{r R version}
+R.version
+#Load theme set
+library(ggplot2)
+theme_set(theme_bw())
+```
+
+
+# A] Figure S4 b
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE, results="hide"}
+#Open table
+Teeth <- read.table(file="Chamber_teeth_assay.txt",sep="\t",dec = ".",header=TRUE)
+```
+
+Plot (no significance)
+```{r, echo=FALSE, warning=FALSE, message=FALSE, results="hide"}
+library(ggplot2)
+# Create a stacked bar plot
+
+Teeth$Bin <- as.character(Teeth$Bin)
+
+#Plot
+PlotB <- ggplot(Teeth, aes(x = Chamber, fill = Bin)) +
+  geom_bar(position = "fill") +
+  labs(x = "Chamber", y = "Proportion", title = "") +
+  scale_fill_manual(values = c("0" = "#C1C4B8", "1" = "#161615"),
+                    name = "Microchamber train",  # Change the legend title here
+                    labels = c("Failed", "Successful")) +  # Change the legend labels here) +
+  facet_grid(~Community) +
+    theme(strip.background = element_rect(color="black", fill="lightgray", size=1, linetype="solid"),
+        strip.text.x = element_text(size = 12, color = "black"),
+        axis.title.x = element_text( size = 12, face = "bold"),
+        axis.title.y = element_text( size = 12, face = "bold"),
+        plot.title = element_text(size = 16),
+        axis.text.x = element_text(face = "bold", angle = 90), 
+        axis.text.y = element_text(face = "bold")) + 
+ geom_text(data = data.frame(x = 1, y = -0.02, label = "n=24", Community = c("BFSC", "MgCL2"), Bin = c("B1"), Chamber = c("Flat", "Theeth")),aes(x = x, y = y, label = label),  size = 3.5) +
+ geom_text(data = data.frame(x = 2, y = -0.02, label = "n=24", Community = c("BFSC", "MgCL2"), Bin = c("B1"), Chamber = c("Flat", "Theeth")),aes(x = x, y = y, label = label),  size = 3.5) +
+    ggtitle("")
+
+PlotB
+```
+
+
+# B] Figure S4 c
+
+Prepare table
+```{r, echo=FALSE, warning=FALSE, message=FALSE, results="hide"}
+#Load packages
+library(tidyr)
+library(ggplot2)
+
+#Load table
+F_R <- read.table(file="Chamber_teeth_assay.txt",sep="\t",dec = ".",header=TRUE)
+
+# Combine columns with flow rate into a new column
+F_R2 <- F_R %>%
+  pivot_longer(cols = c(Flow_t0,	Flow_t15,	Flow_t25,	Flow_t39,	Flow_t48,Flow_t63,	Flow_t72),
+               names_to = "Flow_rate",
+               values_to = "ul.min")
+
+# Use gsub to extract numbers from the 'text' column and create 'numbers_only' column
+F_R2$Time <- as.numeric(gsub("[^0-9]", "", F_R2$Flow_rate))
+```
+
+Statistics
+```{r, echo=FALSE, warning=FALSE, message=FALSE, results="hide"}
+# Load necessary packages
+library(PMCMRplus)
+library(dunn.test)
+
+#For control MgCl2
+df_MG <- subset(F_R2, !Community %in% c("BFSC"))
+
+# List of time points
+time_points <- unique(df_MG$Time)
+
+# Create a function to perform t-test for a specific time point
+perform_t_tests <- function(data) {
+  time_points <- unique(df_MG$Time)
+  t_test_results <- list()
+  
+  for (time_point in time_points) {
+    subset_df <- subset(data, Time == time_point)
+    
+    if (nrow(subset_df) >= 2) {
+      t_test_result <- t.test(ul.min ~ Chamber, data = subset_df)
+      t_test_results[[as.character(time_point)]] <- t_test_result
+    }
+  }
+  
+  return(t_test_results)
+}
+
+# Perform t-tests for each time point
+t_test_results <- perform_t_tests(df_MG)
+
+result_df_Mg <- do.call(rbind, t_test_results)
+
+ # Extract relevant information from t-test results
+Stats_Mg <- data.frame(Time = time_points, p_value = sapply(t_test_results, function(x) x$p.value))
+Stats_Mg$Community <- c("MgCL2")
+
+
+
+#For BF SynCom
+df_BF <- subset(F_R2, Community %in% c("BFSC"))
+
+# List of time points
+time_points <- unique(df_BF$Time)
+
+# Create a function to perform t-test for a specific time point
+perform_t_tests <- function(data) {
+  time_points <- unique(df_BF$Time)
+  t_test_results <- list()
+  
+  for (time_point in time_points) {
+    subset_df <- subset(data, Time == time_point)
+    
+    if (nrow(subset_df) >= 2) {
+      t_test_result <- t.test(ul.min ~ Chamber, data = subset_df)
+      t_test_results[[as.character(time_point)]] <- t_test_result
+    }
+  }
+  
+  return(t_test_results)
+}
+
+# Perform t-tests for each time point
+t_test_results <- perform_t_tests(df_BF)
+
+result_df_BF <- do.call(rbind, t_test_results)
+
+ # Extract relevant information from t-test results
+Stats_BF <- data.frame(Time = time_points, p_value = sapply(t_test_results, function(x) x$p.value))
+Stats_BF$Community <- c("BFSC")
+
+
+#Combine Stats for MgCl2 and BFSC
+groups_results <- rbind(Stats_Mg, Stats_BF)
+groups_results$Chamber <- c("Flat")
+
+# Create a new column based on conditional logic
+groups_results <- groups_results %>%
+  mutate(Significance = case_when(
+    p_value <= 0.05  ~ "*",
+    TRUE            ~ ""
+  ))
+
+#Replace p_values above 0.05 with an empty cell 
+groups_results$p_value <- ifelse(groups_results$p_value > 0.05, "", format(groups_results$p_value, scientific = TRUE, digits = 2))
+
+# Format the 'p_value' column to scientific notation
+groups_results$p_value <- format(groups_results$p_value, scientific = TRUE, digits = 2)
+
+# Add "P = " in italic in front of the values
+groups_results <- groups_results %>%
+  mutate(p_value2 = ifelse(!is.na(p_value) & p_value != "       ", paste0("P = ", p_value), p_value))
+```
+
+
+Plot
+```{r, echo=FALSE, warning=FALSE, message=FALSE, results="hide"}
+
+# Create a line plot
+PlotC <- ggplot(F_R2, aes(x = Time, y = ul.min, color = Chamber)) +
+  geom_jitter(size = 1, alpha = 0.1) +
+   geom_smooth(aes( linetype = Chamber)) +
+  ylim(0,10) + xlim (0,72) +
+  xlab("Time (Hours)") +
+  ylab("Flow rate (μl.min-1)") +
+  theme(strip.background = element_rect(color="black", fill="lightgray", size=1, linetype="solid"),
+        strip.text.x = element_text(size = 12, color = "black"),
+        axis.title.x = element_text( size = 12, face = "bold"),
+        axis.title.y = element_text( size = 12, face = "bold"),
+        plot.title = element_text(size = 16),
+        axis.text.x = element_text(face = "bold", angle = 90), 
+        axis.text.y = element_text(face = "bold")) +
+  facet_grid(~Community) + 
+    geom_text( data   = groups_results, mapping = aes(x = Time, y= 6.5, label = Significance), size = 4) +
+    geom_text(data = groups_results, mapping = aes(x = Time, y = 8.5, label = p_value2), size = 3, angle = 90) + 
+  scale_color_manual(values=c("#000000", "#b96a00")) +
+    ggtitle("")
+  
+PlotC
+```
+
+*****
+
+# End of script
+
+*****

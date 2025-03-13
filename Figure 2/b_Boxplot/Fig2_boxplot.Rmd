@@ -1,0 +1,98 @@
+---
+title: "MetaFlowTrain: a highly-parallelized and modular fluidic system to study exometabolite-mediated inter-organismal interactions"
+author: "Chesneau et al., 2025, Guillaume Chesneau"
+date: "06/09/2024"
+output:
+  html_document:
+    toc: yes
+    toc_float: yes
+  word_document:
+    toc: yes
+---
+
+Set Directory
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache=FALSE, autodep = TRUE, warning = FALSE)
+#Set working direction
+knitr::opts_knit$set(root.dir = "") 
+```
+
+This script has been made on R 4.2.2 (and Rstudio 2022.12.0+353)
+```{r R version}
+R.version
+```
+
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE, results="hide"}
+#Prepare tables
+df <- read.table(file="df_Single_Strain_OD.txt",sep="\t",dec = ".",header=TRUE)
+```
+
+
+# Boxplot for single strains (OD) 
+
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE, results="hide"}
+#Extract Boxplots values
+# Function to calculate statistics for each condition
+calculate_statistics <- function(data) {
+  # Calculate summary statistics
+  summary_stats <- summary(data)
+  
+  # Calculate quartiles
+  q1 <- quantile(data, 0.25)
+  median <- quantile(data, 0.5)
+  q3 <- quantile(data, 0.75)
+  
+  # Calculate minimum and maximum
+  minimum <- min(data)
+  maximum <- max(data)
+  
+  # Calculate extreme values
+  boxplot_stats <- boxplot.stats(data)
+  extreme_value1 <- boxplot_stats$out[1]  # First extreme value
+  extreme_value2 <- boxplot_stats$out[length(boxplot_stats$out)]  # Last extreme value
+  
+  # Return the results as a list
+  return(list(
+    Minimum = minimum,
+    Q1 = q1,
+    Median = median,
+    Q3 = q3,
+    Maximum = maximum,
+    Extreme_Value1 = extreme_value1,
+    Extreme_Value2 = extreme_value2
+  ))
+}
+
+# Calculate statistics for each condition
+  statistics_by_condition <- tapply(df$Value, df$Species, calculate_statistics)
+
+# Print the results
+for (condition in names(statistics_by_condition)) {
+  cat("Condition:", condition, "\n")
+  cat("Minimum:", statistics_by_condition[[condition]]$Minimum, "\n")
+  cat("Q1:", statistics_by_condition[[condition]]$Q1, "\n")
+  cat("Median:", statistics_by_condition[[condition]]$Median, "\n")
+  cat("Q3:", statistics_by_condition[[condition]]$Q3, "\n")
+  cat("Maximum:", statistics_by_condition[[condition]]$Maximum, "\n")
+  cat("Extreme Value 1:", statistics_by_condition[[condition]]$Extreme_Value1, "\n")
+  cat("Extreme Value 2:", statistics_by_condition[[condition]]$Extreme_Value2, "\n\n$$")
+}
+
+# Calculate statistics for each condition
+statistics_by_condition <- tapply(df$Value, df$Species, calculate_statistics)
+
+# Convert the list of statistics into a dataframe
+statistics_dataframe <- do.call(rbind, statistics_by_condition)
+
+# Print the dataframe
+print(statistics_dataframe)
+#write.csv(statistics_dataframe, "Data_Boxplot_Fig2.txt")
+```
+
+*****
+
+# End of script
+
+*****

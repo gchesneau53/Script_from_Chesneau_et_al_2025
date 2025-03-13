@@ -1,0 +1,253 @@
+---
+title: "MetaFlowTrain: a highly-parallelized and modular fluidic system to study exometabolite-mediated inter-organismal Interaction"
+author: "Chesneau et al., 2025, Guillaume Chesneau"
+date: "06/09/2024"
+output:
+  html_document:
+    toc: yes
+    toc_float: yes
+  word_document:
+    toc: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache=FALSE, autodep = TRUE, warning = FALSE)
+#Set working direction
+knitr::opts_knit$set(root.dir = "") 
+```
+
+This script has been made on R 4.2.2 (and Rstudio 2022.12.0+353)
+```{r R version}
+R.version
+#Load theme set
+library(ggplot2)
+theme_set(theme_bw())
+```
+
+
+
+
+
+*****
+
+# A] Figure S2 a
+
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE, results="hide"}
+#Load packages
+library(tidyr)
+library(ggplot2)
+library(dplyr)
+library(broom)
+library(dplyr)
+
+#Prepare tables
+df_Flow_Rate <- read.table(file="Flow_rate_expe.txt",sep="\t",dec = ".",header=TRUE)
+
+#Order
+# Perform linear regression for each chamber
+rsquared_data <- df_Flow_Rate %>%
+  group_by(Chambers) %>%
+  do(rsquared = summary(lm(Flow.Rate.Pump ~ Real.Flow.Rate, data = .))$r.squared)
+rsquared_data <- data.frame(rsquared_data)
+rsquared_data$rsquared <- as.numeric(rsquared_data$rsquared)
+
+#Add position
+rsquared_data$text_position_x = c(4500, 4500, 4500, 4500)
+rsquared_data$text_position_y = c(500, 1000, 1500, 2000)
+
+# Define the desired order based on text_info
+desired_order <- c("Six_Chambers","Four_Chambers", "Two_Chambers","One_Chamber")
+
+# Manually reorder rsquared_data based on text_info
+rsquared_data <- rsquared_data %>%
+  mutate(Chambers = factor(Chambers, levels = desired_order)) %>%
+  arrange(Chambers)
+
+# Convert Chambers to factor with desired order
+rsquared_data$Chambers <- factor(rsquared_data$Chambers, levels = desired_order)
+
+#Order
+df_Flow_Rate$Chambers <- factor(df_Flow_Rate$Chambers, levels = c ("One_Chamber","Two_Chambers","Four_Chambers", "Six_Chambers"))
+
+# Create a line plot
+Plot_Multichambers <- ggplot(df_Flow_Rate, aes(x = Real.Flow.Rate, y = Flow.Rate.Pump, color = Chambers)) +
+  geom_jitter(size = 3, alpha = 1) +
+  geom_smooth(se = FALSE) +
+  ylim(0, 7500) + xlim(0, 7500) +
+  xlab("Real Flow Rate (uL.min)") + 
+  ylab("Flow Rate Pump (uL.min)") + 
+  theme(
+    strip.background = element_rect(color = "white", fill = "#585858", size = 1, linetype = "solid"),
+    strip.text.x = element_text(size = 12, color = "white"),
+    strip.text.y = element_text(size = 12, color = "white"),
+    axis.title.x = element_text(size = 12, face = "bold"),
+    axis.title.y = element_text(size = 12, face = "bold"),
+    plot.title = element_text(size = 16),
+    axis.text.x = element_text(face = "bold", angle = 90), 
+    axis.text.y = element_text(face = "bold")
+  ) +
+geom_text(data = rsquared_data, 
+            aes(x = text_position_x, y = text_position_y, 
+                label = paste0(Chambers, " : ", "R-squared: ", round(rsquared, 3))), 
+            hjust = 0.5, vjust = 0, size = 3, color = "black", show.legend = FALSE) +
+           scale_color_manual(values = c( "gray90", "gray70", "gray30", "gray10" ))+
+  xlim(0,6000)
+
+Plot_Multichambers
+```
+
+# B] Figure S2 b
+
+
+```{r, echo=FALSE, message=FALSE, results="hide", fig.show='hide'}
+#Prepare tables
+Count <- read.table(file="df_Chamy.txt",sep="\t",dec = ".",header=TRUE)
+```
+
+Statistics 
+```{r, echo=FALSE, warning=FALSE, message=FALSE, results="hide"}
+# Load necessary packages
+library(PMCMRplus)
+library(dunn.test)
+
+# Perform Wilcoxon test
+wilco <- wilcox.test(Cell_Count ~ Condition, data = Count)
+wilco_pvalue <- wilco$p.value
+```
+
+Plot  
+```{r, echo=FALSE, warning=FALSE, message=FALSE, results="hide"}
+# Load necessary packages
+library(ggplot2)
+library(ggthemes)
+
+# Plot
+plot_Chlamy2 <- ggplot(Count, aes(x = Condition, y = Cell_Count)) +
+  geom_boxplot(aes(color = Condition)) +
+  geom_jitter(aes(color = Condition), size = 2) + 
+  theme_bw() +
+  ylab("Cell number") +
+  xlab("") +
+  theme(strip.background = element_rect(color = "black", fill = "lightgray", size = 1, linetype = "solid"),
+        strip.text.x = element_text(size = 12, color = "black"),
+        axis.title.x = element_text(size = 12, face = "bold"),
+        axis.title.y = element_text(size = 12, face = "bold"),
+        plot.title = element_text(size = 16),
+        axis.text.x = element_text(face = "bold", angle = 90), 
+        axis.text.y = element_text(face = "bold")) +
+   
+  scale_color_manual(values = c("#000000", "darkgreen")) +
+  annotate("text", x = 2,   y = max(Count$Cell_Count, na.rm = TRUE) + 500000, 
+           label = "*", size = 5) +
+  facet_grid(~Chamber, labeller = labeller(Chamber = c(Chlam = "Chlamydomonas reinhardtii ")))
+
+print(plot_Chlamy2)
+```
+
+# C] Figure S2 c
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE, results="hide"}
+#Prepare tables
+
+Plate <- read.table(file="Soil_exudates_Plates.txt",sep="\t",dec = ".",header=TRUE)
+```
+
+Statistics
+```{r, echo=FALSE, warning=FALSE, message=FALSE, results="hide"}
+#Subset
+df <- subset(Plate, Time %in% c("T72"))
+
+# List of time points
+time_points <- unique(df$Species)
+
+# Create a function to perform t-test for a specific time point
+
+perform_t_tests <- function(data) {
+  time_points <- unique(df$Species)
+  t_test_results <- list()
+  
+  for (time_point in time_points) {
+    subset_df <- subset(data, Species == time_point)
+    
+    if (nrow(subset_df) >= 2) {
+      t_test_result <- t.test(Value ~ Expe, data = subset_df)
+      t_test_results[[as.character(time_point)]] <- t_test_result
+    }
+  }
+  
+  return(t_test_results)
+}
+
+# Perform t-tests for each time point
+t_test_results <- perform_t_tests(df)
+result_df <- do.call(rbind, t_test_results)
+
+ # Extract relevant information from t-test results
+groups_results <- data.frame(Species = time_points, p_value = sapply(t_test_results, function(x) x$p.value))
+
+#Add column for plotting
+groups_results$Expe <-  c("Chamber")
+groups_results$Time <- c("T72")
+
+# Create a new column based on conditional logic
+groups_results <- groups_results %>%
+  mutate(Significance = case_when(
+    p_value <= 0.001 ~ "***",
+    p_value <= 0.01  ~ "**",
+    p_value <= 0.05  ~ "*",
+    TRUE            ~ "ns"
+  ))
+```
+
+Plot 
+```{r, echo=FALSE, warning=FALSE, message=FALSE, results="hide"}
+#Load Package
+library(dplyr)
+
+#Palette colors species
+ name_Species <- c("BSC", "FSC", "BFSC", "Pseudomonas sp. 1", "Burkholderia sp.", "Bacillus sp.", "Variovorax sp.","Pseudomonas sp. 2","Flavobacterium sp.", "Streptomyces sp.", "Achromobacter sp.","Acidovorax sp.", "Agrobacterium sp.", "Mesorhizobium sp.","Plectosphaerella cucumerina", "Dactylonectria macrodidyma", "Fusarium oxysporum", "Dendryphion nanum","Mg")
+# desired color palette
+  Palette_Species <- c("#ff3300", "#00cc44", "#4d0026",  "#2E4057","#5475A0","#A1B5CE","#6C5A49","#C3AB98","#E8E0D8","#69140E","#B42318","#EE8981", "#F56200","#FF9D5C",      "#6BAA75",   "#84DD63", "#CBFF4D", "#BBD686" , "black")
+# associated EnvType level
+names(Palette_Species) <- name_Species
+
+#Keep ust 72hours, we compare after growth in plate VS Microchambers
+Plate_72h_unique <- subset(Plate, Time %in% c("T72"))
+Plate_72h_unique <- subset(Plate_72h_unique, !Species %in% c("Mg"))
+
+#Remove MgCL2 for plotting
+groups_results <- subset(groups_results, !Species %in% c("Mg"))
+
+#Order
+Plate_72h_unique$Species <- factor(Plate_72h_unique$Species, levels = c ("Streptomyces sp.","Flavobacterium sp.", "Bacillus sp.", "Pseudomonas sp. 1","Pseudomonas sp. 2", "Burkholderia sp.",  "Achromobacter sp.", "Acidovorax sp.", "Agrobacterium sp.", "Mesorhizobium sp.",  "Variovorax sp.", "Plectosphaerella cucumerina", "Dactylonectria macrodidyma", "Fusarium oxysporum", "Dendryphion nanum" ,"BSC", "FSC", "BFSC", "Mg"))
+
+groups_results$Species <- factor(groups_results$Species, levels = c ("Streptomyces sp.","Flavobacterium sp.", "Bacillus sp.", "Pseudomonas sp. 1","Pseudomonas sp. 2", "Burkholderia sp.",  "Achromobacter sp.", "Acidovorax sp.", "Agrobacterium sp.", "Mesorhizobium sp.",  "Variovorax sp.", "Plectosphaerella cucumerina", "Dactylonectria macrodidyma", "Fusarium oxysporum", "Dendryphion nanum" ,"BSC", "FSC", "BFSC", "Mg"))
+
+#Plot
+PlotD_box <- ggplot(Plate_72h_unique, aes(x = Expe, y =Value )) +
+  geom_boxplot(aes(color = Species),outlier.shape = NA) +
+  geom_jitter(aes(color = Species), size = 1, alpha = 1) +
+  ylab("OD600") + xlab ("Time (Hours)") + #ylim(0,0.8) +
+   theme(strip.background = element_rect(color="black", fill="lightgray", size=1, linetype="solid"),
+        strip.text.x = element_text(size = 8, color = "black"),
+        axis.title.x = element_text( size = 12, face = "bold"),
+        axis.title.y = element_text( size = 12, face = "bold"),
+        plot.title = element_text(size = 16),
+        axis.text.x = element_text(face = "bold", angle = 90), 
+        axis.text.y = element_text(face = "bold")) +
+    facet_wrap (~Species, nrow = 5) +
+     scale_color_manual(values= Palette_Species) +
+  geom_text(data    = groups_results, mapping = aes(x = c("Chamber"), y = 0.7, label = round(p_value,8)), size = 3)
+PlotD_box
+```
+
+
+
+
+
+*****
+
+# End of script
+
+*****

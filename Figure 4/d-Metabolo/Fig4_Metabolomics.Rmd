@@ -1,0 +1,178 @@
+---
+title: "MetaFlowTrain: a highly-parallelized and modular fluidic system to study exometabolite-mediated inter-organismal Interaction"
+author: "Chesneau et al., 2025, Guillaume Chesneau"
+date: "06/09/2024"
+output:
+  html_document:
+    toc: yes
+    toc_float: yes
+  word_document:
+    toc: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache=FALSE, autodep = TRUE, warning = FALSE)
+#Set working direction
+knitr::opts_knit$set(root.dir = "") 
+```
+
+This script has been made on R 4.2.2 (and Rstudio 2022.12.0+353)
+```{r R version}
+R.version
+#Load theme set
+library(ggplot2)
+theme_set(theme_bw())
+```
+
+# A]  Targeted metabolomics
+
+## 1) - PERMANOVA  (Figure 4.d)
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE, results="show"}
+#Load package
+library(vegan)
+library(dplyr)
+library(stringr)
+library(vegan)
+
+#Open file
+Working_file <- read.csv("Met_tot_f.csv", header=TRUE, sep = ",",  dec=".", row.names=1)
+
+#Keep only trains with 2 microchambers and Peat
+Working_file <- subset(Working_file, !ORGANISM %in% c("X.B", "X.F", "X.X"))
+Working_file <- subset(Working_file, TREATMENT2 %in% c("Peat"))
+
+#Keep file
+Working_file_tot <- Working_file
+
+# Select relevant columns for analysis from Working_file
+Working_file_tot <- Working_file_tot %>%
+  dplyr::select(BIO_SAMPLE_ID3, Metabolites, PEAK_AREA_TIC_Log)
+Working_file_tot <- subset(Working_file_tot, !BIO_SAMPLE_ID3 %in% c(""))
+
+#Spread table, put NA as 0
+data <- tidyr::spread(Working_file_tot, Metabolites, PEAK_AREA_TIC_Log)
+data[data == '-Inf'] <- 0
+data <- na.omit(data)   
+
+#Create environment
+env <- data
+env[c("Date","Numero_sample","ORGANISM", "Time_point","TREATMENT", "Bio.rep")] <- str_split_fixed(env$BIO_SAMPLE_ID3, '_', 6)
+env2 <- env[38:43]
+row.names(data) <- data$BIO_SAMPLE_ID3
+data$BIO_SAMPLE_ID3 <- NULL
+
+#Create distances matrix
+data.dist <- vegdist(data, method="canberra")
+
+#PERMANOVA
+data.div <- adonis2(data ~ Time_point/ORGANISM, data = env2, permutations = 999, method="canberra")
+data.div
+
+# Extract R-squared value and p-value
+summary_data <- data.frame(summary(data.div))
+
+# R-squared value
+R_squared_TIME <- data.div$R2[1]
+R_squared_ORGANISM <- data.div$R2[2]
+# p-value
+p.value_TIME <- data.div$`Pr(>F)`[1]
+p.value_ORGANISM <- data.div$`Pr(>F)`[2]
+```
+
+## 2) - PcoA (Figure 4.d)
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE, results="hide"}
+#Download packages
+library(dplyr)
+library(data.table)
+library("FactoMineR")
+library("factoextra")
+library(stringr)
+
+#Open dataframe
+Working_file <- read.csv("Met_tot_f.csv", header=TRUE, sep = ",",  dec=".", row.names=1)
+
+
+Working_file <- subset(Working_file, !ORGANISM %in% c("X.B", "X.F", "X.X"))
+Working_file <- subset(Working_file, TREATMENT2 %in% c("Peat"))
+Working_file <- subset(Working_file, !BIO_SAMPLE_ID3 %in% c("45268_75_F.B_62h_Peat.A.BF_B.3", "45268_77_B.F_62h_Peat.A.BF_B.3", "45268_76_B.F_62h_Peat.A.BF_B.3", "45268_58_X.BF_62h_Peat.A.BF_B.1", "45258_74_F.B_24h_Peat.A_B.3"))
+
+
+# Select relevant columns for analysis from Working_file
+Met_Final_filtered <- Working_file %>%
+  dplyr::select(BIO_SAMPLE_ID3, Metabolites, PEAK_AREA_TIC_Log)
+
+
+# Note: Ensure the column names in Working_file match those provided above.
+
+
+Met_Final_filtered_Spr <- tidyr::spread(Met_Final_filtered, key = Metabolites, value = PEAK_AREA_TIC_Log)
+
+Met_Final_filtered_Spr[is.na(Met_Final_filtered_Spr)] <- 0
+Met_Final_filtered_Spr[Met_Final_filtered_Spr == '-Inf'] <- 0
+
+#Met_Final_filtered_Spr <- na.omit(Met_Final_filtered_Spr) 
+
+
+row.names(Met_Final_filtered_Spr) <- Met_Final_filtered_Spr$BIO_SAMPLE_ID3
+Met_Final_filtered_Spr$BIO_SAMPLE_ID3 <- NULL
+res.pca <- PCA(Met_Final_filtered_Spr, graph = FALSE)
+
+#Check percent of variation
+plot_percent <- fviz_eig(res.pca, addlabels = TRUE, ylim = c(0, 100))
+
+Dim1 <- capture.output(cat(round(res.pca$eig[1,2], digits = 2), "%"))
+Dim2 <- capture.output(cat(round(res.pca$eig[2,2], digits = 2), "%"))
+
+res.pca$eig
+res.pca$svd
+
+data_plotting <- data.frame(res.pca$ind$coord)
+data_plotting$SP1 <- row.names(data_plotting)
+
+#Concatenate metadata
+data_plotting2 <- data_plotting
+data_plotting2[c("Date","Number", "ORGANISM","Time_point", "TREATMENT", "Bio_rep")] <- str_split_fixed(row.names(data_plotting2), '_', 6)
+
+#Remove Pool for plotting
+data_plotting2 <- subset(data_plotting2, !ORGANISM %in% c("Pool", "pool"))
+
+#Add Mean TREATMENT per TIMEPOINT per ORGANISM
+data_plotting2$TREATMENT_TIME_ORG <- paste( data_plotting2$TREATMENT, "-", data_plotting2$Time_point, "-", data_plotting2$ORGANISM)
+Dim.1 <- tapply(data_plotting2$Dim.1,data_plotting2$TREATMENT_TIME_ORG,mean)
+Dim.2 <- tapply(data_plotting2$Dim.2,data_plotting2$TREATMENT_TIME_ORG,mean)
+F1 <- data.frame(cbind(Dim.1,Dim.2))
+F1[c("TREATMENT", "Time_point", "ORGANISM")] <- str_split_fixed(row.names(F1),' - ', 3)
+
+#Calculate for segments
+points_pcoa = data.frame(data_plotting2 %>% 
+                group_by(Time_point, ORGANISM, TREATMENT) %>% 
+                mutate(meanX=mean(Dim.1), meanY=mean(Dim.2)))
+
+#Plot
+Plot_Treatment_Time2 <- ggplot() + 
+  geom_jitter(data=data_plotting2, aes(x=Dim.1,y=Dim.2,shape = Time_point, color = ORGANISM), alpha =1, size = 2) + 
+   geom_point(data=points_pcoa, aes(x=meanX,y=meanY, shape = Time_point, color = ORGANISM), size = 5) +
+    ggtitle("Targeted metabolic profiles (n=41)") +xlab(Dim1) + ylab(Dim2) +
+   #facet_grid(~TREATMENT, space="free") +
+    geom_hline(yintercept = 0, linetype = "dashed", color = "#585858") +
+  geom_vline(xintercept = 0, linetype = "dashed", color = "#585858") +
+  xlab(paste("PCoA1", Dim1)) + ylab(paste("PCoA2",Dim2)) +
+  theme(strip.background = element_rect(color = "white", fill = "#585858", size = 1, linetype = "solid"), 
+        strip.text.x = element_text(size = 12, color = "white"), 
+        strip.text.y = element_text(size = 12, color = "white")) +
+ scale_fill_manual('Chambers', labels = c("BSC - FSC", "FSC - BSC", "MF - BFSC"), values = c("#D5000C" ,"#43830A", "#4d0026"))+
+        scale_color_manual('Chambers', labels = c("BSC - FSC", "FSC - BSC", "MF - BFSC"), values = c("#D5000C" ,"#43830A", "#4d0026")) +
+   geom_segment(data = points_pcoa, mapping = aes(x=meanX, y=meanY, xend=Dim.1, yend=Dim.2, color=ORGANISM), size = 0.5, alpha=1) +
+    geom_text(aes(x = 5, y = 7, label = paste("Time Point : ",round(R_squared_TIME*100, digits = 3), "% of variance; p =", format(p.value_TIME, digits = 2))), color = "black", size = 2.5) +
+  geom_text(aes(x = 5, y = 6.5, label = paste("SynComs : ",round(R_squared_ORGANISM*100, digits = 3), "% of variance; p =", format(p.value_ORGANISM, digits = 2))), color = "black", size = 2.5) +
+    scale_shape_manual(values = c(17, 19)) 
+
+Plot_Treatment_Time2
+```
+*****
+
+# End of script
+  
+*****

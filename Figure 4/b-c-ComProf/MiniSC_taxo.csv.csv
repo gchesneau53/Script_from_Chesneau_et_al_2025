@@ -1,0 +1,17 @@
+"","Strain","RA....","Prevalence","Kingdom","Speciesold","Species.f","Assembly.size..Mbp.","of.scaffolds","Scaffold.N50"
+"1","B565","14.4","0,7","Bacteria","Achromobacter sp.","Achromobacter R565","5.1","23",NA
+"2","B147","1.8","0,4","Bacteria","Bacillus sp.","Bacillus R147","5.6","28",NA
+"3","B16D2","1.5","0,6","Bacteria","Burkholderia sp.","Burkholderia R16D2","6.7","7","1"
+"4","B318D1","1.4","1,0","Bacteria","Variovorax sp.","Variovorax R318D1","5.7","2","1"
+"5","B568","1.5","0,8","Bacteria","Acidovorax sp.","Acidovorax R568","5.1","1","1"
+"6","B420","1.5","0,8","Bacteria","Flavobacterium sp.","Flavobacterium R420","5.7","3","1"
+"7","B695","0.3","0,4","Bacteria","Mesorhizobium sp.","Mesorhizobium R695","6.5","5","1"
+"8","B329","9.7","1,0","Bacteria","Pseudomonas sp.","Pseudomonas R329","6.7","51",NA
+"9","B09","3.2","1,0","Bacteria","Pseudomonas sp.","Pseudomonas R09","6.6","5","1"
+"10","B651","1.2","0,5","Bacteria","Agrobacterium sp.","Agrobacterium R651","5.8","34",NA
+"11","B431","1.4","0,5","Bacteria","Streptomyces sp.","Streptomyces R431","6.5","2","1"
+"12","F147","9.6","0,9","Fungi","Dactylonectria macrodidyma","Dactylonectria R147","77.3","87","10"
+"13","F16","2.7","1,0","Fungi","Plectosphaerella cucumerina","Plectosphaerella R16","36.5","11","3"
+"14","F212","6.1","1,0","Fungi","Fusarium oxysporum","Fusarium R212","55.7","66","5"
+"15","F243","0.5","0,8","Fungi","Dendryphion nanum","Dendryphion R243","41.1","59","8"
+"16","Media","Media","Media","Media","Media","Media","Media","Media","Media"

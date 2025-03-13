@@ -1,0 +1,326 @@
+---
+title: "MetaFlowTrain: a highly-parallelized and modular fluidic system to study exometabolite-mediated inter-organismal Interaction"
+author: "Chesneau et al., 2025, Guillaume Chesneau"
+date: "06/09/2024"
+output:
+  html_document:
+    toc: yes
+    toc_float: yes
+  word_document:
+    toc: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache=FALSE, autodep = TRUE, warning = FALSE)
+#Set working direction
+knitr::opts_knit$set(root.dir = "") 
+```
+
+This script has been made on R 4.2.2 (and Rstudio 2022.12.0+353)
+```{r R version}
+R.version
+#Load theme set
+library(ggplot2)
+theme_set(theme_bw())
+```
+
+
+# A] Prepare Data
+
+Preprocessing was done in the script for Figure 3b-c.
+
+```{r, echo=FALSE, message=FALSE, results="hide", fig.show='hide'}
+#Read table
+dfHM <- read.csv("Abundance_Table.csv", header=TRUE, sep = ",",  dec=".")
+
+#Add taxonomy
+taxo <- read.csv("MiniSC_taxo.csv", header=TRUE, sep = ",",  dec=".")
+dfHM <- merge(dfHM,taxo, by = c("Strain"))
+
+#Keep only Peat
+dfHM2 <- subset(dfHM, TREATMENT %in% c("Peat"))
+
+
+#Keep only Trains with 2 microchambers
+dfHM2 <- subset(dfHM2, !ORGANISM3 %in% c("Media.Fungi", "Media.Bacteria"))
+dfHM3 <- subset(dfHM2, !BIO_SAMPLE_ID %in% c("03_B.F")) #No bacteria for sample "03_B.F"
+```
+
+
+# B] boxplot (Fig4-b)
+
+Statistics
+```{r, echo=FALSE, warning=FALSE, message=FALSE, results="hide"}
+#Download packages
+library(dplyr)
+library(dunn.test)
+library(rcompanion)
+
+#Load dataset
+df <- dfHM3
+
+# Get unique conditions
+unique_conditions <- unique(df$Kingdom.y)
+
+# Create empty data frames to store the results
+kruskal_results <- data.frame()
+dunn_results <- data.frame()
+
+# Loop over unique conditions and perform tests
+for (condition in unique_conditions) {
+  # Subset the data for the current condition
+  subset_data <- df[df$Kingdom.y == condition, ]
+  
+  # Perform Kruskal-Wallis test
+  kruskal_result <- kruskal.test(Abundance_Log ~ ORGANISM3, data = subset_data)
+  
+  # Perform Dunn's test for post hoc comparisons
+  dunn_result <- dunn.test(subset_data$Abundance_Log, g = subset_data$ORGANISM3, method = "bh")
+  
+  # Store the results in data frames
+  kruskal_results <- rbind(kruskal_results, c(Condition = condition, kruskal_result$P.adjusted))
+  dunn_results <- rbind(dunn_results, data.frame(dunn_result$comparison, dunn_result$P.adjusted, condition))
+}
+
+# Print Kruskal-Wallis results
+print(kruskal_results)
+
+# Print Dunn test results
+print(dunn_results)
+
+#Create groups letters
+# Create empty data frames to store the results
+groups_results <- data.frame()
+
+for (condition in unique_conditions) {
+  # Subset the data for the current condition
+  subset_data <- dunn_results[dunn_results$condition == condition, ]
+   
+  group <- cldList(comparison = subset_data$dunn_result.comparison, 
+                    p.value    = subset_data$dunn_result.P.adjusted,
+                    threshold  = 0.0001)
+  # Create a data frame for the results of the current condition
+  condition_results <- data.frame(Condition = condition,
+                                  Group = group$Group,
+                                  Letter = group$Letter,
+                                  MonoLetter = group$MonoLetter)
+  
+# Append the results to the groups_results data frame
+  groups_results <- rbind(groups_results, condition_results)
+
+}
+groups_results
+
+colnames(groups_results) <- c("Kingdom.y", "ORGANISM3", "Letter", "MonoLetter")
+groups_results
+
+```
+Plot
+```{r, echo=FALSE, message=FALSE, results="hide", fig.show='hide'}
+
+# Named vector for new facet labels
+new_labels_X <- c("Media.BacteriaFungi" = "Mock - BF", "Fungi.Bacteria" = "F - B", "Bacteria.Fungi" = "B - F")
+new_labels_Y <- c("Bacteria" = "Bacterial Community", "Fungi" = "Fungal Community")
+
+#Order
+dfHM3$ORGANISM3 <- factor(dfHM3$ORGANISM3, levels = c("Fungi.Bacteria",  "Bacteria.Fungi", "Media.BacteriaFungi"))
+
+groups_results$ORGANISM3 <- factor(groups_results$ORGANISM3, levels = c("Fungi.Bacteria",  "Bacteria.Fungi", "Media.BacteriaFungi"))
+
+
+#Plot Bacteria
+Plot_16S_Ind_strain_bac <- ggplot(dfHM3, aes(x=ORGANISM3, y=log(Abundance), fill = ORGANISM3)) + 
+geom_boxplot() + 
+  geom_jitter(alpha = 0.1)+
+  facet_grid(Kingdom.y~ORGANISM3, scales = "free") +#, labeller = labeller(ORGANISM3 = new_labels_X, Kingdom.y = new_labels_Y))+
+  ylab ("Log Quantitative abundance") + xlab ("Samples") +
+   theme(strip.background = element_rect(color="black", fill="lightgray", size=1, linetype="solid"),
+        strip.text.x = element_text(size = 9, color = "black"),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
+        plot.title = element_text(size = 16),
+        axis.text.x = element_blank(), 
+        axis.text.y = element_text())+
+       scale_fill_manual('SynComs',labels = c( "F - B", "B - F", "Mock - BF"), values=c( "#B0C592","#AF3E4D", "#4d0026")) +
+  geom_text( data    = groups_results, mapping = aes(x = ORGANISM3, y = 13, label = Letter), size = 4, position=position_dodge(.9))
+  #theme(legend.position="none")
+
+Plot_16S_Ind_strain_bac
+
+```
+
+# C]  Heat Map (Fig4-c)
+
+```{r, echo=FALSE, message=FALSE, results="hide", fig.show='hide'}
+#Plot
+# Define custom colors for gradient
+my_palette <- colorRampPalette(c("white", "white","#d9d9d9","#dbbfbb", "#dba59e", "#d88a82", "#d46e65", "#ce5048", "#c62828", "darkred", "#440505"))
+
+
+#Change facet_grid names
+Chamber_names <- setNames(c("F - B", "B - F", "MF - BFSC"),c("Fungi.Bacteria", "Bacteria.Fungi", "Media.BacteriaFungi"))
+
+#Order
+dfHM3$ORGANISM3 <- factor(dfHM3$ORGANISM3, 
+                         levels = c("Fungi.Bacteria",  "Bacteria.Fungi", "Media.BacteriaFungi"))
+
+#Order
+x = tapply(dfHM3$Abundance_Log, dfHM3$Species.f, function(x) max(x))
+x = sort(x, FALSE)
+dfHM3$Species.f = factor(as.character(dfHM3$Species.f), levels=names(x))
+
+#Turned Heat-Map
+heatmap_plot2 <- ggplot(dfHM3, aes(x = BIO_SAMPLE_ID, y =  Species.f)) +
+  geom_tile(aes(fill = Abundance_Log)) +
+   theme(
+        strip.background = element_rect(color="white", fill="#585858", size=1, linetype="solid"),
+        strip.text.x = element_text(size = 12, color = "white"),
+        strip.text.y = element_text(size = 12, color = "white"),
+        axis.title.y = element_text( size = 12, face = "bold"),
+        plot.title = element_text(size = 16),
+        axis.text.x = element_blank(), 
+        axis.text.y = element_text(face = "bold"))+  
+  scale_fill_gradientn(colors = my_palette(100), na.value = "white") +
+  labs(title = "Heatmap of Log2FC Values",
+       x = "",
+       y = "") +
+  facet_grid( Kingdom.y~  ORGANISM3, space = "free", scale = "free",labeller = labeller(ORGANISM3 =Chamber_names))
+
+# Display the heatmap plot
+heatmap_plot2
+```
+
+# D]  Ballon plot (Fig4-c)
+
+Statistics
+```{r, echo=FALSE, warning=FALSE, message=FALSE, results="hide"}
+#Load packages
+library(rcompanion)
+library(dplyr)
+
+#Stats
+df <- dfHM3
+
+# Get unique conditions
+unique_conditions <- unique(df$Species.f)
+
+# Create empty data frames to store the results
+kruskal_results <- data.frame()
+dunn_results <- data.frame()
+
+# Loop over unique conditions and perform tests
+for (condition in unique_conditions) {
+  # Subset the data for the current condition
+  subset_data <- df[df$Species.f == condition, ]
+  
+  # Perform Kruskal-Wallis test
+  kruskal_result <- kruskal.test(Abundance_Log ~ ORGANISM3, data = subset_data)
+  
+  # Perform Dunn's test for post hoc comparisons
+  dunn_result <- dunn.test(subset_data$Abundance_Log, g = subset_data$ORGANISM3, method = "bh")
+  
+  # Store the results in data frames
+  kruskal_results <- rbind(kruskal_results, c(Condition = condition, kruskal_result$P.adjusted))
+  dunn_results <- rbind(dunn_results, data.frame(dunn_result$comparison, dunn_result$P.adjusted, condition))
+}
+
+# Print Kruskal-Wallis results
+print(kruskal_results)
+
+# Print Dunn test results
+print(dunn_results)
+
+#Create groups letters
+# Create empty data frames to store the results
+groups_results <- data.frame()
+
+for (condition in unique_conditions) {
+  # Subset the data for the current condition
+  subset_data <- dunn_results[dunn_results$condition == condition, ]
+   
+  group <- cldList(comparison = subset_data$dunn_result.comparison, 
+                    p.value    = subset_data$dunn_result.P.adjusted,
+                    threshold  = 0.05)
+  # Create a data frame for the results of the current condition
+  condition_results <- data.frame(Condition = condition,
+                                  Group = group$Group,
+                                  Letter = group$Letter,
+                                  MonoLetter = group$MonoLetter)
+  
+# Append the results to the groups_results data frame
+  groups_results <- rbind(groups_results, condition_results)
+
+}
+groups_results
+
+#Change colnames
+colnames(groups_results) <- c("Species.f", "ORGANISM3", "Letter", "MonoLetter")
+
+#Calculate cumulative abudance per species
+result <- data.frame(dfHM3 %>%
+  group_by(Species.f, ORGANISM3, Kingdom) %>%
+  summarize(Total_Abundance_log = mean(Abundance_Log, na.rm = TRUE)))
+result
+
+#Match tables
+merged_df <- merge(groups_results, result, by = c("Species.f", "ORGANISM3"))
+
+#Remove non sgnificant
+merged_df2 <- merged_df %>%
+  group_by(Species.f) %>%
+  mutate(
+    New_Letter = ifelse(all(Letter == 'a'), NA, Letter)
+  ) %>%
+  ungroup()
+
+merged_df2$New_Letter <- ifelse(is.na(merged_df2$New_Letter), NA, merged_df2$Letter)
+```
+
+Plot
+```{r, echo=FALSE, warning=FALSE, message=FALSE, results="hide"}
+#Order
+x = tapply(dfHM3$Abundance_Log, dfHM3$Species.f, function(x) max(x))
+x = sort(x, FALSE)
+merged_df2$Species.f = factor(as.character(merged_df2$Species.f), levels=names(x))
+
+#Plot
+Plot <- ggplot(merged_df2, aes(x = ORGANISM3, y = Species.f, fill = Total_Abundance_log)) +
+  geom_tile() +  # Create the heatmap tiles
+  geom_text(aes(label = New_Letter), color = "white", size = 4) +  # Add letters inside tiles
+  scale_fill_gradientn(colors = my_palette(100), na.value = "white") +
+  labs(title = "Heatmap of Total Abundance",
+       x = "Condition",
+       y = "Species",
+       fill = "Total Abundance (log)") +
+    facet_grid(Kingdom~., space="free", scale="free") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Rotate x-axis labels for better readability
+Plot
+
+#Order
+merged_df2$ORGANISM3 <- factor(merged_df2$ORGANISM3, 
+                         levels = c( "Fungi.Bacteria", "Bacteria.Fungi", "Media.BacteriaFungi"))
+
+
+
+# Create a balloon plot
+ballon_Plot <- ggplot(merged_df2, aes(x = ORGANISM3, y = Species.f, fill = Total_Abundance_log)) +
+  geom_point(shape = 21, size = 6) +  # shape 21 allows for filling
+  geom_text(aes(label = New_Letter), color = "black", size = 4, nudge_x = 0.4, nudge_y = 0.4) +  # Add letters next to the points
+  scale_fill_gradientn(colors = my_palette(100), na.value = "white") +
+  labs(title = "Balloon Plot",
+       x = "Category 1",
+       y = "Category 2",
+       size = "Value") +  # Label for the size legend
+  facet_grid(Kingdom ~ ., space = "free", scale = "free") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Rotate x-axis labels for better readability
+
+ballon_Plot
+```
+
+*****
+
+# End of script
+ 
+*****

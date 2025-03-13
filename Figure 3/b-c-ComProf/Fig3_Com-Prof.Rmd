@@ -1,0 +1,646 @@
+---
+title: "MetaFlowTrain: a highly-parallelized and modular fluidic system to study exometabolite-mediated inter-organismal Interaction"
+author: "Chesneau et al., 2025, Guillaume Chesneau"
+date: "06/09/2024"
+output:
+  html_document:
+    toc: yes
+    toc_float: yes
+  word_document:
+    toc: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache=FALSE, autodep = TRUE, warning = FALSE)
+#Set working direction
+knitr::opts_knit$set(root.dir = "") 
+```
+
+This script has been made on R 4.2.2 (and Rstudio 2022.12.0+353)
+```{r R version}
+R.version
+#Load theme set
+library(ggplot2)
+theme_set(theme_bw())
+```
+
+
+```{r, echo=FALSE, message=FALSE, results="hide", fig.show='hide'}
+#Prepare palette color for individual Kingdom
+name_Kingdom <- c("Bacteria", "Fungi")
+Palette_Kingdom <- c("#AF3E4D", "#B0C592") ## #A97C73
+names(Palette_Kingdom) <- name_Kingdom
+
+#Prepare palette color for strains
+
+ name_Species <- c("BSC", "FSC", "BFSC", "Pseudomonas.sp..1",  "Burkholderia.sp.", "Bacillus.sp.", "Variovorax.sp.","Pseudomonas.sp..2","Flavobacterium.sp.", "Streptomyces.sp.", "Achromobacter.sp.","Acidovorax.sp.", "Agrobacterium.sp.", "Mesorhizobium.sp.","Plectosphaerella.cucumerina", "Dactylonectria.macrodidyma", "Fusarium.oxysporum", "Dendryphion.nanum")
+  Palette_Species <- c("#AF3E4D", "#B0C592", "#4d0026",  "#2E4057","#5475A0","#A1B5CE","#6C5A49","#C3AB98","#E8E0D8","#69140E","#B42318","#EE8981", "#F56200","#FF9D5C",      "#6BAA75",   "#84DD63", "#CBFF4D", "#BBD686")
+  names(Palette_Species) <- name_Species
+  
+  
+  #Prepare palette color for TREATMENT
+  name_TREATMENT_2 <- c("Control_1", "Control_2","Peat", "Peat.A", "Peat.A.B", "Peat.A.BF")
+  # desired color palette
+  Palette_TREATMENT_2 <- c("gray","gray","#a07437", "#849146", "#d13505", "#2caaaa")
+  
+  # associated EnvType level
+  names(Palette_TREATMENT_2) <- name_TREATMENT_2
+``` 
+
+
+# A]  Pre-processing
+
+## 1 - Construct phyloseq objects
+
+* 16S
+
+```{r, echo=FALSE, results='hide', eval = FALSE}
+
+#Download packages
+library("phyloseq")
+library("ggplot2")      # graphics
+library("readxl")       # necessary to import the data from Excel file
+library("dplyr")        # filter and reformat data frames
+library("tibble")   
+
+#Upload tables
+
+##ASV Table
+Fulltable <- read.table(file="16S/asv_table_16S.txt",sep="\t",dec = ".",header=TRUE) 
+##Tax Table
+taxfull <- read.table(file="16S/taxonomy_16S.txt",sep="\t",dec = ".",header=TRUE)
+
+
+taxfull$Taxon <- sapply(taxfull$Taxon, function(x) gsub("d__", "",  x))
+taxfull$Taxon <- sapply(taxfull$Taxon, function(x) gsub("p__", "",  x))
+taxfull$Taxon <- sapply(taxfull$Taxon, function(x) gsub("c__", "",  x))
+taxfull$Taxon <- sapply(taxfull$Taxon, function(x) gsub("o__", "",  x))
+taxfull$Taxon <- sapply(taxfull$Taxon, function(x) gsub("f__", "",  x))
+taxfull$Taxon <- sapply(taxfull$Taxon, function(x) gsub("g__", "",  x))
+taxfull$Taxon <- sapply(taxfull$Taxon, function(x) gsub("s__", "",  x))
+library(tidyr)
+taxfull <- taxfull %>% separate(Taxon, c("Kingdom","Phylum", "Class","Order", "Family", "Genus", "Species"))
+taxfull$Kingdom <- c("All")
+
+##Design
+designfull <- read.table(file="16S/Design_Bacteria.txt",sep="\t",dec = ".",header=TRUE)
+##Sequences
+library(Biostrings)
+refseqfull <- readDNAStringSet("16S/dna-sequences.fasta")
+
+#Manage data for Phyloseq
+Fulltable <- Fulltable %>%
+    tibble::column_to_rownames("OTU.ID") 
+taxfull <- taxfull %>% 
+    tibble::column_to_rownames("Feature.ID")
+
+#Collapse Tax Table
+library(stringr)
+taxfull[taxfull == ""] <- NA 
+taxfull[taxfull == " "] <- NA  
+designfull <- designfull %>% 
+    tibble::column_to_rownames("SampleID") 
+
+#Prepare
+otu_mat <- as.matrix(Fulltable)
+tax_mat <- as.matrix(taxfull)
+
+#Create Phyloseq Object
+library(phyloseq)
+psfull_bac <- phyloseq(tax_table(tax_mat),
+                  otu_table(otu_mat, taxa_are_rows = TRUE), sample_data(designfull), refseq(refseqfull))
+```
+
+* ITS
+
+```{r, echo=FALSE, results='hide', eval = FALSE}
+
+#Download packages
+library("phyloseq")
+library("ggplot2")      # graphics
+library("readxl")       # necessary to import the data from Excel file
+library("dplyr")        # filter and reformat data frames
+library("tibble")   
+
+#Upload tables
+
+##ASV Table
+Fulltable <- read.table(file="ITS/asv_table_ITS.txt",sep="\t",dec = ".",header=TRUE) 
+##Tax Table
+taxfull <- read.table(file="ITS/taxonomy_ITS.txt",sep="\t",dec = ".",header=TRUE)
+
+taxfull$Taxon <- sapply(taxfull$Taxon, function(x) gsub("d__", "",  x))
+taxfull$Taxon <- sapply(taxfull$Taxon, function(x) gsub("p__", "",  x))
+taxfull$Taxon <- sapply(taxfull$Taxon, function(x) gsub("c__", "",  x))
+taxfull$Taxon <- sapply(taxfull$Taxon, function(x) gsub("o__", "",  x))
+taxfull$Taxon <- sapply(taxfull$Taxon, function(x) gsub("f__", "",  x))
+taxfull$Taxon <- sapply(taxfull$Taxon, function(x) gsub("g__", "",  x))
+taxfull$Taxon <- sapply(taxfull$Taxon, function(x) gsub("s__", "",  x))
+taxfull <- taxfull %>% separate(Taxon, c("Kingdom","Phylum", "Class","Order", "Family", "Genus", "Species"))
+taxfull$Kingdom <- c("All")
+
+##Design
+designfull <- read.table(file="ITS/Design_Fungi.txt",sep="\t",dec = ".",header=TRUE)
+##Sequences
+library(Biostrings)
+refseqfull <- readDNAStringSet("ITS/dna-sequences.fasta")
+
+#Manage data for Phyloseq
+Fulltable <- Fulltable %>%
+    tibble::column_to_rownames("OTU.ID") 
+taxfull <- taxfull %>% 
+    tibble::column_to_rownames("Feature.ID")
+
+#Collapse Tax Table
+library(stringr)
+taxfull[taxfull == ""] <- NA 
+taxfull[taxfull == " "] <- NA  
+designfull <- designfull %>% 
+    tibble::column_to_rownames("SampleID") 
+
+otu_mat <- as.matrix(Fulltable)
+tax_mat <- as.matrix(taxfull)
+
+#Create Phyloseq Object
+psfull_ITS <- phyloseq(tax_table(tax_mat),
+                  otu_table(otu_mat, taxa_are_rows = TRUE), sample_data(designfull), refseq(refseqfull))
+```
+
+## 2 - Filter phyloseq objects
+
+16SrRNA
+```{r, echo=FALSE, results='hide', eval = FALSE}
+#Filtered ASV based on taxonomy
+#Rename ASV
+taxa_names(psfull_bac) <- paste0("ASV", seq(ntaxa(psfull_bac)))
+
+#Subset Samples (remove sample with less than 100 counts)
+psfull_bac00 <- prune_samples(sample_sums(psfull_bac)>=100, psfull_bac)
+
+#Keep SynCom ASVs
+keep <- unique(data.frame(tax_table(psfull_bac00))$Strain)
+keep <- keep[!is.na(keep)]
+psfull_bac_0 <- subset_taxa(psfull_bac00, Strain %in% c(keep))
+
+#Deconstruct phyloseq object
+otu_table_full <- data.frame(otu_table(psfull_bac_0))
+tax_table_full <- data.frame(tax_table(psfull_bac_0))
+refseq_full <- data.frame(refseq(psfull_bac_0))
+
+#Agglomerate same ASVs
+psfull_bac_2 <- tax_glom(psfull_bac_0, taxrank="Strain")
+
+#Load Metadata SynCom and merged
+tax_mat <- data.frame(tax_table(psfull_bac_2))
+tax_mat$ASV <- row.names(tax_mat)
+SC_metadata <- read.table(file="SynCom_metadata.txt",sep="\t", dec=".", header=TRUE) 
+tax_mat2 <- data.frame(merge(tax_mat, SC_metadata, by = c("Strain")))
+rownames(tax_mat2) <- tax_mat2$ASV.x
+
+#Merge Phyloseq
+refseqfull <- refseq(psfull_bac_2)
+designfull <- sample_data(psfull_bac_2)
+tax_mat2 <- as.matrix(tax_mat2)
+otu_mat <- otu_table(psfull_bac_2)
+
+#Phyloseq with spike
+psfull_bac_3 <- phyloseq(tax_table(tax_mat2),
+                  otu_table(otu_mat, taxa_are_rows = TRUE), sample_data(designfull), refseq(refseqfull))
+
+#Construct phyloseq object with metadata and spike 
+psfull_bac_4 <- subset_taxa(psfull_bac_3, !Class %in% c("Spike"))
+
+#saveRDS(psfull_bac_4, "ps_Bac_clean.rds")
+```
+
+ITS
+```{r, echo=FALSE, results='hide', eval = FALSE}
+#Filtered ASV based on taxonomy
+#Rename ASV
+taxa_names(psfull_ITS) <- paste0("F_ASV", seq(ntaxa(psfull_ITS)))
+
+#Subset Samples (remove sample with less than 100 counts)
+psfull_ITS00 <- prune_samples(sample_sums(psfull_ITS)>=100, psfull_ITS)
+
+#Keep SynCom ASVs
+keep <- unique(data.frame(tax_table(psfull_ITS00))$Strain)
+keep <- keep[!is.na(keep)]
+psfull_ITS_0 <- subset_taxa(psfull_ITS00, Strain %in% c(keep))
+
+#Deconstruct phyloseq object
+otu_table_full <- data.frame(otu_table(psfull_ITS_0))
+tax_table_full <- data.frame(tax_table(psfull_ITS_0))
+refseq_full <- data.frame(refseq(psfull_ITS_0))
+
+#Agglomerate same ASV
+psfull_ITSc_2 <- tax_glom(psfull_ITS_0, taxrank="Strain")
+
+#Load Metadata SynCom and merged
+tax_mat <- data.frame(tax_table(psfull_ITSc_2))
+tax_mat$ASV <- row.names(tax_mat)
+SC_metadata <- read.table(file="SynCom_metadata.txt",sep="\t", dec=".", header=TRUE) 
+tax_mat2 <- data.frame(merge(tax_mat, SC_metadata, by = c("Strain")))
+rownames(tax_mat2) <- tax_mat2$ASV.x
+
+#Merge Phyloseq
+refseqfull <- refseq(psfull_ITSc_2)
+designfull <- sample_data(psfull_ITSc_2)
+tax_mat2 <- as.matrix(tax_mat2)
+otu_mat <- otu_table(psfull_ITSc_2)
+
+#Construct phyloseq object with metadata and spike 
+psfull_ITSc_3 <- phyloseq(tax_table(tax_mat2),
+                  otu_table(otu_mat, taxa_are_rows = TRUE), sample_data(designfull), refseq(refseqfull))
+
+#Remove Spike
+psfull_ITSc_4 <- subset_taxa(psfull_ITSc_3, !Class %in% c("Spike"))
+
+#Save rds clean file for bacteria
+#saveRDS(psfull_ITSc_4, "ps_Fung_clean.rds") 
+```
+
+## 3 - Spike normalization
+
+16SrRNA
+```{r, echo=FALSE, message=FALSE, results="hide", fig.show='hide'}
+#Upload cleaned datasets
+library(phyloseq); packageVersion("phyloseq")
+
+#Open file
+dfull_Bac <-  psfull_bac_3
+
+#Normalize by Spike
+ASV_table_bac <- data.frame(t(otu_table(dfull_Bac)))
+Min <- min(subset(data.frame(ASV_table_bac$ASV8), !ASV_table_bac.ASV8 %in% c(0))) #Change ASV According to the ASV corresponfing to your spike.
+
+#Change 0 to min
+ASV_table_bac$ASV8[ASV_table_bac$ASV8 == 0] <- Min
+
+#Calculate mean spike
+mean <- mean(ASV_table_bac$ASV8)
+
+#Normalization by spike
+ASV_table_bac$factor <- ASV_table_bac$ASV8 / mean
+ASV_table_bac_Norm <- ASV_table_bac[,] / ASV_table_bac$factor
+ASV_table_bac_Norm$facto = NULL
+```
+
+ITS
+```{r, echo=FALSE, message=FALSE, results="hide", fig.show='hide'}
+
+#Open file
+dfull_Fung <-  psfull_ITSc_3
+
+#Normalize by Spike
+ASV_table_fung <- data.frame(t(otu_table(dfull_Fung)))
+Min <- min(subset(data.frame(ASV_table_fung$F_ASV1), !ASV_table_fung.F_ASV1 %in% c(0)))
+
+#Change 0 to min
+ASV_table_fung$F_ASV1[ASV_table_fung$F_ASV1 == 0] <- Min
+
+#Calculate mean spike
+mean <- mean(ASV_table_fung$F_ASV1) #Change ASV According to the ASV corresponfing to your spike.
+
+#Normalization by spike
+ASV_table_fung$factor <- ASV_table_fung$F_ASV1 / mean
+ASV_table_fung_Norm <- ASV_table_fung[,] / ASV_table_fung$factor
+ASV_table_fung_Norm$factor =NULL
+```
+
+Combine 16SrRNA + ITS
+```{r, echo=FALSE, message=FALSE, results="hide", fig.show='hide'}
+#Final Table Normalized
+ASV_table_fung_Norm[6:17] <- c("0", "0")
+colnames(ASV_table_fung_Norm)[6:17] <- c(colnames(ASV_table_bac_Norm))
+
+ASV_table_bac_Norm[13:17] <- c("0", "0")
+colnames(ASV_table_bac_Norm)[13:17] <- c(colnames(ASV_table_fung_Norm))
+
+ASV_table_spike_norm <- rbind(ASV_table_bac_Norm, ASV_table_fung_Norm)
+ASV_table_spike_norm[] <- lapply(ASV_table_spike_norm, as.numeric)
+```
+
+
+## 4 - Create new phyloseq object with spiked-normalized data
+
+```{r, echo=FALSE, message=FALSE, results="hide", fig.show='hide'}
+#Open files
+dfull_ITS <- psfull_ITSc_3
+dfull_16S <- psfull_bac_3
+
+#Merge Phyloseq
+dfull_f <- merge_phyloseq(dfull_ITS, dfull_16S)
+dfull_f_norm <- subset_taxa(dfull_f, !Class %in% c("Spike"))
+
+#Deconstruct phyloseq object
+tax_mat <- tax_table(dfull_f_norm)
+refseqfull <- refseq(dfull_f_norm)
+designfull <- sample_data(dfull_f_norm)
+otu_mat <- as.matrix(t(ASV_table_spike_norm))
+
+#Create Phyloseq object
+psfull_spike_norm <- phyloseq(tax_table(tax_mat),
+                  otu_table(otu_mat, taxa_are_rows = TRUE), sample_data(designfull), refseq(refseqfull))
+
+#Save-spiked-normalized data
+saveRDS(psfull_spike_norm, "ps_Full_spike_norm.rds") 
+```
+
+
+# B]  Start of the script
+
+```{r, echo=FALSE, message=FALSE, results="hide", fig.show='hide'}
+#Upload cleaned datasets
+library(phyloseq); packageVersion("phyloseq")
+dfull <- readRDS("ps_Full_spike_norm.rds") 
+
+#Remove NA
+dfull <- subset_taxa(dfull,!is.na(Strain))
+```
+
+phyloseq-class experiment-level object
+otu_table()   OTU Table:         [ 15 taxa and 273 samples ]
+sample_data() Sample Data:       [ 273 samples by 24 sample variables ]
+tax_table()   Taxonomy Table:    [ 15 taxa by 22 taxonomic ranks ]
+refseq()      DNAStringSet:      [ 15 reference sequences ]
+
+
+## 1 - Figure Pco1 (Figure 3.b)
+
+Plot with full BF-SynCom growing in single chambers.     
+
+### 1.1 - Prepare data
+```{r, echo=FALSE, message=FALSE, results="hide", fig.show='hide'}
+## --2- Remove controls for plotting
+#Sort out primers according to sample (16SrRNA = Bacteria ; ITS = Fungi)
+dfull_sp_norm_f <- subset_samples(dfull,Good %in% c("F", "BF"))
+dfull_sp_norm_b <- subset_samples(dfull,Good %in% c("B", "BF"))
+
+#Remove inoculum
+Inoc_bac <- subset_samples(dfull_sp_norm_b, ORGANISM3 %in% c("Bacterial_inoculum"))
+Inoc <- subset_samples(dfull_sp_norm_f, ORGANISM3 %in% c("Fungal_inoculum"))
+
+```
+
+```{r, echo=FALSE, message=FALSE, results="hide", fig.show='hide'}
+#Prepare data
+
+library(reshape2); packageVersion("reshape2")
+source("~/Documents/Post_doc/Postdoc/Scripts/Community_profiling/Rscripts/graphical_methods.R")
+
+#Subset 16S and ITS
+dfull_sp_norm_16S <- subset_samples(dfull_sp_norm_b,Marker %in% c("rRNA16S"))
+dfull_sp_norm_16S <- subset_taxa(dfull_sp_norm_16S,!Strain %in% c("F16", "F147", "F212", "F243"))
+dfull_sp_norm_ITS <- subset_samples(dfull_sp_norm_f,!Marker %in% c("rRNA16S"))
+dfull_sp_norm_ITS <- subset_taxa(dfull_sp_norm_ITS,Strain %in% c("F16", "F147", "F212", "F243"))
+```
+
+### 1.2 - Calculate PERMANOVA
+
+Importance of TREATMENT, and COMBINAISONS in chambers on microbiota composition.
+
+```{r, echo=FALSE, message=FALSE, fig.show='hide'}
+#Input
+dfull_sp_norm <- merge_phyloseq(dfull_sp_norm_16S, dfull_sp_norm_ITS)
+
+#Remove samples with Peat+Plant+Bacterial SynCom and only keep BF SynCom
+dfull_sp_norm_ITS_f <- subset_samples(dfull_sp_norm_ITS, ORGANISM %in% c("X.BF") & !TREATMENT %in% c("Control_1", "Control_2", "Peat.A.B"))
+dfull_sp_norm_16S_f <-  subset_samples(dfull_sp_norm_16S, ORGANISM %in% c("X.BF") & !TREATMENT %in% c("Control_1", "Control_2", "Peat.A.B"))
+
+#Change names of media
+library(dplyr)
+sample_data(dfull_sp_norm_ITS_f)$Extract_type <- ifelse(sample_data(dfull_sp_norm_ITS_f)$TREATMENT3 == "Peat", "Microbe_free",
+                           ifelse(sample_data(dfull_sp_norm_ITS_f)$TREATMENT3 == "Peat.A", "Microbe_free",
+                           ifelse(sample_data(dfull_sp_norm_ITS_f)$TREATMENT3 == "Peat.A.B", "Microbe",
+                           ifelse(sample_data(dfull_sp_norm_ITS_f)$TREATMENT3 == "Peat.A.BF", "Microbe", "Control"))))
+
+sample_data(dfull_sp_norm_16S_f)$Extract_type <- ifelse(sample_data(dfull_sp_norm_16S_f)$TREATMENT3 == "Peat", "Microbe_free",
+                           ifelse(sample_data(dfull_sp_norm_16S_f)$TREATMENT3 == "Peat.A", "Microbe_free",
+                           ifelse(sample_data(dfull_sp_norm_16S_f)$TREATMENT3 == "Peat.A.B", "Microbe",
+                           ifelse(sample_data(dfull_sp_norm_16S_f)$TREATMENT3 == "Peat.A.BF", "Microbe", "Control"))))
+
+
+#Tansform to even sampling depth by log trasnformation +1.1
+dfull_sp_norm_bac_trans <- transform_sample_counts(dfull_sp_norm_16S_f, function(x) log(x+1.1, 10))
+dfull_sp_norm_fung_trans <- transform_sample_counts(dfull_sp_norm_ITS_f, function(x) log(x+1.1, 10))
+
+#Permanova Bacteria nested TREATMENT
+library(vegan)
+bray.bac <- phyloseq::distance(dfull_sp_norm_bac_trans, method = "bray")
+mdat.bac <- as(sample_data(dfull_sp_norm_bac_trans), "data.frame")
+adonis.bac <- adonis2(bray.bac ~ TREATMENT,
+                                data = mdat.bac, perm = 999) 
+
+#Extract stats for plotting
+R2_TREATMENT_b <- adonis.bac$R2[1]
+pvalue_TREATMENT_b <- adonis.bac$`Pr(>F)`[1]
+
+#Permanova Fungi nested TREATMENT
+bray.fung <- phyloseq::distance(dfull_sp_norm_fung_trans, method = "bray")
+mdat.fung <- as(sample_data(dfull_sp_norm_fung_trans), "data.frame")
+adonis.fung <- adonis2(bray.fung ~ TREATMENT,
+                                data = mdat.fung, perm = 999) 
+print(adonis.fung)
+
+#Extract
+R2_TREATMENT_f <- adonis.fung$R2[1]
+pvalue_TREATMENT_f <- adonis.fung$`Pr(>F)`[1]
+```
+
+### 1.2 - Plot PcoA
+
+```{r, echo=FALSE, message=FALSE, results="hide", fig.show='hide'}
+#Ordinate
+bray_dist_bac = phyloseq::distance(dfull_sp_norm_bac_trans, method="bray", weighted=T)
+bray_dist_fung = phyloseq::distance(dfull_sp_norm_fung_trans, method="bray", weighted=T)
+ordination_bac = ordinate(dfull_sp_norm_bac_trans, method="PCoA", distance=bray_dist_bac)
+ordination_fung = ordinate(dfull_sp_norm_fung_trans, method="PCoA", distance=bray_dist_fung)
+
+#Plot TREATMENT
+ACP_Bac <- plot_ordination(dfull_sp_norm_bac_trans, ordination_bac, color="TREATMENT") + theme(aspect.ratio=1)+
+    geom_point(size = 4)+ 
+    xlab(paste("PCoA1", round(ordination_bac$values$Relative_eig[1]*100,2),"%")) +  ylab(paste("PCoA2", round(ordination_bac$values$Relative_eig[2]*100,2),"%")) +
+       scale_fill_manual('Sterile washes',labels = c("Peat", "Peat + Plant", "Peat + Plant + SynCom"), values=c("#DDD5D0", "#988071", "#3B312B" )) +
+     scale_color_manual('Sterile washes',labels = c("Peat", "Peat + Plant", "Peat + Plant + SynCom"), values=c("#DDD5D0", "#988071", "#3B312B" )) +
+  stat_ellipse()+
+  ggtitle("Bacterial community (62h)") +
+   geom_text(aes(x = 0.040, y = 0.14, label = paste("Sterile washes : ", round(R2_TREATMENT_b * 100, digits = 2), "% of variance; p =", format(pvalue_TREATMENT_b, digits = 2))), color = "black", size = 2.5) +
+ theme(legend.position="none")
+ACP_Bac
+
+ACP_Fung <- plot_ordination(dfull_sp_norm_fung_trans, ordination_fung, color="TREATMENT") + theme(aspect.ratio=1)+
+   geom_point(size = 4)+ 
+  xlim(-0.5,0.5) + ylim(-0.40,0.48) +
+  xlab(paste("PCoA1", round(ordination_fung$values$Relative_eig[1]*100,2),"%")) +  ylab(paste("PCoA2", round(ordination_fung$values$Relative_eig[2]*100,2),"%")) +
+        scale_fill_manual('Sterile washes',labels = c("Peat", "Peat + Plant", "Peat + Plant + SynCom"), values=c("#DDD5D0", "#988071", "#3B312B" )) +
+     scale_color_manual('Sterile washes',labels = c("Peat", "Peat + Plant", "Peat + Plant + SynCom"), values=c("#DDD5D0", "#988071", "#3B312B" )) +
+ # stat_ellipse()+
+  ggforce::geom_mark_ellipse(aes(color = TREATMENT)) +
+  ggtitle("Fungal community (62h)")  + 
+  geom_text(aes(x = 0.15, y = 0.48, label = paste("Sterile washes : ", round(R2_TREATMENT_f * 100, digits = 2), "% of variance; p =", format(pvalue_TREATMENT_f, digits = 2))), color = "black", size = 2.5) +
+  theme(legend.position="none")
+ACP_Fung
+```
+
+## 2 - Figure Abundance single strains (Figure 3.c)
+
+Plot with abundance of individual strains of the BF-SynCom in different peat extracts
+
+### 2.1 - Prepare data
+
+```{r, echo=FALSE, message=FALSE, results="hide", fig.show='hide'}
+#Start
+#Plot Bacteria
+dfull_sp_norm <- merge_phyloseq(dfull_sp_norm_16S, dfull_sp_norm_ITS)
+
+#Remove samples with Peat+Plant+Bacterial SynCom and only keep BF SynCom
+dfull_sp_norm_Peat_Peat1 <- subset_samples(dfull_sp_norm, TREATMENT3 %in% c("Peat", "Peat.A", "Peat.A.BF") & ORGANISM3 %in% c("Media.BacteriaFungi"))
+
+#log-transform
+dfull_sp_norm_Peat_Peat1 <- transform_sample_counts(dfull_sp_norm_Peat_Peat1, function(x) x+1)
+
+#Turn into table
+mdf16S = psmelt(dfull_sp_norm_Peat_Peat1)
+mdf16S$Log_Abundance <- log(mdf16S$Abundance)
+head(mdf16S)
+
+#Remove ITS for Bacteria, remove 16SrRNA for fungi
+mdf16S$REMOVE <- ifelse(mdf16S$Phylum != "Fungi" & mdf16S$Marker == "ITS", "Remove","keep")
+mdf16S <- subset(mdf16S, REMOVE %in% c("keep") )    
+
+mdf16S$REMOVE <- ifelse(mdf16S$Phylum == "Fungi" & mdf16S$Marker == "rRNA16S", "Remove","keep")
+
+mdf16S <- subset(mdf16S, REMOVE %in% c("keep") ) 
+```
+
+### 2.2 - Calculate significance
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE, results="hide"}
+
+#Calculate significance abundance of individual member of BF-SynCom between Peat extracts
+library(dplyr)
+library(dunn.test)
+
+#Add taxonomy
+taxo <- read.csv("MiniSC_taxo.csv", header=TRUE, sep = ",",  dec=".")
+mdf16S <- merge(mdf16S,taxo, by = c("Strain"))
+
+#Load dataset
+df <- mdf16S
+
+# Get unique conditions
+unique_conditions <- unique(df$Species.f)
+
+# Create empty data frames to store the results
+kruskal_results <- data.frame()
+dunn_results <- data.frame()
+
+# Loop over unique conditions and perform tests
+for (condition in unique_conditions) {
+  # Subset the data for the current condition
+  subset_data <- df[df$Species.f == condition, ]
+  
+  # Perform Kruskal-Wallis test
+  kruskal_result <- kruskal.test(Log_Abundance ~ TREATMENT3, data = subset_data)
+  
+  # Perform Dunn's test for post hoc comparisons
+  dunn_result <- dunn.test(subset_data$Log_Abundance, g = subset_data$TREATMENT3, method = "bh")
+  
+  # Store the results in data frames
+  kruskal_results <- rbind(kruskal_results, c(Condition = condition, kruskal_result$P.adjusted))
+  dunn_results <- rbind(dunn_results, data.frame(dunn_result$comparison, dunn_result$P.adjusted, condition))
+}
+
+# Print Kruskal-Wallis results
+print(kruskal_results)
+
+# Print Dunn test results
+print(dunn_results)
+
+#Create groups letters
+library(rcompanion)
+
+# Create empty data frames to store the results
+groups_results <- data.frame()
+
+for (condition in unique_conditions) {
+  # Subset the data for the current condition
+  subset_data <- dunn_results[dunn_results$condition == condition, ]
+   
+  group <- cldList(comparison = subset_data$dunn_result.comparison, 
+                    p.value    = subset_data$dunn_result.P.adjusted,
+                    threshold  = 0.05)
+  # Create a data frame for the results of the current condition
+  condition_results <- data.frame(Condition = condition,
+                                  Group = group$Group,
+                                  Letter = group$Letter,
+                                  MonoLetter = group$MonoLetter)
+  
+# Append the results to the groups_results data frame
+  groups_results <- rbind(groups_results, condition_results)
+
+}
+
+#Change colnames
+colnames(groups_results) <- c("Species.f", "TREATMENT3", "Letter", "MonoLetter")
+
+
+```
+
+### 2.3 - Plot Abudance (Figure 3.c)
+
+```{r, echo=FALSE, message=FALSE, results="hide", fig.show='hide'}
+#Calculate Median
+points_med <- data.frame(mdf16S %>%
+  group_by(TREATMENT3, Species.f, Kingdom.y) %>%
+  summarise(meanX = mean(Log_Abundance, na.rm = TRUE)))
+
+#Arrange table stats
+points_med$To_merge <- paste(points_med$Species.f, "-", points_med$TREATMENT3)
+groups_results$To_merge <- paste(groups_results$Species.f, "-", groups_results$TREATMENT3)
+groups_results2 <- data.frame(To_merge = c(groups_results$To_merge), Letter = c(groups_results$Letter))
+points_med2 <- merge(points_med, groups_results2, by = "To_merge")
+
+#REmove non significant in any condition (bac)
+points_med2$remove <- ifelse(points_med2$Letter == "a", 1,2)
+REMOVE <- points_med2 %>%  
+  group_by(Species.f) %>% 
+  summarize(mean=mean(remove)) 
+To_remove <- subset(REMOVE, mean %in% c(1) )
+points_med3 <- subset(points_med2, !Species.f %in% c(To_remove$Species.f))
+
+#Order from less abundant to most abundant strain
+x = tapply(mdf16S$Log_Abundance, mdf16S$Species.f, function(x) max(x))
+x = sort(x, FALSE)
+mdf16S$Species.f = factor(as.character(mdf16S$Species.f), levels=names(x))
+
+#Plot
+Plot_Peat_Peat.A <- ggplot() + 
+      geom_point(data = mdf16S, aes(x =Species.f , y = Log_Abundance , color = TREATMENT3), alpha = 1, size = 1) + 
+      geom_point(data = points_med, aes(x = Species.f, y =  meanX, color = TREATMENT3), size = 4, alpha = 1) +
+          scale_fill_manual('Sterile washes',labels = c("Peat", "Peat + Plant", "Peat + Plant + SynCom"), values=c("#DDD5D0", "#988071", "#3B312B" )) +
+     scale_color_manual('Sterile washes',labels = c("Peat", "Peat + Plant", "Peat + Plant + SynCom"), values=c("#DDD5D0", "#988071", "#3B312B" )) +
+  theme(
+        strip.background = element_rect(color="black", fill="lightgray", size=1, linetype="solid"),
+        strip.text.x = element_text(size = 12, color = "black"),
+        strip.text.y = element_text(size = 12, color = "white"),
+        axis.title.y = element_text( size = 12),
+        plot.title = element_text(size = 16),
+        axis.text.x = element_text(angle = 90,  hjust=1), 
+        axis.text.y = element_text()) +  
+  #geom_hline(yintercept = c(0), linetype="dashed", size=0.5) +
+  xlab ("") + ylab ("Quantitative Abundance (Log reads)") +
+   geom_text( data    = points_med3, mapping = aes(x = Species.f, y = meanX , label = Letter), size = 3,position = position_dodge(width=0.75), hjust = 2) +
+  facet_grid(~Kingdom.y, space="free", scale = "free") #+ theme(legend.position="none") 
+Plot_Peat_Peat.A
+```
+
+*****
+
+# End of script
+ 
+*****
+
+
+
+

@@ -1,0 +1,456 @@
+---
+title: "MetaFlowTrain: a highly-parallelized and modular fluidic system to study exometabolite-mediated inter-organismal Interaction"
+author: "Chesneau et al., 2025, Guillaume Chesneau"
+date: "06/09/2024"
+output:
+  html_document:
+    toc: yes
+    toc_float: yes
+  word_document:
+    toc: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache=FALSE, autodep = TRUE, warning = FALSE)
+#Set working direction
+knitr::opts_knit$set(root.dir = "") 
+```
+
+This script has been made on R 4.2.2 (and Rstudio 2022.12.0+353)
+```{r R version}
+R.version
+```
+
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE, results="hide"}
+#Palette color
+
+#Prepare palette color for conditions
+name_Species <- c("Bacteria","Fungi", "BSC", "FSC", "BFSC", " Pseudomonas R09", " Burkholderia R16D2", " Bacillus R147", " Variovorax R318D1"," Pseudomonas R329"," Flavobacterium R420", " Streptomyces R431", " Achromobacter R565"," Acidovorax R568", " Agrobacterium R651", " Mesorhizobium R695"," Plectosphaerella R16", " Dactylonectria R147", " Fusarium R212", " Dendryphion R243"," Media")
+ 
+   
+name_Species.x <- c("Bacteria","Fungi", "BSC", "FSC", "BFSC", "Pseudomonas R09", "Burkholderia R16D2", "Bacillus R147", "Variovorax R318D1","Pseudomonas R329","Flavobacterium R420", "Streptomyces R431", "Achromobacter R565","Acidovorax R568", "Agrobacterium R651", "Mesorhizobium R695","Plectosphaerella R16", "Dactylonectria R147", "Fusarium R212", "Dendryphion R243","Media")
+  
+  # desired color palette
+ Palette_Species <- c("#ff3300", "#00cc44","#ff3300", "#00cc44", "#4d0026",  "#2E4057","#5475A0","#A1B5CE","#6C5A49","#C3AB98","#E8E0D8","#69140E","#B42318","#EE8981", "#F56200","#FF9D5C",      "#6BAA75",   "#84DD63", "#CBFF4D", "#BBD686" , "black")
+ 
+Palette_Species.x <- c("#ff3300", "#00cc44","#ff3300", "#00cc44", "#4d0026",  "#2E4057","#5475A0","#A1B5CE","#6C5A49","#C3AB98","#E8E0D8","#69140E","#B42318","#EE8981", "#F56200","#FF9D5C",      "#6BAA75",   "#84DD63", "#CBFF4D", "#BBD686" , "black") 
+
+     # associated EnvType level
+names(Palette_Species) <- name_Species
+names(Palette_Species.x) <- name_Species.x
+``` 
+
+# A]  Targeted Metabolomics
+
+## 1) Pre_processing
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE, results="hide"}
+#ACP (http://www.sthda.com/french/articles/38-methodes-des-composantes-principales-dans-r-guide-pratique/73-acp-analyse-en-composantes-principales-avec-r-l-essentiel/)
+
+#Set up theme
+library(ggplot2)
+theme_set(theme_bw())
+
+#Open file
+Met_Final <- read.csv("df_Met.csv", header=TRUE, sep = ",",  dec=".", row.names=1)
+
+#Add taxonomy
+taxo <- read.csv("MiniSC_taxo.csv", header=TRUE, sep = ",",  dec=".")
+Met_Final <- merge(Met_Final,taxo, by = c("Strain"))
+
+#Paste new SampleID column
+Met_Final$Sample_ID_F2 <- paste(Met_Final$Sample_ID_F, "_", Met_Final$Species)
+```
+
+## 2) PERMANOVA
+ 
+```{r, echo=FALSE, warning=FALSE, message=FALSE, results="show"}
+#PERMANOVA
+library(vegan)
+Working_file_tot <- Met_Final
+
+# Concatenate rows of interest
+Working_file_tot$SAMPLE_ID_G <- paste(Working_file_tot$Sample, Working_file_tot$Strain, Working_file_tot$Media, sep = "_")
+library(dplyr)
+Working_file_tot <- Working_file_tot %>% select(c("SAMPLE_ID_G","PEAK_AREA_TIC_Log","Metabolites"))
+
+# Remove duplicated columns
+data <- tidyr::spread(Working_file_tot, Metabolites, PEAK_AREA_TIC_Log)
+data[data == '-Inf'] <- 0
+data <- na.omit(data)   
+
+#Create environement
+env <- data
+library(stringr)
+env[c("Numero_sample","Strain", "Media")] <- str_split_fixed(env$SAMPLE_ID_G, '_', 3)
+env2 <- env[35:37]
+row.names(data) <- data$SAMPLE_ID_G
+data$SAMPLE_ID_G <- NULL
+
+
+#Measure distance
+library(vegan)
+data.dist <- vegdist(data, method="canberra")
+
+#Run PERMANOVA
+data.div.TCA <- adonis2(data ~ Strain, data = env2, permutations = 999, method="canberra")
+data.div.TCA
+
+# Extract R-squared value and p-value
+summary_data <- data.frame(summary(data.div.TCA))
+
+# R-squared value
+R_squared <- data.div.TCA$R2[1]
+# p-value
+p.value <- data.div.TCA$`Pr(>F)`[1]
+```
+
+## 3) PcoA
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE, results="hide"}
+#http://www.sthda.com/french/articles/38-methodes-des-composantes-principales-dans-r-guide-pratique/73-acp-analyse-en-composantes-principales-avec-r-l-essentiel/ 
+library(dplyr)
+
+Working_file <- Met_Final
+
+#Pre-process
+Met_Final_filtered <- Working_file %>% select(c("Sample_ID_F2","Metabolites", "PEAK_AREA_Log")) #Change second criteria according to what you want analyse.
+
+
+#Spread table
+Met_Final_filtered_Spr <- tidyr::spread(Met_Final_filtered, key = Metabolites, value = PEAK_AREA_Log)
+
+#Transform NA and -Inf into 0
+Met_Final_filtered_Spr[is.na(Met_Final_filtered_Spr)] <- 0
+Met_Final_filtered_Spr[Met_Final_filtered_Spr == '-Inf'] <- 0
+
+#Arrange table
+row.names(Met_Final_filtered_Spr) <- Met_Final_filtered_Spr$Sample_ID_F2
+Met_Final_filtered_Spr$Sample_ID_F2 <- NULL
+library("FactoMineR")
+library("factoextra")
+
+#Create plot
+res.pca <- PCA(Met_Final_filtered_Spr, graph = FALSE)
+print(res.pca)
+
+#Extract everything you need
+#Check percent of variation
+plot_percent <- fviz_eig(res.pca, addlabels = TRUE, ylim = c(0, 100))
+plot_percent
+
+#Variable contributions
+variable_contributions <- facto_summarize(res.pca, element = "var", result = c("coord", 
+        "contrib", "cos2"))
+
+#Prepare scaling
+    pca.ind <- get_pca_ind(res.pca)
+    pca.var <- get_pca_var(res.pca)
+    ind <- data.frame(pca.ind$coord, stringsAsFactors = TRUE)
+    var <- data.frame(pca.var$coord, stringsAsFactors = TRUE)
+    
+    r <- min((max(ind[, "Dim.1"]) - min(ind[, "Dim.1"])/(max(var[, "Dim.1"]) - 
+        min(var[, "Dim.1"]))), (max(ind[, "Dim.2"]) - min(ind[, "Dim.2"])/(max(var[, 
+        "Dim.2"]) - min(var[, "Dim.2"])))) 
+ #This is to scaled your PcoA. You then just multiply by your Dim1 and Dim2 in you geom_segment
+    
+#Dimensions
+Dim1 <- capture.output(cat(round(res.pca$eig[1,2], digits = 2), "%"))
+Dim2 <- capture.output(cat(round(res.pca$eig[2,2], digits = 2), "%"))
+
+#Create data.frame
+library(data.table)
+library(dplyr)
+library(stringr)
+
+data_plotting2 <- data.frame(res.pca$ind$coord) %>% mutate(SP1 = row.names(.)) %>%
+  mutate(Sample = str_split_fixed(SP1, '_', 6)[, 1],
+         Microbes = str_split_fixed(SP1, '_', 6)[, 2],
+         Culture = str_split_fixed(SP1, '_', 6)[, 3],
+         Media = str_split_fixed(SP1, '_', 6)[, 4],
+         Strain = str_split_fixed(SP1, '_', 6)[, 5],
+         Species = str_split_fixed(SP1, '_', 6)[, 6])
+data_plotting2
+
+#Calculate mean
+points_pcoa = data.frame(data_plotting2 %>% 
+                group_by(Species) %>% 
+                mutate(meanX=mean(Dim.1), meanY=mean(Dim.2)))
+unique(points_pcoa$Species)
+#Plot
+
+data_plotting2$Species <- factor(data_plotting2$Species, 
+ levels = c(" Streptomyces R431", " Bacillus R147", " Agrobacterium R651", " Mesorhizobium R695", " Flavobacterium R420", " Pseudomonas R09", " Pseudomonas R329", " Achromobacter R565", " Burkholderia R16D2", " Variovorax R318D1" ," Acidovorax R568", " Plectosphaerella R16"," Fusarium R212"," Dendryphion R243"," Dactylonectria R147", " Media"))
+
+points_pcoa$Species <- factor(points_pcoa$Species, 
+ levels =  c(" Streptomyces R431", " Bacillus R147", " Agrobacterium R651", " Mesorhizobium R695", " Flavobacterium R420", " Pseudomonas R09", " Pseudomonas R329", " Achromobacter R565", " Burkholderia R16D2", " Variovorax R318D1"," Acidovorax R568", " PlectosphaerellaR16"," Fusarium R212","Dendryphion R243"," Dactylonectria R147", " Media"))
+
+# Replace 'B' with 'Bacteria' and 'F' with 'Fungi' in column B
+data_plotting2$Microbes <- ifelse(data_plotting2$Microbes == 'B', 'Bacteria', 
+                           ifelse(data_plotting2$Microbes == 'F', 'Fungi', data_plotting2$Microbes))
+
+#Plot
+library(ggrepel)
+Plot2tag <- ggplot() + 
+  geom_point(data=data_plotting2, aes(x=Dim.1,y=Dim.2,color = Species), alpha =0.8, size = 1) + 
+geom_point(data = points_pcoa, mapping = aes(x=meanX, y=meanY, xend=Dim.1, yend=Dim.2, color=Species), size = 4) + 
+    ggtitle("Targeted metabolic profiles (n=41)") +
+  xlab(paste("PCoA1",Dim1)) + ylab(paste("PCoA2", Dim2)) +
+    #facet_grid(~Time_point, space="free") +
+   theme(strip.background = element_rect(color="white", fill="#585858", size=1, linetype="solid"), strip.text.x = element_text(size = 12, color = "white"), strip.text.y = element_text(size = 12, color = "white")) +
+  geom_segment(data = points_pcoa, mapping = aes(x=meanX, y=meanY, xend=Dim.1, yend=Dim.2, color=Species), size = 0.5, alpha=1)+
+        scale_color_manual('Strains', values=Palette_Species)+
+    scale_fill_manual('Strains', values=Palette_Species)+
+  geom_hline(yintercept = 0, linetype = "dashed", color = "#585858") +
+  geom_vline(xintercept = 0, linetype = "dashed", color = "#585858") +
+  #stat_ellipse(data = data_plotting2, aes(x = Dim.1, y = Dim.2, color = Microbes, alpha = 0.6))+
+  xlim(-7,7) +ylim(-6,6 ) +
+       geom_text(aes(x = 4, y =6, label = paste(round(R_squared*100, digits = 3), "% of variance; p =", format(p.value, digits = 2))), color = "black", size = 3.5) +
+    guides(color = guide_legend(ncol = 2)) +
+theme(legend.position = "none")
+
+Plot2tag
+```
+
+
+# B] Untargeted Metabolomics
+
+## 1) Pre_processing
+```{r, echo=FALSE, warning=FALSE, message=FALSE, results="hide"}
+#Set up theme
+library(ggplot2)
+theme_set(theme_bw())
+
+#Open file
+Met_untarg <- read.csv("df_Untargeted.csv", header=TRUE, sep = ",",  dec=".", row.names=1)
+
+# Words to keep
+word_to_keep <- 'area'
+
+# Use grep to find the column indices containing the specified word
+columns_to_keep <- grep(word_to_keep, names(Met_untarg), value = TRUE)
+
+# Subset the dataframe to keep only the columns with the specified word
+df_filtered <- Met_untarg[, columns_to_keep]
+
+# Print or use df_filtered as needed
+print(df_filtered)
+
+# Words to remove in colnames
+words_to_remove <- c("datafile.", ".mzML.area")
+
+#New Colnames
+library(stringr)
+new_colnames <- str_remove_all(colnames(df_filtered), paste(words_to_remove, collapse = "|"))
+colnames(df_filtered) <- new_colnames
+
+# Use the transpose function t() to switch columns and rows
+df_transposed <- t(df_filtered)
+
+# Convert the result back to a dataframe
+df_transposed <- as.data.frame(df_transposed)
+```
+
+Remove Blank Control for plotting
+```{r, echo=FALSE, warning=FALSE, message=FALSE, results="show"}
+
+library(dplyr)
+#remove Media and SA_Media_C
+df_transposed <- df_transposed[!(rownames(df_transposed) %in% c("area", "24_Media_SA_Media", "98_Media_C_SA_Media_C", "99_Media_C_SA_Media_C", "97_Media_C_SA_Media_C", "100_Media_C_SA_Media_C", "101_Media_C_SA_Media_C", "102_Media_C_SA_Media_C", "103_Media_C_SA_Media_C", "104_Media_C_SA_Media_C")), ]
+#Remove NA
+df_transposed[is.na(df_transposed)] <- 0
+```
+
+Normalization of the data removing metabolites detected in water
+```{r, echo=FALSE, warning=FALSE, message=FALSE, results="show"}
+#Normalization using water
+# Filter rows where the row names contain "water"
+water_samples <- grepl("water", rownames(df_transposed))
+
+# Subset the table to include only "water" rows
+water_subset <- df_transposed[water_samples, ]
+
+# Calculate the mean peak area for each feature
+mean_peak_area <- colMeans(water_subset, na.rm = TRUE)
+
+# Add the mean values as a new row named "Mean_Water"
+df_transposed <- rbind(df_transposed, Mean_Water = mean_peak_area)
+
+# Remove the original rows with "water" in their names
+df_transposed <- df_transposed[!water_samples, ]
+
+# Convert the data frame to a matrix
+df_matrix <- as.matrix(df_transposed)
+
+# Extract peak areas for the "Mean_Water" sample
+water_mean_values <- df_matrix["Mean_Water", ]
+
+# Subtract "Mean_Water" values from all other samples
+df_adjusted_matrix <- sweep(df_matrix, 2, water_mean_values, "-")
+
+# Convert the result back to a data frame, preserving row names
+df_transposed2 <- as.data.frame(df_adjusted_matrix)
+
+# Set the row names back
+rownames(df_transposed2) <- rownames(df_transposed)
+
+# Replace negative values with 0 in the data frame
+df_transposed2[df_transposed2 < 0] <- 0
+
+
+# Remove columns where all values are zero
+df_transposed3 <- df_transposed2[, colSums(df_transposed2 != 0) > 0]
+
+# Remove the "Mean_Water" row if it's no longer needed
+df_transposed3 <- df_transposed3[rownames(df_transposed3) != "Mean_Water", ]
+```
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE, results="show"}
+#Prepare table normalized
+#Calculate rowSums
+df_transposed_norm <- df_transposed3
+df_transposed_norm$sum <- rowSums(df_transposed_norm,na.rm = TRUE)
+
+#Calculate rowSums
+df_transposed_norm$sum <- rowSums(df_transposed_norm,na.rm = TRUE)
+
+# Choose the column to use as the divisor
+divisor_column <- "sum"
+
+#Save table
+df_transposed_norm2 <- df_transposed_norm
+# Divide each value in a row by the corresponding value in the divisor column
+df_transposed_norm2 <- df_transposed_norm2 / df_transposed_norm2[, divisor_column]
+df_transposed_norm2$sum <- NULL
+```
+
+## 2) PERMANOVA
+
+**PERMANOVA Tot**.  
+```{r, echo=FALSE, warning=FALSE, message=FALSE, results="show"}
+
+#Choose between normalized data or not
+df_transposed <- df_transposed_norm2 # df_transposed_norm2 or df_transposed3
+
+#Prepare dataset
+data <- df_transposed
+df_transposed3 <- df_transposed
+
+#Prepare environement
+library(stringr)
+df_transposed3$SAMPLE_ID_G <- row.names(df_transposed3)
+df_transposed3[c("Numero_sample","Kingdom", "Media", "Strain")] <- str_split_fixed(df_transposed3$SAMPLE_ID_G, '_', 4)
+env2 <- df_transposed3[6366:6370] #Keep only metadata
+ 
+
+#Matrix distances
+str(data)
+library(vegan)
+data.dist <- vegdist(data, method="canberra")
+
+#PERMANOVA
+data.div.TCA <- adonis2(data ~ Strain, data = env2, permutations = 999, method="canberra")
+data.div.TCA
+
+# Extract R-squared value and p-value
+summary_data <- data.frame(summary(data.div.TCA))
+
+# R-squared value
+R_squared_unt <- data.div.TCA$R2[1]
+
+# p-value
+p_value_unt <- data.div.TCA$`Pr(>F)`[1]
+
+```
+
+## 3) PcoA   
+ 
+```{r, echo=FALSE, warning=FALSE, message=FALSE, results="hide"}
+
+#Start PcoA
+library("FactoMineR")
+library("factoextra")
+
+#Measure PCA
+res.pca <- PCA(df_transposed, graph = FALSE)
+fviz_pca_biplot(res.pca,
+                col.var = "#2E9FDF", # Variables color
+                col.ind = "#696969"  # Individuals color
+                )
+
+#Check percent of variation
+plot_percent <- fviz_eig(res.pca, addlabels = TRUE, ylim = c(0, 100))
+plot_percent
+
+#Extract dimensions
+Dim1 <- capture.output(cat(round(res.pca$eig[1,2], digits = 2), "%"))
+Dim2 <- capture.output(cat(round(res.pca$eig[2,2], digits = 2), "%"))
+
+#Extract data
+library(data.table)
+data_plotting <- data.frame(res.pca$ind$coord)
+data_plotting$SP1 <- row.names(data_plotting)
+
+#Extend data
+library(stringr)
+data_plotting2 <- data_plotting
+data_plotting2[c("Sample","Microbes", "Media","Strain")] <- str_split_fixed(row.names(data_plotting2), '_', 4)
+
+#Add taxonomy
+Taxo <- read.csv("MiniSC_taxo.csv", header=TRUE, sep = ",",  dec=".")
+data_plotting2 <- merge(data_plotting2,Taxo, by = c("Strain"))
+
+#Add Mean
+#library(dplyr)
+Dim.1 <- tapply(data_plotting2$Dim.1,data_plotting2$Strain,mean)
+Dim.2 <- tapply(data_plotting2$Dim.2,data_plotting2$Strain,mean)
+F1 <- data.frame(cbind(Dim.1,Dim.2))
+F1$Microbes <- c("")
+F1$Media <- c("")
+
+#Calculate mean replicates
+points_pcoa = data.frame(data_plotting2 %>% 
+                group_by(Strain) %>% 
+                mutate(meanX=mean(Dim.1), meanY=mean(Dim.2)))
+
+
+
+#Plot
+
+#Arrange order
+data_plotting2$Species <- factor(data_plotting2$Species, 
+ levels = c("Streptomyces R431", "Bacillus R147", "Agrobacterium R651", "Mesorhizobium R695", "Flavobacterium R420", "Pseudomonas R09", "Pseudomonas R329", "Achromobacter R565", "Burkholderia R16D2", "Variovorax R318D1","Acidovorax R568", "Plectosphaerella R16","Fusarium R212","Dendryphion R243","Dactylonectria R147", "Media", ""))
+
+points_pcoa$Species <- factor(points_pcoa$Species, 
+ levels = c("Streptomyces R431", "Bacillus R147", "Agrobacterium R651", "Mesorhizobium R695", "Flavobacterium R420", "Pseudomonas R09", "Pseudomonas R329", "Achromobacter R565", "Burkholderia R16D2", "Variovorax R318D1","Acidovorax R568", "Plectosphaerella R16","Fusarium R212","Dendryphion R243","Dactylonectria R147", "Media", ""))
+
+
+#Write better legend names
+# Replace 'B' with 'Bacteria' and 'F' with 'Fungi' in column B
+data_plotting2$Microbes <- ifelse(data_plotting2$Microbes == 'B', 'Bacteria', 
+                           ifelse(data_plotting2$Microbes == 'F', 'Fungi', data_plotting2$Microbes))
+
+#Plot final 
+Plotunt <- ggplot() + 
+  geom_jitter(data=data_plotting2, aes(x=Dim.1,y=Dim.2, color = Species), alpha =0.5, size = 1) + 
+  geom_point(data = points_pcoa, mapping = aes(x=meanX, y=meanY, xend=Dim.1, yend=Dim.2, color=Species), size = 4) + 
+    ggtitle("Untargeted profiles (6370 features)") + 
+  xlab(paste("PCoA1",Dim1)) + ylab(paste("PCoA2", Dim2)) +
+    #facet_grid(~Time_point, space="free") +
+   theme(strip.background = element_rect(color="white", fill="#585858", size=1, linetype="solid"), strip.text.x = element_text(size = 12, color = "white"), strip.text.y = element_text(size = 12, color = "white")) +
+    geom_hline(yintercept = 0, linetype = "dashed", color = "#585858") +
+  geom_vline(xintercept = 0, linetype = "dashed", color = "#585858") +
+  geom_segment(data = points_pcoa, mapping = aes(x=meanX, y=meanY, xend=Dim.1, yend=Dim.2, color=Species), size = 0.5, alpha=0.5) +
+   scale_color_manual('Strain', values=Palette_Species.x)+
+   scale_fill_manual('Strain', values=Palette_Species.x) + 
+  geom_text(aes(x = 60, y = 62, label = paste(round(R_squared_unt*100, digits = 3), "% of variance; p =", format(p_value_unt, digits = 2))), color = "black", size = 3.5)# +
+#theme(legend.position = "none")
+Plotunt
+```
+
+*****
+
+# End of script
+
+*****

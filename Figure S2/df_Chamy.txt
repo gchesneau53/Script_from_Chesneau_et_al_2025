@@ -1,0 +1,9 @@
+Rep		Media	Pump	Bottle	Condition	Chamber	Chamber	Combinaison	Plate	Well	Comment	Collect	OD600	OD720	16S	ITS	Cell_Count_raw	Cell_Count	Log_Cell_Count
+9	5	TP10	1	1	Microchamber	Chlam	Chamber1	Chlam_C	P1	A9		150	NA	NA	NA	NA	683.4	6834000	6.834674974
+11	6	TP10	1	1	Microchamber	Chlam	Chamber1	Chlam_C	P1	A11		150	NA	NA	NA	NA	373.4	3734000	6.572174314
+13	7	TP10	1	1	Microchamber	Chlam	Chamber1	Chlam_C	P1	B1		150	NA	NA	NA	NA	289	2890000	6.460897843
+15	8	TP10	1	1	Microchamber	Chlam	Chamber1	Chlam_C	P1	B3		150	NA	NA	NA	NA	457.6	4576000	6.660486016
+58	34	Inoculum	NA	NA	Inoculum	Chlam	Chamber1	Inoculum	P1	NA	NA	NA	NA	0.2	NA	NA	257.95	2579500	6.411535532
+59	35	Inoculum	NA	NA	Inoculum	Chlam	Chamber1	Inoculum	P1	NA	NA	NA	NA	0.2	NA	NA	268.95	2689500	6.429671549
+60	36	Inoculum	NA	NA	Inoculum	Chlam	Chamber1	Inoculum	P1	NA	NA	NA	NA	0.2	NA	NA	251.95	2519500	6.401314363
+61	37	Inoculum	NA	NA	Inoculum	Chlam	Chamber1	Inoculum	P1	NA	NA	NA	NA	0.2	NA	NA	242.95	2429500	6.385516903

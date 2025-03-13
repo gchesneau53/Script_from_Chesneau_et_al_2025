@@ -1,0 +1,71 @@
+---
+title: "MetaFlowTrain: a highly-parallelized and modular fluidic system to study exometabolite-mediated inter-organismal Interaction"
+author: "Chesneau et al., 2025, Guillaume Chesneau"
+date: "06/09/2024"
+output:
+  html_document:
+    toc: yes
+    toc_float: yes
+  word_document:
+    toc: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache=FALSE, autodep = TRUE, warning = FALSE)
+#Set working direction
+knitr::opts_knit$set(root.dir = "") 
+```
+
+This script has been made on R 4.2.2 (and Rstudio 2022.12.0+353)
+```{r R version}
+R.version
+```
+
+
+```{r, echo=FALSE, results='hide', eval = FALSE}
+
+library("DECIPHER"); packageVersion("DECIPHER")
+library(phyloseq)
+
+seqs.16S <- readDNAStringSet("16SrRNA.fasta")
+seqs.ITS <- readDNAStringSet("ITS.fasta")
+
+
+alignment.16S <- AlignSeqs(DNAStringSet(seqs.16S), anchor=NA) #Alignement
+alignment.ITS <- AlignSeqs(DNAStringSet(seqs.ITS), anchor=NA) #Alignement
+
+library("phangorn") ; packageVersion("phangorn")
+phang.align.16S <- phyDat(as(alignment.16S, "matrix"), type="DNA") # converts the aligned sequences into a phangorn data object 
+phang.align.ITS <- phyDat(as(alignment.ITS, "matrix"), type="DNA") # converts the aligned sequences into a phangorn data object 
+
+dm.16S <- dist.ml(phang.align.16S) #calculates a pairwise distance matrix between the sequences using maximum likelihood estimation
+dm.ITS <- dist.ml(phang.align.ITS) #calculates a pairwise distance matrix between the sequences using maximum likelihood estimation
+
+treeNJ.16S <- NJ(dm.16S) # constructs a neighbor-joining tree
+treeNJ.ITS <- NJ(dm.ITS) # constructs a neighbor-joining tree
+
+plot(treeNJ.16S)
+plot(treeNJ.ITS)
+
+
+# Sauvegarder l'arbre dans le format Newick
+write.tree(treeNJ.16S, file = "treeNJ.16S.newick")
+write.tree(treeNJ.ITS, file = "treeNJ.ITS.newick")
+
+
+
+fit.16S <- pml(treeNJ.16S, data=phang.align.16S) # fits a phylogenetic model to the neighbor-joining tree using maximum likelihood estimation
+fit.GTR.16S <- update(fit.16S, k=4, inv=0.2) # updates the previously fitted model fit.16S by setting specific parameters, including k and inv. 
+fit.GTR.16S <- optim.pml(fit.GTR.16S, model ="GTR", optInv=TRUE, optGamma=TRUE, rearrangement = "stochastic", control = pml.control(trace = 0)) # This line optimizes the phylogenetic model. GTR (General Time Reversible) model and handling inversion and gamma distribution, and uses a stochastic rearrangement method
+
+plot(fit.GTR.16S)
+d16S.tree <- phyloseq(tax_table(d16S), sample_data(d16S),
+                 otu_table(d16S, taxa_are_rows = FALSE), refseq(d16S), phy_tree(treeNJ.16S))
+saveRDS(d16S.tree, "16S_PS_clean_tree_new.rds")
+```
+
+*****
+
+# End of script
+
+*****

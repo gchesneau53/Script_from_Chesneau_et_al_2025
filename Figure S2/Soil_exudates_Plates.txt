@@ -1,0 +1,361 @@
+Well	Value	Measurement_mode	Measurement_wavelength	Strain	SM	Time	Time2	Expe	Media	Species	Kingdom	Phylum	Class	Order	Family	Genus
+C5	0.0881	Absorbance	600	R565	Control	T0	0	Chamber	Soil_Wash	Achromobacter sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Alcaligenaceae	NA
+C6	0.0877	Absorbance	600	R565	Control	T0	0	Chamber	Soil_Wash	Achromobacter sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Alcaligenaceae	NA
+C7	0.088	Absorbance	600	R565	Control	T0	0	Chamber	Soil_Wash	Achromobacter sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Alcaligenaceae	NA
+D5	0.0891	Absorbance	600	R568	Control	T0	0	Chamber	Soil_Wash	Acidovorax sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Comamonadaceae	NA
+D6	0.0892	Absorbance	600	R568	Control	T0	0	Chamber	Soil_Wash	Acidovorax sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Comamonadaceae	NA
+D7	0.0902	Absorbance	600	R568	Control	T0	0	Chamber	Soil_Wash	Acidovorax sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Comamonadaceae	NA
+E5	0.0867	Absorbance	600	R651	Control	T0	0	Chamber	Soil_Wash	Agrobacterium sp.	Bacteria	Proteobacteria	Alphaproteobacteria	Rhizobiales	Rhizobiaceae	Agrobacterium
+E6	0.086	Absorbance	600	R651	Control	T0	0	Chamber	Soil_Wash	Agrobacterium sp.	Bacteria	Proteobacteria	Alphaproteobacteria	Rhizobiales	Rhizobiaceae	Agrobacterium
+E7	0.0866	Absorbance	600	R651	Control	T0	0	Chamber	Soil_Wash	Agrobacterium sp.	Bacteria	Proteobacteria	Alphaproteobacteria	Rhizobiales	Rhizobiaceae	Agrobacterium
+D2	0.0862	Absorbance	600	R147	Control	T0	0	Chamber	Soil_Wash	Bacillus sp.	Bacteria	Firmicutes	Bacilli	Bacillales	Bacillaceae	Bacillus
+D3	0.0866	Absorbance	600	R147	Control	T0	0	Chamber	Soil_Wash	Bacillus sp.	Bacteria	Firmicutes	Bacilli	Bacillales	Bacillaceae	Bacillus
+D4	0.0865	Absorbance	600	R147	Control	T0	0	Chamber	Soil_Wash	Bacillus sp.	Bacteria	Firmicutes	Bacilli	Bacillales	Bacillaceae	Bacillus
+C9	0.0855	Absorbance	600	BFSC	Control	T0	0	Chamber	Soil_Wash	BFSC	Bacteria Fungi	BFSC	BFSC	BFSC	BFSC	BFSC
+C10	0.0861	Absorbance	600	BFSC	Control	T0	0	Chamber	Soil_Wash	BFSC	Bacteria Fungi	BFSC	BFSC	BFSC	BFSC	BFSC
+C11	0.0844	Absorbance	600	BFSC	Control	T0	0	Chamber	Soil_Wash	BFSC	Bacteria Fungi	BFSC	BFSC	BFSC	BFSC	BFSC
+G5	0.0859	Absorbance	600	BSC	Control	T0	0	Chamber	Soil_Wash	BSC	Bacteria	BSC	BSC	BSC	BSC	BSC
+G6	0.0871	Absorbance	600	BSC	Control	T0	0	Chamber	Soil_Wash	BSC	Bacteria	BSC	BSC	BSC	BSC	BSC
+G7	0.0861	Absorbance	600	BSC	Control	T0	0	Chamber	Soil_Wash	BSC	Bacteria	BSC	BSC	BSC	BSC	BSC
+C2	0.0835	Absorbance	600	R16	Control	T0	0	Chamber	Soil_Wash	Burkholderia sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Comamonadaceae	Methylibium
+C3	0.0837	Absorbance	600	R16	Control	T0	0	Chamber	Soil_Wash	Burkholderia sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Comamonadaceae	Methylibium
+C4	0.0841	Absorbance	600	R16	Control	T0	0	Chamber	Soil_Wash	Burkholderia sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Comamonadaceae	Methylibium
+E9	0.09	Absorbance	600	F147	Control	T0	0	Chamber	Soil_Wash	Dactylonectria macrodidyma	Fungi	Ascomycota	Ascomycota	Ascomycota	Ascomycota	Ilyonectria
+E10	0.0902	Absorbance	600	F147	Control	T0	0	Chamber	Soil_Wash	Dactylonectria macrodidyma	Fungi	Ascomycota	Ascomycota	Ascomycota	Ascomycota	Ilyonectria
+E11	0.0872	Absorbance	600	F147	Control	T0	0	Chamber	Soil_Wash	Dactylonectria macrodidyma	Fungi	Ascomycota	Ascomycota	Ascomycota	Ascomycota	Ilyonectria
+G9	0.0843	Absorbance	600	F243	Control	T0	0	Chamber	Soil_Wash	Dendryphion nanum	Fungi	Ascomycota	Dothideomycetes	Pleosporales	Pleosporaceae	Dendryphion
+G10	0.086	Absorbance	600	F243	Control	T0	0	Chamber	Soil_Wash	Dendryphion nanum	Fungi	Ascomycota	Dothideomycetes	Pleosporales	Pleosporaceae	Dendryphion
+G11	0.0839	Absorbance	600	F243	Control	T0	0	Chamber	Soil_Wash	Dendryphion nanum	Fungi	Ascomycota	Dothideomycetes	Pleosporales	Pleosporaceae	Dendryphion
+G2	0.0845	Absorbance	600	R420	Control	T0	0	Chamber	Soil_Wash	Flavobacterium sp.	Bacteria	Bacteroidetes	Flavobacteriia	Flavobacteriales	Flavobacteriaceae	Flavobacterium
+G3	0.0844	Absorbance	600	R420	Control	T0	0	Chamber	Soil_Wash	Flavobacterium sp.	Bacteria	Bacteroidetes	Flavobacteriia	Flavobacteriales	Flavobacteriaceae	Flavobacterium
+G4	0.0839	Absorbance	600	R420	Control	T0	0	Chamber	Soil_Wash	Flavobacterium sp.	Bacteria	Bacteroidetes	Flavobacteriia	Flavobacteriales	Flavobacteriaceae	Flavobacterium
+B9	0.0838	Absorbance	600	FSC	Control	T0	0	Chamber	Soil_Wash	FSC	Fungi	FSC	FSC	FSC	FSC	FSC
+B10	0.0843	Absorbance	600	FSC	Control	T0	0	Chamber	Soil_Wash	FSC	Fungi	FSC	FSC	FSC	FSC	FSC
+B11	0.0841	Absorbance	600	FSC	Control	T0	0	Chamber	Soil_Wash	FSC	Fungi	FSC	FSC	FSC	FSC	FSC
+F9	0.0847	Absorbance	600	F212	Control	T0	0	Chamber	Soil_Wash	Fusarium oxysporum	Fungi	Ascomycota	Sordariomycetes	Hypocreales	Nectriaceae	Fusarium
+F10	0.0863	Absorbance	600	F212	Control	T0	0	Chamber	Soil_Wash	Fusarium oxysporum	Fungi	Ascomycota	Sordariomycetes	Hypocreales	Nectriaceae	Fusarium
+F11	0.0845	Absorbance	600	F212	Control	T0	0	Chamber	Soil_Wash	Fusarium oxysporum	Fungi	Ascomycota	Sordariomycetes	Hypocreales	Nectriaceae	Fusarium
+F5	0.0873	Absorbance	600	R695	Control	T0	0	Chamber	Soil_Wash	Mesorhizobium sp.	Bacteria	Proteobacteria	Alphaproteobacteria	Rhizobiales	Phyllobacteriaceae	NA
+F6	0.0872	Absorbance	600	R695	Control	T0	0	Chamber	Soil_Wash	Mesorhizobium sp.	Bacteria	Proteobacteria	Alphaproteobacteria	Rhizobiales	Phyllobacteriaceae	NA
+F7	0.0868	Absorbance	600	R695	Control	T0	0	Chamber	Soil_Wash	Mesorhizobium sp.	Bacteria	Proteobacteria	Alphaproteobacteria	Rhizobiales	Phyllobacteriaceae	NA
+B8	0.0822	Absorbance	600	Mg	Control	T0	0	Chamber	Soil_Wash	Mg	Mg	Mg	Mg	Mg	Mg	Mg
+C8	0.0826	Absorbance	600	Mg	Control	T0	0	Chamber	Soil_Wash	Mg	Mg	Mg	Mg	Mg	Mg	Mg
+D8	0.0825	Absorbance	600	Mg	Control	T0	0	Chamber	Soil_Wash	Mg	Mg	Mg	Mg	Mg	Mg	Mg
+E8	0.0827	Absorbance	600	Mg	Control	T0	0	Chamber	Soil_Wash	Mg	Mg	Mg	Mg	Mg	Mg	Mg
+F8	0.0819	Absorbance	600	Mg	Control	T0	0	Chamber	Soil_Wash	Mg	Mg	Mg	Mg	Mg	Mg	Mg
+G8	0.0825	Absorbance	600	Mg	Control	T0	0	Chamber	Soil_Wash	Mg	Mg	Mg	Mg	Mg	Mg	Mg
+D9	0.0845	Absorbance	600	F16	Control	T0	0	Chamber	Soil_Wash	Plectosphaerella cucumerina	Fungi	Ascomycota	Sordariomycetes	Hypocreomycetidae	Plectosphaerellaceae	Plectosphaerella
+D10	0.0859	Absorbance	600	F16	Control	T0	0	Chamber	Soil_Wash	Plectosphaerella cucumerina	Fungi	Ascomycota	Sordariomycetes	Hypocreomycetidae	Plectosphaerellaceae	Plectosphaerella
+D11	0.0891	Absorbance	600	F16	Control	T0	0	Chamber	Soil_Wash	Plectosphaerella cucumerina	Fungi	Ascomycota	Sordariomycetes	Hypocreomycetidae	Plectosphaerellaceae	Plectosphaerella
+B2	0.0827	Absorbance	600	R09	Control	T0	0	Chamber	Soil_Wash	Pseudomonas sp. 1	Bacteria	Proteobacteria	Gammaproteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas
+B3	0.0834	Absorbance	600	R09	Control	T0	0	Chamber	Soil_Wash	Pseudomonas sp. 1	Bacteria	Proteobacteria	Gammaproteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas
+B4	0.0845	Absorbance	600	R09	Control	T0	0	Chamber	Soil_Wash	Pseudomonas sp. 1	Bacteria	Proteobacteria	Gammaproteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas
+F2	0.0853	Absorbance	600	R329	Control	T0	0	Chamber	Soil_Wash	Pseudomonas sp. 2	Bacteria	Proteobacteria	Gammaproteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas
+F3	0.0875	Absorbance	600	R329	Control	T0	0	Chamber	Soil_Wash	Pseudomonas sp. 2	Bacteria	Proteobacteria	Gammaproteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas
+F4	0.0869	Absorbance	600	R329	Control	T0	0	Chamber	Soil_Wash	Pseudomonas sp. 2	Bacteria	Proteobacteria	Gammaproteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas
+B5	0.0843	Absorbance	600	R431	Control	T0	0	Chamber	Soil_Wash	Streptomyces sp.	Bacteria	Actinobacteria	Actinobacteria	Actinomycetales	Streptomycetaceae	Streptomyces
+B6	0.0842	Absorbance	600	R431	Control	T0	0	Chamber	Soil_Wash	Streptomyces sp.	Bacteria	Actinobacteria	Actinobacteria	Actinomycetales	Streptomycetaceae	Streptomyces
+B7	0.0839	Absorbance	600	R431	Control	T0	0	Chamber	Soil_Wash	Streptomyces sp.	Bacteria	Actinobacteria	Actinobacteria	Actinomycetales	Streptomycetaceae	Streptomyces
+E2	0.0869	Absorbance	600	R318	Control	T0	0	Chamber	Soil_Wash	Variovorax sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Comamonadaceae	NA
+E3	0.0874	Absorbance	600	R318	Control	T0	0	Chamber	Soil_Wash	Variovorax sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Comamonadaceae	NA
+E4	0.0867	Absorbance	600	R318	Control	T0	0	Chamber	Soil_Wash	Variovorax sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Comamonadaceae	NA
+C5	0.0881	Absorbance	600	R565	Control	T0	0	Plates	Soil_Wash	Achromobacter sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Alcaligenaceae	NA
+C6	0.0877	Absorbance	600	R565	Control	T0	0	Plates	Soil_Wash	Achromobacter sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Alcaligenaceae	NA
+C7	0.088	Absorbance	600	R565	Control	T0	0	Plates	Soil_Wash	Achromobacter sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Alcaligenaceae	NA
+D5	0.0891	Absorbance	600	R568	Control	T0	0	Plates	Soil_Wash	Acidovorax sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Comamonadaceae	NA
+D6	0.0892	Absorbance	600	R568	Control	T0	0	Plates	Soil_Wash	Acidovorax sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Comamonadaceae	NA
+D7	0.0902	Absorbance	600	R568	Control	T0	0	Plates	Soil_Wash	Acidovorax sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Comamonadaceae	NA
+E5	0.0867	Absorbance	600	R651	Control	T0	0	Plates	Soil_Wash	Agrobacterium sp.	Bacteria	Proteobacteria	Alphaproteobacteria	Rhizobiales	Rhizobiaceae	Agrobacterium
+E6	0.086	Absorbance	600	R651	Control	T0	0	Plates	Soil_Wash	Agrobacterium sp.	Bacteria	Proteobacteria	Alphaproteobacteria	Rhizobiales	Rhizobiaceae	Agrobacterium
+E7	0.0866	Absorbance	600	R651	Control	T0	0	Plates	Soil_Wash	Agrobacterium sp.	Bacteria	Proteobacteria	Alphaproteobacteria	Rhizobiales	Rhizobiaceae	Agrobacterium
+D2	0.0862	Absorbance	600	R147	Control	T0	0	Plates	Soil_Wash	Bacillus sp.	Bacteria	Firmicutes	Bacilli	Bacillales	Bacillaceae	Bacillus
+D3	0.0866	Absorbance	600	R147	Control	T0	0	Plates	Soil_Wash	Bacillus sp.	Bacteria	Firmicutes	Bacilli	Bacillales	Bacillaceae	Bacillus
+D4	0.0865	Absorbance	600	R147	Control	T0	0	Plates	Soil_Wash	Bacillus sp.	Bacteria	Firmicutes	Bacilli	Bacillales	Bacillaceae	Bacillus
+C9	0.0855	Absorbance	600	BFSC	Control	T0	0	Plates	Soil_Wash	BFSC	Bacteria Fungi	BFSC	BFSC	BFSC	BFSC	BFSC
+C10	0.0861	Absorbance	600	BFSC	Control	T0	0	Plates	Soil_Wash	BFSC	Bacteria Fungi	BFSC	BFSC	BFSC	BFSC	BFSC
+C11	0.0844	Absorbance	600	BFSC	Control	T0	0	Plates	Soil_Wash	BFSC	Bacteria Fungi	BFSC	BFSC	BFSC	BFSC	BFSC
+G5	0.0859	Absorbance	600	BSC	Control	T0	0	Plates	Soil_Wash	BSC	Bacteria	BSC	BSC	BSC	BSC	BSC
+G6	0.0871	Absorbance	600	BSC	Control	T0	0	Plates	Soil_Wash	BSC	Bacteria	BSC	BSC	BSC	BSC	BSC
+G7	0.0861	Absorbance	600	BSC	Control	T0	0	Plates	Soil_Wash	BSC	Bacteria	BSC	BSC	BSC	BSC	BSC
+C2	0.0835	Absorbance	600	R16	Control	T0	0	Plates	Soil_Wash	Burkholderia sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Comamonadaceae	Methylibium
+C3	0.0837	Absorbance	600	R16	Control	T0	0	Plates	Soil_Wash	Burkholderia sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Comamonadaceae	Methylibium
+C4	0.0841	Absorbance	600	R16	Control	T0	0	Plates	Soil_Wash	Burkholderia sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Comamonadaceae	Methylibium
+E9	0.09	Absorbance	600	F147	Control	T0	0	Plates	Soil_Wash	Dactylonectria macrodidyma	Fungi	Ascomycota	Ascomycota	Ascomycota	Ascomycota	Ilyonectria
+E10	0.0902	Absorbance	600	F147	Control	T0	0	Plates	Soil_Wash	Dactylonectria macrodidyma	Fungi	Ascomycota	Ascomycota	Ascomycota	Ascomycota	Ilyonectria
+E11	0.0872	Absorbance	600	F147	Control	T0	0	Plates	Soil_Wash	Dactylonectria macrodidyma	Fungi	Ascomycota	Ascomycota	Ascomycota	Ascomycota	Ilyonectria
+G9	0.0843	Absorbance	600	F243	Control	T0	0	Plates	Soil_Wash	Dendryphion nanum	Fungi	Ascomycota	Dothideomycetes	Pleosporales	Pleosporaceae	Dendryphion
+G10	0.086	Absorbance	600	F243	Control	T0	0	Plates	Soil_Wash	Dendryphion nanum	Fungi	Ascomycota	Dothideomycetes	Pleosporales	Pleosporaceae	Dendryphion
+G11	0.0839	Absorbance	600	F243	Control	T0	0	Plates	Soil_Wash	Dendryphion nanum	Fungi	Ascomycota	Dothideomycetes	Pleosporales	Pleosporaceae	Dendryphion
+G2	0.0845	Absorbance	600	R420	Control	T0	0	Plates	Soil_Wash	Flavobacterium sp.	Bacteria	Bacteroidetes	Flavobacteriia	Flavobacteriales	Flavobacteriaceae	Flavobacterium
+G3	0.0844	Absorbance	600	R420	Control	T0	0	Plates	Soil_Wash	Flavobacterium sp.	Bacteria	Bacteroidetes	Flavobacteriia	Flavobacteriales	Flavobacteriaceae	Flavobacterium
+G4	0.0839	Absorbance	600	R420	Control	T0	0	Plates	Soil_Wash	Flavobacterium sp.	Bacteria	Bacteroidetes	Flavobacteriia	Flavobacteriales	Flavobacteriaceae	Flavobacterium
+B9	0.0838	Absorbance	600	FSC	Control	T0	0	Plates	Soil_Wash	FSC	Fungi	FSC	FSC	FSC	FSC	FSC
+B10	0.0843	Absorbance	600	FSC	Control	T0	0	Plates	Soil_Wash	FSC	Fungi	FSC	FSC	FSC	FSC	FSC
+B11	0.0841	Absorbance	600	FSC	Control	T0	0	Plates	Soil_Wash	FSC	Fungi	FSC	FSC	FSC	FSC	FSC
+F9	0.0847	Absorbance	600	F212	Control	T0	0	Plates	Soil_Wash	Fusarium oxysporum	Fungi	Ascomycota	Sordariomycetes	Hypocreales	Nectriaceae	Fusarium
+F10	0.0863	Absorbance	600	F212	Control	T0	0	Plates	Soil_Wash	Fusarium oxysporum	Fungi	Ascomycota	Sordariomycetes	Hypocreales	Nectriaceae	Fusarium
+F11	0.0845	Absorbance	600	F212	Control	T0	0	Plates	Soil_Wash	Fusarium oxysporum	Fungi	Ascomycota	Sordariomycetes	Hypocreales	Nectriaceae	Fusarium
+F5	0.0873	Absorbance	600	R695	Control	T0	0	Plates	Soil_Wash	Mesorhizobium sp.	Bacteria	Proteobacteria	Alphaproteobacteria	Rhizobiales	Phyllobacteriaceae	NA
+F6	0.0872	Absorbance	600	R695	Control	T0	0	Plates	Soil_Wash	Mesorhizobium sp.	Bacteria	Proteobacteria	Alphaproteobacteria	Rhizobiales	Phyllobacteriaceae	NA
+F7	0.0868	Absorbance	600	R695	Control	T0	0	Plates	Soil_Wash	Mesorhizobium sp.	Bacteria	Proteobacteria	Alphaproteobacteria	Rhizobiales	Phyllobacteriaceae	NA
+B8	0.0822	Absorbance	600	Mg	Control	T0	0	Plates	Soil_Wash	Mg	Mg	Mg	Mg	Mg	Mg	Mg
+C8	0.0826	Absorbance	600	Mg	Control	T0	0	Plates	Soil_Wash	Mg	Mg	Mg	Mg	Mg	Mg	Mg
+D8	0.0825	Absorbance	600	Mg	Control	T0	0	Plates	Soil_Wash	Mg	Mg	Mg	Mg	Mg	Mg	Mg
+E8	0.0827	Absorbance	600	Mg	Control	T0	0	Plates	Soil_Wash	Mg	Mg	Mg	Mg	Mg	Mg	Mg
+F8	0.0819	Absorbance	600	Mg	Control	T0	0	Plates	Soil_Wash	Mg	Mg	Mg	Mg	Mg	Mg	Mg
+G8	0.0825	Absorbance	600	Mg	Control	T0	0	Plates	Soil_Wash	Mg	Mg	Mg	Mg	Mg	Mg	Mg
+D9	0.0845	Absorbance	600	F16	Control	T0	0	Plates	Soil_Wash	Plectosphaerella cucumerina	Fungi	Ascomycota	Sordariomycetes	Hypocreomycetidae	Plectosphaerellaceae	Plectosphaerella
+D10	0.0859	Absorbance	600	F16	Control	T0	0	Plates	Soil_Wash	Plectosphaerella cucumerina	Fungi	Ascomycota	Sordariomycetes	Hypocreomycetidae	Plectosphaerellaceae	Plectosphaerella
+D11	0.0891	Absorbance	600	F16	Control	T0	0	Plates	Soil_Wash	Plectosphaerella cucumerina	Fungi	Ascomycota	Sordariomycetes	Hypocreomycetidae	Plectosphaerellaceae	Plectosphaerella
+B2	0.0827	Absorbance	600	R09	Control	T0	0	Plates	Soil_Wash	Pseudomonas sp. 1	Bacteria	Proteobacteria	Gammaproteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas
+B3	0.0834	Absorbance	600	R09	Control	T0	0	Plates	Soil_Wash	Pseudomonas sp. 1	Bacteria	Proteobacteria	Gammaproteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas
+B4	0.0845	Absorbance	600	R09	Control	T0	0	Plates	Soil_Wash	Pseudomonas sp. 1	Bacteria	Proteobacteria	Gammaproteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas
+F2	0.0853	Absorbance	600	R329	Control	T0	0	Plates	Soil_Wash	Pseudomonas sp. 2	Bacteria	Proteobacteria	Gammaproteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas
+F3	0.0875	Absorbance	600	R329	Control	T0	0	Plates	Soil_Wash	Pseudomonas sp. 2	Bacteria	Proteobacteria	Gammaproteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas
+F4	0.0869	Absorbance	600	R329	Control	T0	0	Plates	Soil_Wash	Pseudomonas sp. 2	Bacteria	Proteobacteria	Gammaproteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas
+B5	0.0843	Absorbance	600	R431	Control	T0	0	Plates	Soil_Wash	Streptomyces sp.	Bacteria	Actinobacteria	Actinobacteria	Actinomycetales	Streptomycetaceae	Streptomyces
+B6	0.0842	Absorbance	600	R431	Control	T0	0	Plates	Soil_Wash	Streptomyces sp.	Bacteria	Actinobacteria	Actinobacteria	Actinomycetales	Streptomycetaceae	Streptomyces
+B7	0.0839	Absorbance	600	R431	Control	T0	0	Plates	Soil_Wash	Streptomyces sp.	Bacteria	Actinobacteria	Actinobacteria	Actinomycetales	Streptomycetaceae	Streptomyces
+E2	0.0869	Absorbance	600	R318	Control	T0	0	Plates	Soil_Wash	Variovorax sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Comamonadaceae	NA
+E3	0.0874	Absorbance	600	R318	Control	T0	0	Plates	Soil_Wash	Variovorax sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Comamonadaceae	NA
+E4	0.0867	Absorbance	600	R318	Control	T0	0	Plates	Soil_Wash	Variovorax sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Comamonadaceae	NA
+C5	0.237	Absorbance	600	R565	Control	T72	72	Chamber	Soil_Wash	Achromobacter sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Alcaligenaceae	NA
+C6	0.331	Absorbance	600	R565	Control	T72	72	Chamber	Soil_Wash	Achromobacter sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Alcaligenaceae	NA
+C7	0.392	Absorbance	600	R565	Control	T72	72	Chamber	Soil_Wash	Achromobacter sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Alcaligenaceae	NA
+D5	0.151	Absorbance	600	R568	Control	T72	72	Chamber	Soil_Wash	Acidovorax sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Comamonadaceae	NA
+D6	0.223	Absorbance	600	R568	Control	T72	72	Chamber	Soil_Wash	Acidovorax sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Comamonadaceae	NA
+D7	0.298	Absorbance	600	R568	Control	T72	72	Chamber	Soil_Wash	Acidovorax sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Comamonadaceae	NA
+E5	0.32	Absorbance	600	R651	Control	T72	72	Chamber	Soil_Wash	Agrobacterium sp.	Bacteria	Proteobacteria	Alphaproteobacteria	Rhizobiales	Rhizobiaceae	Agrobacterium
+E6	0.235	Absorbance	600	R651	Control	T72	72	Chamber	Soil_Wash	Agrobacterium sp.	Bacteria	Proteobacteria	Alphaproteobacteria	Rhizobiales	Rhizobiaceae	Agrobacterium
+E7	0.366	Absorbance	600	R651	Control	T72	72	Chamber	Soil_Wash	Agrobacterium sp.	Bacteria	Proteobacteria	Alphaproteobacteria	Rhizobiales	Rhizobiaceae	Agrobacterium
+D2	0.234	Absorbance	600	R147	Control	T72	72	Chamber	Soil_Wash	Bacillus sp.	Bacteria	Firmicutes	Bacilli	Bacillales	Bacillaceae	Bacillus
+D3	0.329	Absorbance	600	R147	Control	T72	72	Chamber	Soil_Wash	Bacillus sp.	Bacteria	Firmicutes	Bacilli	Bacillales	Bacillaceae	Bacillus
+D4	0.43	Absorbance	600	R147	Control	T72	72	Chamber	Soil_Wash	Bacillus sp.	Bacteria	Firmicutes	Bacilli	Bacillales	Bacillaceae	Bacillus
+C9	0.577	Absorbance	600	BFSC	Control	T72	72	Chamber	Soil_Wash	BFSC	Bacteria Fungi	BFSC	BFSC	BFSC	BFSC	BFSC
+C10	0.419	Absorbance	600	BFSC	Control	T72	72	Chamber	Soil_Wash	BFSC	Bacteria Fungi	BFSC	BFSC	BFSC	BFSC	BFSC
+C11	0.531	Absorbance	600	BFSC	Control	T72	72	Chamber	Soil_Wash	BFSC	Bacteria Fungi	BFSC	BFSC	BFSC	BFSC	BFSC
+G5	0.54	Absorbance	600	BSC	Control	T72	72	Chamber	Soil_Wash	BSC	Bacteria	BSC	BSC	BSC	BSC	BSC
+G6	0.438	Absorbance	600	BSC	Control	T72	72	Chamber	Soil_Wash	BSC	Bacteria	BSC	BSC	BSC	BSC	BSC
+G7	0.476	Absorbance	600	BSC	Control	T72	72	Chamber	Soil_Wash	BSC	Bacteria	BSC	BSC	BSC	BSC	BSC
+C2	0.198	Absorbance	600	R16	Control	T72	72	Chamber	Soil_Wash	Burkholderia sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Comamonadaceae	Methylibium
+C3	0.186	Absorbance	600	R16	Control	T72	72	Chamber	Soil_Wash	Burkholderia sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Comamonadaceae	Methylibium
+C4	0.189	Absorbance	600	R16	Control	T72	72	Chamber	Soil_Wash	Burkholderia sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Comamonadaceae	Methylibium
+E9	0.233	Absorbance	600	F147	Control	T72	72	Chamber	Soil_Wash	Dactylonectria macrodidyma	Fungi	Ascomycota	Ascomycota	Ascomycota	Ascomycota	Ilyonectria
+E10	0.149	Absorbance	600	F147	Control	T72	72	Chamber	Soil_Wash	Dactylonectria macrodidyma	Fungi	Ascomycota	Ascomycota	Ascomycota	Ascomycota	Ilyonectria
+E11	0.171	Absorbance	600	F147	Control	T72	72	Chamber	Soil_Wash	Dactylonectria macrodidyma	Fungi	Ascomycota	Ascomycota	Ascomycota	Ascomycota	Ilyonectria
+G9	0.123	Absorbance	600	F243	Control	T72	72	Chamber	Soil_Wash	Dendryphion nanum	Fungi	Ascomycota	Dothideomycetes	Pleosporales	Pleosporaceae	Dendryphion
+G10	0.154	Absorbance	600	F243	Control	T72	72	Chamber	Soil_Wash	Dendryphion nanum	Fungi	Ascomycota	Dothideomycetes	Pleosporales	Pleosporaceae	Dendryphion
+G11	0.145	Absorbance	600	F243	Control	T72	72	Chamber	Soil_Wash	Dendryphion nanum	Fungi	Ascomycota	Dothideomycetes	Pleosporales	Pleosporaceae	Dendryphion
+G2	0.156	Absorbance	600	R420	Control	T72	72	Chamber	Soil_Wash	Flavobacterium sp.	Bacteria	Bacteroidetes	Flavobacteriia	Flavobacteriales	Flavobacteriaceae	Flavobacterium
+G3	0.147	Absorbance	600	R420	Control	T72	72	Chamber	Soil_Wash	Flavobacterium sp.	Bacteria	Bacteroidetes	Flavobacteriia	Flavobacteriales	Flavobacteriaceae	Flavobacterium
+G4	0.132	Absorbance	600	R420	Control	T72	72	Chamber	Soil_Wash	Flavobacterium sp.	Bacteria	Bacteroidetes	Flavobacteriia	Flavobacteriales	Flavobacteriaceae	Flavobacterium
+B9	0.651	Absorbance	600	FSC	Control	T72	72	Chamber	Soil_Wash	FSC	Fungi	FSC	FSC	FSC	FSC	FSC
+B10	0.44	Absorbance	600	FSC	Control	T72	72	Chamber	Soil_Wash	FSC	Fungi	FSC	FSC	FSC	FSC	FSC
+B11	0.576	Absorbance	600	FSC	Control	T72	72	Chamber	Soil_Wash	FSC	Fungi	FSC	FSC	FSC	FSC	FSC
+F9	0.311	Absorbance	600	F212	Control	T72	72	Chamber	Soil_Wash	Fusarium oxysporum	Fungi	Ascomycota	Sordariomycetes	Hypocreales	Nectriaceae	Fusarium
+F10	0.554	Absorbance	600	F212	Control	T72	72	Chamber	Soil_Wash	Fusarium oxysporum	Fungi	Ascomycota	Sordariomycetes	Hypocreales	Nectriaceae	Fusarium
+F11	0.451	Absorbance	600	F212	Control	T72	72	Chamber	Soil_Wash	Fusarium oxysporum	Fungi	Ascomycota	Sordariomycetes	Hypocreales	Nectriaceae	Fusarium
+F5	0.075	Absorbance	600	R695	Control	T72	72	Chamber	Soil_Wash	Mesorhizobium sp.	Bacteria	Proteobacteria	Alphaproteobacteria	Rhizobiales	Phyllobacteriaceae	NA
+F6	0.084	Absorbance	600	R695	Control	T72	72	Chamber	Soil_Wash	Mesorhizobium sp.	Bacteria	Proteobacteria	Alphaproteobacteria	Rhizobiales	Phyllobacteriaceae	NA
+F7	0.192	Absorbance	600	R695	Control	T72	72	Chamber	Soil_Wash	Mesorhizobium sp.	Bacteria	Proteobacteria	Alphaproteobacteria	Rhizobiales	Phyllobacteriaceae	NA
+B8	0.0857	Absorbance	600	Mg	Control	T72	72	Chamber	Soil_Wash	Mg	Mg	Mg	Mg	Mg	Mg	Mg
+C8	0.0834	Absorbance	600	Mg	Control	T72	72	Chamber	Soil_Wash	Mg	Mg	Mg	Mg	Mg	Mg	Mg
+D8	0.0843	Absorbance	600	Mg	Control	T72	72	Chamber	Soil_Wash	Mg	Mg	Mg	Mg	Mg	Mg	Mg
+E8	0.0847	Absorbance	600	Mg	Control	T72	72	Chamber	Soil_Wash	Mg	Mg	Mg	Mg	Mg	Mg	Mg
+F8	0.0867	Absorbance	600	Mg	Control	T72	72	Chamber	Soil_Wash	Mg	Mg	Mg	Mg	Mg	Mg	Mg
+G8	0.0854	Absorbance	600	Mg	Control	T72	72	Chamber	Soil_Wash	Mg	Mg	Mg	Mg	Mg	Mg	Mg
+D9	0.556	Absorbance	600	F16	Control	T72	72	Chamber	Soil_Wash	Plectosphaerella cucumerina	Fungi	Ascomycota	Sordariomycetes	Hypocreomycetidae	Plectosphaerellaceae	Plectosphaerella
+D10	0.545	Absorbance	600	F16	Control	T72	72	Chamber	Soil_Wash	Plectosphaerella cucumerina	Fungi	Ascomycota	Sordariomycetes	Hypocreomycetidae	Plectosphaerellaceae	Plectosphaerella
+D11	0.379	Absorbance	600	F16	Control	T72	72	Chamber	Soil_Wash	Plectosphaerella cucumerina	Fungi	Ascomycota	Sordariomycetes	Hypocreomycetidae	Plectosphaerellaceae	Plectosphaerella
+B2	0.407	Absorbance	600	R09	Control	T72	72	Chamber	Soil_Wash	Pseudomonas sp. 1	Bacteria	Proteobacteria	Gammaproteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas
+B3	0.498	Absorbance	600	R09	Control	T72	72	Chamber	Soil_Wash	Pseudomonas sp. 1	Bacteria	Proteobacteria	Gammaproteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas
+B4	0.475	Absorbance	600	R09	Control	T72	72	Chamber	Soil_Wash	Pseudomonas sp. 1	Bacteria	Proteobacteria	Gammaproteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas
+F2	0.434	Absorbance	600	R329	Control	T72	72	Chamber	Soil_Wash	Pseudomonas sp. 2	Bacteria	Proteobacteria	Gammaproteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas
+F3	0.404	Absorbance	600	R329	Control	T72	72	Chamber	Soil_Wash	Pseudomonas sp. 2	Bacteria	Proteobacteria	Gammaproteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas
+F4	0.546	Absorbance	600	R329	Control	T72	72	Chamber	Soil_Wash	Pseudomonas sp. 2	Bacteria	Proteobacteria	Gammaproteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas
+B5	0.101	Absorbance	600	R431	Control	T72	72	Chamber	Soil_Wash	Streptomyces sp.	Bacteria	Actinobacteria	Actinobacteria	Actinomycetales	Streptomycetaceae	Streptomyces
+B6	0.056	Absorbance	600	R431	Control	T72	72	Chamber	Soil_Wash	Streptomyces sp.	Bacteria	Actinobacteria	Actinobacteria	Actinomycetales	Streptomycetaceae	Streptomyces
+B7	0.089	Absorbance	600	R431	Control	T72	72	Chamber	Soil_Wash	Streptomyces sp.	Bacteria	Actinobacteria	Actinobacteria	Actinomycetales	Streptomycetaceae	Streptomyces
+E2	0.456	Absorbance	600	R318	Control	T72	72	Chamber	Soil_Wash	Variovorax sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Comamonadaceae	NA
+E3	0.448	Absorbance	600	R318	Control	T72	72	Chamber	Soil_Wash	Variovorax sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Comamonadaceae	NA
+E4	0.288	Absorbance	600	R318	Control	T72	72	Chamber	Soil_Wash	Variovorax sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Comamonadaceae	NA
+C5	0.1214	Absorbance	600	R565	Control	T72	72	Plates	Soil_Wash	Achromobacter sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Alcaligenaceae	NA
+C6	0.1201	Absorbance	600	R565	Control	T72	72	Plates	Soil_Wash	Achromobacter sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Alcaligenaceae	NA
+C7	0.1212	Absorbance	600	R565	Control	T72	72	Plates	Soil_Wash	Achromobacter sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Alcaligenaceae	NA
+D5	0.1006	Absorbance	600	R568	Control	T72	72	Plates	Soil_Wash	Acidovorax sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Comamonadaceae	NA
+D6	0.103	Absorbance	600	R568	Control	T72	72	Plates	Soil_Wash	Acidovorax sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Comamonadaceae	NA
+D7	0.104	Absorbance	600	R568	Control	T72	72	Plates	Soil_Wash	Acidovorax sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Comamonadaceae	NA
+E5	0.1028	Absorbance	600	R651	Control	T72	72	Plates	Soil_Wash	Agrobacterium sp.	Bacteria	Proteobacteria	Alphaproteobacteria	Rhizobiales	Rhizobiaceae	Agrobacterium
+E6	0.0983	Absorbance	600	R651	Control	T72	72	Plates	Soil_Wash	Agrobacterium sp.	Bacteria	Proteobacteria	Alphaproteobacteria	Rhizobiales	Rhizobiaceae	Agrobacterium
+E7	0.1011	Absorbance	600	R651	Control	T72	72	Plates	Soil_Wash	Agrobacterium sp.	Bacteria	Proteobacteria	Alphaproteobacteria	Rhizobiales	Rhizobiaceae	Agrobacterium
+D2	0.1279	Absorbance	600	R147	Control	T72	72	Plates	Soil_Wash	Bacillus sp.	Bacteria	Firmicutes	Bacilli	Bacillales	Bacillaceae	Bacillus
+D3	0.1282	Absorbance	600	R147	Control	T72	72	Plates	Soil_Wash	Bacillus sp.	Bacteria	Firmicutes	Bacilli	Bacillales	Bacillaceae	Bacillus
+D4	0.1288	Absorbance	600	R147	Control	T72	72	Plates	Soil_Wash	Bacillus sp.	Bacteria	Firmicutes	Bacilli	Bacillales	Bacillaceae	Bacillus
+C9	0.1194	Absorbance	600	BFSC	Control	T72	72	Plates	Soil_Wash	BFSC	Bacteria Fungi	BFSC	BFSC	BFSC	BFSC	BFSC
+C10	0.1157	Absorbance	600	BFSC	Control	T72	72	Plates	Soil_Wash	BFSC	Bacteria Fungi	BFSC	BFSC	BFSC	BFSC	BFSC
+C11	0.1176	Absorbance	600	BFSC	Control	T72	72	Plates	Soil_Wash	BFSC	Bacteria Fungi	BFSC	BFSC	BFSC	BFSC	BFSC
+G5	0.1232	Absorbance	600	BSC	Control	T72	72	Plates	Soil_Wash	BSC	Bacteria	BSC	BSC	BSC	BSC	BSC
+G6	0.1173	Absorbance	600	BSC	Control	T72	72	Plates	Soil_Wash	BSC	Bacteria	BSC	BSC	BSC	BSC	BSC
+G7	0.1144	Absorbance	600	BSC	Control	T72	72	Plates	Soil_Wash	BSC	Bacteria	BSC	BSC	BSC	BSC	BSC
+C2	0.0877	Absorbance	600	R16	Control	T72	72	Plates	Soil_Wash	Burkholderia sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Comamonadaceae	Methylibium
+C3	0.0904	Absorbance	600	R16	Control	T72	72	Plates	Soil_Wash	Burkholderia sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Comamonadaceae	Methylibium
+C4	0.0942	Absorbance	600	R16	Control	T72	72	Plates	Soil_Wash	Burkholderia sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Comamonadaceae	Methylibium
+E9	0.1016	Absorbance	600	F147	Control	T72	72	Plates	Soil_Wash	Dactylonectria macrodidyma	Fungi	Ascomycota	Ascomycota	Ascomycota	Ascomycota	Ilyonectria
+E10	0.1091	Absorbance	600	F147	Control	T72	72	Plates	Soil_Wash	Dactylonectria macrodidyma	Fungi	Ascomycota	Ascomycota	Ascomycota	Ascomycota	Ilyonectria
+E11	0.0994	Absorbance	600	F147	Control	T72	72	Plates	Soil_Wash	Dactylonectria macrodidyma	Fungi	Ascomycota	Ascomycota	Ascomycota	Ascomycota	Ilyonectria
+G9	0.0906	Absorbance	600	F243	Control	T72	72	Plates	Soil_Wash	Dendryphion nanum	Fungi	Ascomycota	Dothideomycetes	Pleosporales	Pleosporaceae	Dendryphion
+G10	0.0915	Absorbance	600	F243	Control	T72	72	Plates	Soil_Wash	Dendryphion nanum	Fungi	Ascomycota	Dothideomycetes	Pleosporales	Pleosporaceae	Dendryphion
+G11	0.0901	Absorbance	600	F243	Control	T72	72	Plates	Soil_Wash	Dendryphion nanum	Fungi	Ascomycota	Dothideomycetes	Pleosporales	Pleosporaceae	Dendryphion
+G2	0.0893	Absorbance	600	R420	Control	T72	72	Plates	Soil_Wash	Flavobacterium sp.	Bacteria	Bacteroidetes	Flavobacteriia	Flavobacteriales	Flavobacteriaceae	Flavobacterium
+G3	0.0926	Absorbance	600	R420	Control	T72	72	Plates	Soil_Wash	Flavobacterium sp.	Bacteria	Bacteroidetes	Flavobacteriia	Flavobacteriales	Flavobacteriaceae	Flavobacterium
+G4	0.0945	Absorbance	600	R420	Control	T72	72	Plates	Soil_Wash	Flavobacterium sp.	Bacteria	Bacteroidetes	Flavobacteriia	Flavobacteriales	Flavobacteriaceae	Flavobacterium
+B9	0.0946	Absorbance	600	FSC	Control	T72	72	Plates	Soil_Wash	FSC	Fungi	FSC	FSC	FSC	FSC	FSC
+B10	0.1019	Absorbance	600	FSC	Control	T72	72	Plates	Soil_Wash	FSC	Fungi	FSC	FSC	FSC	FSC	FSC
+B11	0.0924	Absorbance	600	FSC	Control	T72	72	Plates	Soil_Wash	FSC	Fungi	FSC	FSC	FSC	FSC	FSC
+F9	0.0927	Absorbance	600	F212	Control	T72	72	Plates	Soil_Wash	Fusarium oxysporum	Fungi	Ascomycota	Sordariomycetes	Hypocreales	Nectriaceae	Fusarium
+F10	0.0959	Absorbance	600	F212	Control	T72	72	Plates	Soil_Wash	Fusarium oxysporum	Fungi	Ascomycota	Sordariomycetes	Hypocreales	Nectriaceae	Fusarium
+F11	0.0946	Absorbance	600	F212	Control	T72	72	Plates	Soil_Wash	Fusarium oxysporum	Fungi	Ascomycota	Sordariomycetes	Hypocreales	Nectriaceae	Fusarium
+F5	0.1184	Absorbance	600	R695	Control	T72	72	Plates	Soil_Wash	Mesorhizobium sp.	Bacteria	Proteobacteria	Alphaproteobacteria	Rhizobiales	Phyllobacteriaceae	NA
+F6	0.1147	Absorbance	600	R695	Control	T72	72	Plates	Soil_Wash	Mesorhizobium sp.	Bacteria	Proteobacteria	Alphaproteobacteria	Rhizobiales	Phyllobacteriaceae	NA
+F7	0.1166	Absorbance	600	R695	Control	T72	72	Plates	Soil_Wash	Mesorhizobium sp.	Bacteria	Proteobacteria	Alphaproteobacteria	Rhizobiales	Phyllobacteriaceae	NA
+B8	0.0854	Absorbance	600	Mg	Control	T72	72	Plates	Soil_Wash	Mg	Mg	Mg	Mg	Mg	Mg	Mg
+C8	0.0857	Absorbance	600	Mg	Control	T72	72	Plates	Soil_Wash	Mg	Mg	Mg	Mg	Mg	Mg	Mg
+D8	0.0858	Absorbance	600	Mg	Control	T72	72	Plates	Soil_Wash	Mg	Mg	Mg	Mg	Mg	Mg	Mg
+E8	0.087	Absorbance	600	Mg	Control	T72	72	Plates	Soil_Wash	Mg	Mg	Mg	Mg	Mg	Mg	Mg
+F8	0.0869	Absorbance	600	Mg	Control	T72	72	Plates	Soil_Wash	Mg	Mg	Mg	Mg	Mg	Mg	Mg
+G8	0.0864	Absorbance	600	Mg	Control	T72	72	Plates	Soil_Wash	Mg	Mg	Mg	Mg	Mg	Mg	Mg
+D9	0.0951	Absorbance	600	F16	Control	T72	72	Plates	Soil_Wash	Plectosphaerella cucumerina	Fungi	Ascomycota	Sordariomycetes	Hypocreomycetidae	Plectosphaerellaceae	Plectosphaerella
+D10	0.096	Absorbance	600	F16	Control	T72	72	Plates	Soil_Wash	Plectosphaerella cucumerina	Fungi	Ascomycota	Sordariomycetes	Hypocreomycetidae	Plectosphaerellaceae	Plectosphaerella
+D11	0.1002	Absorbance	600	F16	Control	T72	72	Plates	Soil_Wash	Plectosphaerella cucumerina	Fungi	Ascomycota	Sordariomycetes	Hypocreomycetidae	Plectosphaerellaceae	Plectosphaerella
+B2	0.0928	Absorbance	600	R09	Control	T72	72	Plates	Soil_Wash	Pseudomonas sp. 1	Bacteria	Proteobacteria	Gammaproteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas
+B3	0.0955	Absorbance	600	R09	Control	T72	72	Plates	Soil_Wash	Pseudomonas sp. 1	Bacteria	Proteobacteria	Gammaproteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas
+B4	0.0972	Absorbance	600	R09	Control	T72	72	Plates	Soil_Wash	Pseudomonas sp. 1	Bacteria	Proteobacteria	Gammaproteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas
+F2	0.0914	Absorbance	600	R329	Control	T72	72	Plates	Soil_Wash	Pseudomonas sp. 2	Bacteria	Proteobacteria	Gammaproteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas
+F3	0.0927	Absorbance	600	R329	Control	T72	72	Plates	Soil_Wash	Pseudomonas sp. 2	Bacteria	Proteobacteria	Gammaproteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas
+F4	0.0981	Absorbance	600	R329	Control	T72	72	Plates	Soil_Wash	Pseudomonas sp. 2	Bacteria	Proteobacteria	Gammaproteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas
+B5	0.0888	Absorbance	600	R431	Control	T72	72	Plates	Soil_Wash	Streptomyces sp.	Bacteria	Actinobacteria	Actinobacteria	Actinomycetales	Streptomycetaceae	Streptomyces
+B6	0.0886	Absorbance	600	R431	Control	T72	72	Plates	Soil_Wash	Streptomyces sp.	Bacteria	Actinobacteria	Actinobacteria	Actinomycetales	Streptomycetaceae	Streptomyces
+B7	0.0874	Absorbance	600	R431	Control	T72	72	Plates	Soil_Wash	Streptomyces sp.	Bacteria	Actinobacteria	Actinobacteria	Actinomycetales	Streptomycetaceae	Streptomyces
+E2	0.0898	Absorbance	600	R318	Control	T72	72	Plates	Soil_Wash	Variovorax sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Comamonadaceae	NA
+E3	0.0918	Absorbance	600	R318	Control	T72	72	Plates	Soil_Wash	Variovorax sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Comamonadaceae	NA
+E4	0.0946	Absorbance	600	R318	Control	T72	72	Plates	Soil_Wash	Variovorax sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Comamonadaceae	NA
+A1	0.242	Absorbance	600	R565	Control	T72	72	Chamber	Soil_Wash	Achromobacter sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Alcaligenaceae	NA
+A2	0.296	Absorbance	600	R565	Control	T72	72	Chamber	Soil_Wash	Achromobacter sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Alcaligenaceae	NA
+A3	0.357	Absorbance	600	R565	Control	T72	72	Chamber	Soil_Wash	Achromobacter sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Alcaligenaceae	NA
+A4	0.11	Absorbance	600	R568	Control	T72	72	Chamber	Soil_Wash	Acidovorax sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Comamonadaceae	NA
+A5	0.153	Absorbance	600	R568	Control	T72	72	Chamber	Soil_Wash	Acidovorax sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Comamonadaceae	NA
+A6	0.214	Absorbance	600	R568	Control	T72	72	Chamber	Soil_Wash	Acidovorax sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Comamonadaceae	NA
+A7	0.249	Absorbance	600	R651	Control	T72	72	Chamber	Soil_Wash	Agrobacterium sp.	Bacteria	Proteobacteria	Alphaproteobacteria	Rhizobiales	Rhizobiaceae	Agrobacterium
+A8	0.241	Absorbance	600	R651	Control	T72	72	Chamber	Soil_Wash	Agrobacterium sp.	Bacteria	Proteobacteria	Alphaproteobacteria	Rhizobiales	Rhizobiaceae	Agrobacterium
+A9	0.375	Absorbance	600	R651	Control	T72	72	Chamber	Soil_Wash	Agrobacterium sp.	Bacteria	Proteobacteria	Alphaproteobacteria	Rhizobiales	Rhizobiaceae	Agrobacterium
+A10	0.372	Absorbance	600	R147	Control	T72	72	Chamber	Soil_Wash	Bacillus sp.	Bacteria	Firmicutes	Bacilli	Bacillales	Bacillaceae	Bacillus
+A11	0.204	Absorbance	600	R147	Control	T72	72	Chamber	Soil_Wash	Bacillus sp.	Bacteria	Firmicutes	Bacilli	Bacillales	Bacillaceae	Bacillus
+A12	0.329	Absorbance	600	R147	Control	T72	72	Chamber	Soil_Wash	Bacillus sp.	Bacteria	Firmicutes	Bacilli	Bacillales	Bacillaceae	Bacillus
+B1	0.553	Absorbance	600	BFSC	Control	T72	72	Chamber	Soil_Wash	BFSC	Bacteria Fungi	BFSC	BFSC	BFSC	BFSC	BFSC
+B2	0.392	Absorbance	600	BFSC	Control	T72	72	Chamber	Soil_Wash	BFSC	Bacteria Fungi	BFSC	BFSC	BFSC	BFSC	BFSC
+B3	0.475	Absorbance	600	BFSC	Control	T72	72	Chamber	Soil_Wash	BFSC	Bacteria Fungi	BFSC	BFSC	BFSC	BFSC	BFSC
+B4	0.624	Absorbance	600	BSC	Control	T72	72	Chamber	Soil_Wash	BSC	Bacteria	BSC	BSC	BSC	BSC	BSC
+B5	0.47	Absorbance	600	BSC	Control	T72	72	Chamber	Soil_Wash	BSC	Bacteria	BSC	BSC	BSC	BSC	BSC
+B6	0.437	Absorbance	600	BSC	Control	T72	72	Chamber	Soil_Wash	BSC	Bacteria	BSC	BSC	BSC	BSC	BSC
+B7	0.153	Absorbance	600	R16	Control	T72	72	Chamber	Soil_Wash	Burkholderia sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Comamonadaceae	Methylibium
+B8	0.169	Absorbance	600	R16	Control	T72	72	Chamber	Soil_Wash	Burkholderia sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Comamonadaceae	Methylibium
+B9	0.207	Absorbance	600	R16	Control	T72	72	Chamber	Soil_Wash	Burkholderia sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Comamonadaceae	Methylibium
+B10	0.19	Absorbance	600	F147	Control	T72	72	Chamber	Soil_Wash	Dactylonectria macrodidyma	Fungi	Ascomycota	Ascomycota	Ascomycota	Ascomycota	Ilyonectria
+B11	0.088	Absorbance	600	F147	Control	T72	72	Chamber	Soil_Wash	Dactylonectria macrodidyma	Fungi	Ascomycota	Ascomycota	Ascomycota	Ascomycota	Ilyonectria
+B12	0.091	Absorbance	600	F147	Control	T72	72	Chamber	Soil_Wash	Dactylonectria macrodidyma	Fungi	Ascomycota	Ascomycota	Ascomycota	Ascomycota	Ilyonectria
+C1	0.29	Absorbance	600	F243	Control	T72	72	Chamber	Soil_Wash	Dendryphion nanum	Fungi	Ascomycota	Dothideomycetes	Pleosporales	Pleosporaceae	Dendryphion
+C2	0.07	Absorbance	600	F243	Control	T72	72	Chamber	Soil_Wash	Dendryphion nanum	Fungi	Ascomycota	Dothideomycetes	Pleosporales	Pleosporaceae	Dendryphion
+C3	0.235	Absorbance	600	F243	Control	T72	72	Chamber	Soil_Wash	Dendryphion nanum	Fungi	Ascomycota	Dothideomycetes	Pleosporales	Pleosporaceae	Dendryphion
+C4	0.46	Absorbance	600	R420	Control	T72	72	Chamber	Soil_Wash	Flavobacterium sp.	Bacteria	Bacteroidetes	Flavobacteriia	Flavobacteriales	Flavobacteriaceae	Flavobacterium
+C5	0.586	Absorbance	600	R420	Control	T72	72	Chamber	Soil_Wash	Flavobacterium sp.	Bacteria	Bacteroidetes	Flavobacteriia	Flavobacteriales	Flavobacteriaceae	Flavobacterium
+C6	0.393	Absorbance	600	R420	Control	T72	72	Chamber	Soil_Wash	Flavobacterium sp.	Bacteria	Bacteroidetes	Flavobacteriia	Flavobacteriales	Flavobacteriaceae	Flavobacterium
+C7	0.586	Absorbance	600	FSC	Control	T72	72	Chamber	Soil_Wash	FSC	Fungi	FSC	FSC	FSC	FSC	FSC
+C8	0.464	Absorbance	600	FSC	Control	T72	72	Chamber	Soil_Wash	FSC	Fungi	FSC	FSC	FSC	FSC	FSC
+C9	0.279	Absorbance	600	FSC	Control	T72	72	Chamber	Soil_Wash	FSC	Fungi	FSC	FSC	FSC	FSC	FSC
+C10	0.343	Absorbance	600	F212	Control	T72	72	Chamber	Soil_Wash	Fusarium oxysporum	Fungi	Ascomycota	Sordariomycetes	Hypocreales	Nectriaceae	Fusarium
+C11	0.254	Absorbance	600	F212	Control	T72	72	Chamber	Soil_Wash	Fusarium oxysporum	Fungi	Ascomycota	Sordariomycetes	Hypocreales	Nectriaceae	Fusarium
+C12	0.198	Absorbance	600	F212	Control	T72	72	Chamber	Soil_Wash	Fusarium oxysporum	Fungi	Ascomycota	Sordariomycetes	Hypocreales	Nectriaceae	Fusarium
+D1	0.123	Absorbance	600	R695	Control	T72	72	Chamber	Soil_Wash	Mesorhizobium sp.	Bacteria	Proteobacteria	Alphaproteobacteria	Rhizobiales	Phyllobacteriaceae	NA
+D2	0.198	Absorbance	600	R695	Control	T72	72	Chamber	Soil_Wash	Mesorhizobium sp.	Bacteria	Proteobacteria	Alphaproteobacteria	Rhizobiales	Phyllobacteriaceae	NA
+D3	0.151	Absorbance	600	R695	Control	T72	72	Chamber	Soil_Wash	Mesorhizobium sp.	Bacteria	Proteobacteria	Alphaproteobacteria	Rhizobiales	Phyllobacteriaceae	NA
+D4	0.0841	Absorbance	600	Mg	Control	T72	72	Chamber	Soil_Wash	Mg	Mg	Mg	Mg	Mg	Mg	Mg
+D5	0.0857	Absorbance	600	Mg	Control	T72	72	Chamber	Soil_Wash	Mg	Mg	Mg	Mg	Mg	Mg	Mg
+D6	0.0862	Absorbance	600	Mg	Control	T72	72	Chamber	Soil_Wash	Mg	Mg	Mg	Mg	Mg	Mg	Mg
+D7	0.0839	Absorbance	600	Mg	Control	T72	72	Chamber	Soil_Wash	Mg	Mg	Mg	Mg	Mg	Mg	Mg
+D8	0.0844	Absorbance	600	Mg	Control	T72	72	Chamber	Soil_Wash	Mg	Mg	Mg	Mg	Mg	Mg	Mg
+D9	0.0823	Absorbance	600	Mg	Control	T72	72	Chamber	Soil_Wash	Mg	Mg	Mg	Mg	Mg	Mg	Mg
+D10	0.45	Absorbance	600	F16	Control	T72	72	Chamber	Soil_Wash	Plectosphaerella cucumerina	Fungi	Ascomycota	Sordariomycetes	Hypocreomycetidae	Plectosphaerellaceae	Plectosphaerella
+D11	0.6	Absorbance	600	F16	Control	T72	72	Chamber	Soil_Wash	Plectosphaerella cucumerina	Fungi	Ascomycota	Sordariomycetes	Hypocreomycetidae	Plectosphaerellaceae	Plectosphaerella
+D12	0.397	Absorbance	600	F16	Control	T72	72	Chamber	Soil_Wash	Plectosphaerella cucumerina	Fungi	Ascomycota	Sordariomycetes	Hypocreomycetidae	Plectosphaerellaceae	Plectosphaerella
+E1	0.558	Absorbance	600	R09	Control	T72	72	Chamber	Soil_Wash	Pseudomonas sp. 1	Bacteria	Proteobacteria	Gammaproteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas
+E2	0.395	Absorbance	600	R09	Control	T72	72	Chamber	Soil_Wash	Pseudomonas sp. 1	Bacteria	Proteobacteria	Gammaproteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas
+E3	0.523	Absorbance	600	R09	Control	T72	72	Chamber	Soil_Wash	Pseudomonas sp. 1	Bacteria	Proteobacteria	Gammaproteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas
+E4	0.413	Absorbance	600	R329	Control	T72	72	Chamber	Soil_Wash	Pseudomonas sp. 2	Bacteria	Proteobacteria	Gammaproteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas
+E5	0.315	Absorbance	600	R329	Control	T72	72	Chamber	Soil_Wash	Pseudomonas sp. 2	Bacteria	Proteobacteria	Gammaproteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas
+E6	0.262	Absorbance	600	R329	Control	T72	72	Chamber	Soil_Wash	Pseudomonas sp. 2	Bacteria	Proteobacteria	Gammaproteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas
+E7	0.512	Absorbance	600	R431	Control	T72	72	Chamber	Soil_Wash	Streptomyces sp.	Bacteria	Actinobacteria	Actinobacteria	Actinomycetales	Streptomycetaceae	Streptomyces
+E8	0.242	Absorbance	600	R431	Control	T72	72	Chamber	Soil_Wash	Streptomyces sp.	Bacteria	Actinobacteria	Actinobacteria	Actinomycetales	Streptomycetaceae	Streptomyces
+E9	0.155	Absorbance	600	R431	Control	T72	72	Chamber	Soil_Wash	Streptomyces sp.	Bacteria	Actinobacteria	Actinobacteria	Actinomycetales	Streptomycetaceae	Streptomyces
+E10	0.308	Absorbance	600	R318	Control	T72	72	Chamber	Soil_Wash	Variovorax sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Comamonadaceae	NA
+E11	0.539	Absorbance	600	R318	Control	T72	72	Chamber	Soil_Wash	Variovorax sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Comamonadaceae	NA
+E12	0.381	Absorbance	600	R318	Control	T72	72	Chamber	Soil_Wash	Variovorax sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Comamonadaceae	NA
+A1	0.0887	Absorbance	600	R565	Control	T0	0	Chamber	Soil_Wash	Achromobacter sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Alcaligenaceae	NA
+A2	0.0848	Absorbance	600	R565	Control	T0	0	Chamber	Soil_Wash	Achromobacter sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Alcaligenaceae	NA
+A3	0.0876	Absorbance	600	R565	Control	T0	0	Chamber	Soil_Wash	Achromobacter sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Alcaligenaceae	NA
+A4	0.0864	Absorbance	600	R568	Control	T0	0	Chamber	Soil_Wash	Acidovorax sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Comamonadaceae	NA
+A5	0.0862	Absorbance	600	R568	Control	T0	0	Chamber	Soil_Wash	Acidovorax sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Comamonadaceae	NA
+A6	0.0907	Absorbance	600	R568	Control	T0	0	Chamber	Soil_Wash	Acidovorax sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Comamonadaceae	NA
+A7	0.0872	Absorbance	600	R651	Control	T0	0	Chamber	Soil_Wash	Agrobacterium sp.	Bacteria	Proteobacteria	Alphaproteobacteria	Rhizobiales	Rhizobiaceae	Agrobacterium
+A8	0.0862	Absorbance	600	R651	Control	T0	0	Chamber	Soil_Wash	Agrobacterium sp.	Bacteria	Proteobacteria	Alphaproteobacteria	Rhizobiales	Rhizobiaceae	Agrobacterium
+A9	0.0869	Absorbance	600	R651	Control	T0	0	Chamber	Soil_Wash	Agrobacterium sp.	Bacteria	Proteobacteria	Alphaproteobacteria	Rhizobiales	Rhizobiaceae	Agrobacterium
+A10	0.0858	Absorbance	600	R147	Control	T0	0	Chamber	Soil_Wash	Bacillus sp.	Bacteria	Firmicutes	Bacilli	Bacillales	Bacillaceae	Bacillus
+A11	0.0863	Absorbance	600	R147	Control	T0	0	Chamber	Soil_Wash	Bacillus sp.	Bacteria	Firmicutes	Bacilli	Bacillales	Bacillaceae	Bacillus
+A12	0.0864	Absorbance	600	R147	Control	T0	0	Chamber	Soil_Wash	Bacillus sp.	Bacteria	Firmicutes	Bacilli	Bacillales	Bacillaceae	Bacillus
+B1	0.0852	Absorbance	600	BFSC	Control	T0	0	Chamber	Soil_Wash	BFSC	Bacteria Fungi	BFSC	BFSC	BFSC	BFSC	BFSC
+B2	0.0864	Absorbance	600	BFSC	Control	T0	0	Chamber	Soil_Wash	BFSC	Bacteria Fungi	BFSC	BFSC	BFSC	BFSC	BFSC
+B3	0.0847	Absorbance	600	BFSC	Control	T0	0	Chamber	Soil_Wash	BFSC	Bacteria Fungi	BFSC	BFSC	BFSC	BFSC	BFSC
+B4	0.0857	Absorbance	600	BSC	Control	T0	0	Chamber	Soil_Wash	BSC	Bacteria	BSC	BSC	BSC	BSC	BSC
+B5	0.0869	Absorbance	600	BSC	Control	T0	0	Chamber	Soil_Wash	BSC	Bacteria	BSC	BSC	BSC	BSC	BSC
+B6	0.0862	Absorbance	600	BSC	Control	T0	0	Chamber	Soil_Wash	BSC	Bacteria	BSC	BSC	BSC	BSC	BSC
+B7	0.0838	Absorbance	600	R16	Control	T0	0	Chamber	Soil_Wash	Burkholderia sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Comamonadaceae	Methylibium
+B8	0.084	Absorbance	600	R16	Control	T0	0	Chamber	Soil_Wash	Burkholderia sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Comamonadaceae	Methylibium
+B9	0.0845	Absorbance	600	R16	Control	T0	0	Chamber	Soil_Wash	Burkholderia sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Comamonadaceae	Methylibium
+B10	0.0904	Absorbance	600	F147	Control	T0	0	Chamber	Soil_Wash	Dactylonectria macrodidyma	Fungi	Ascomycota	Ascomycota	Ascomycota	Ascomycota	Ilyonectria
+B11	0.0906	Absorbance	600	F147	Control	T0	0	Chamber	Soil_Wash	Dactylonectria macrodidyma	Fungi	Ascomycota	Ascomycota	Ascomycota	Ascomycota	Ilyonectria
+B12	0.087	Absorbance	600	F147	Control	T0	0	Chamber	Soil_Wash	Dactylonectria macrodidyma	Fungi	Ascomycota	Ascomycota	Ascomycota	Ascomycota	Ilyonectria
+C1	0.0841	Absorbance	600	F243	Control	T0	0	Chamber	Soil_Wash	Dendryphion nanum	Fungi	Ascomycota	Dothideomycetes	Pleosporales	Pleosporaceae	Dendryphion
+C2	0.0864	Absorbance	600	F243	Control	T0	0	Chamber	Soil_Wash	Dendryphion nanum	Fungi	Ascomycota	Dothideomycetes	Pleosporales	Pleosporaceae	Dendryphion
+C3	0.084	Absorbance	600	F243	Control	T0	0	Chamber	Soil_Wash	Dendryphion nanum	Fungi	Ascomycota	Dothideomycetes	Pleosporales	Pleosporaceae	Dendryphion
+C4	0.0847	Absorbance	600	R420	Control	T0	0	Chamber	Soil_Wash	Flavobacterium sp.	Bacteria	Bacteroidetes	Flavobacteriia	Flavobacteriales	Flavobacteriaceae	Flavobacterium
+C5	0.0845	Absorbance	600	R420	Control	T0	0	Chamber	Soil_Wash	Flavobacterium sp.	Bacteria	Bacteroidetes	Flavobacteriia	Flavobacteriales	Flavobacteriaceae	Flavobacterium
+C6	0.0842	Absorbance	600	R420	Control	T0	0	Chamber	Soil_Wash	Flavobacterium sp.	Bacteria	Bacteroidetes	Flavobacteriia	Flavobacteriales	Flavobacteriaceae	Flavobacterium
+C7	0.0841	Absorbance	600	FSC	Control	T0	0	Chamber	Soil_Wash	FSC	Fungi	FSC	FSC	FSC	FSC	FSC
+C8	0.0846	Absorbance	600	FSC	Control	T0	0	Chamber	Soil_Wash	FSC	Fungi	FSC	FSC	FSC	FSC	FSC
+C9	0.0844	Absorbance	600	FSC	Control	T0	0	Chamber	Soil_Wash	FSC	Fungi	FSC	FSC	FSC	FSC	FSC
+C10	0.085	Absorbance	600	F212	Control	T0	0	Chamber	Soil_Wash	Fusarium oxysporum	Fungi	Ascomycota	Sordariomycetes	Hypocreales	Nectriaceae	Fusarium
+C11	0.0864	Absorbance	600	F212	Control	T0	0	Chamber	Soil_Wash	Fusarium oxysporum	Fungi	Ascomycota	Sordariomycetes	Hypocreales	Nectriaceae	Fusarium
+C12	0.0847	Absorbance	600	F212	Control	T0	0	Chamber	Soil_Wash	Fusarium oxysporum	Fungi	Ascomycota	Sordariomycetes	Hypocreales	Nectriaceae	Fusarium
+D1	0.0871	Absorbance	600	R695	Control	T0	0	Chamber	Soil_Wash	Mesorhizobium sp.	Bacteria	Proteobacteria	Alphaproteobacteria	Rhizobiales	Phyllobacteriaceae	NA
+D2	0.0872	Absorbance	600	R695	Control	T0	0	Chamber	Soil_Wash	Mesorhizobium sp.	Bacteria	Proteobacteria	Alphaproteobacteria	Rhizobiales	Phyllobacteriaceae	NA
+D3	0.0866	Absorbance	600	R695	Control	T0	0	Chamber	Soil_Wash	Mesorhizobium sp.	Bacteria	Proteobacteria	Alphaproteobacteria	Rhizobiales	Phyllobacteriaceae	NA
+D4	0.0817	Absorbance	600	Mg	Control	T0	0	Chamber	Soil_Wash	Mg	Mg	Mg	Mg	Mg	Mg	Mg
+D5	0.0821	Absorbance	600	Mg	Control	T0	0	Chamber	Soil_Wash	Mg	Mg	Mg	Mg	Mg	Mg	Mg
+D6	0.0821	Absorbance	600	Mg	Control	T0	0	Chamber	Soil_Wash	Mg	Mg	Mg	Mg	Mg	Mg	Mg
+D7	0.0825	Absorbance	600	Mg	Control	T0	0	Chamber	Soil_Wash	Mg	Mg	Mg	Mg	Mg	Mg	Mg
+D8	0.0815	Absorbance	600	Mg	Control	T0	0	Chamber	Soil_Wash	Mg	Mg	Mg	Mg	Mg	Mg	Mg
+D9	0.082	Absorbance	600	Mg	Control	T0	0	Chamber	Soil_Wash	Mg	Mg	Mg	Mg	Mg	Mg	Mg
+D10	0.0841	Absorbance	600	F16	Control	T0	0	Chamber	Soil_Wash	Plectosphaerella cucumerina	Fungi	Ascomycota	Sordariomycetes	Hypocreomycetidae	Plectosphaerellaceae	Plectosphaerella
+D11	0.0853	Absorbance	600	F16	Control	T0	0	Chamber	Soil_Wash	Plectosphaerella cucumerina	Fungi	Ascomycota	Sordariomycetes	Hypocreomycetidae	Plectosphaerellaceae	Plectosphaerella
+D12	0.0885	Absorbance	600	F16	Control	T0	0	Chamber	Soil_Wash	Plectosphaerella cucumerina	Fungi	Ascomycota	Sordariomycetes	Hypocreomycetidae	Plectosphaerellaceae	Plectosphaerella
+E1	0.0823	Absorbance	600	R09	Control	T0	0	Chamber	Soil_Wash	Pseudomonas sp. 1	Bacteria	Proteobacteria	Gammaproteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas
+E2	0.083	Absorbance	600	R09	Control	T0	0	Chamber	Soil_Wash	Pseudomonas sp. 1	Bacteria	Proteobacteria	Gammaproteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas
+E3	0.0841	Absorbance	600	R09	Control	T0	0	Chamber	Soil_Wash	Pseudomonas sp. 1	Bacteria	Proteobacteria	Gammaproteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas
+E4	0.0851	Absorbance	600	R329	Control	T0	0	Chamber	Soil_Wash	Pseudomonas sp. 2	Bacteria	Proteobacteria	Gammaproteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas
+E5	0.0867	Absorbance	600	R329	Control	T0	0	Chamber	Soil_Wash	Pseudomonas sp. 2	Bacteria	Proteobacteria	Gammaproteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas
+E6	0.0863	Absorbance	600	R329	Control	T0	0	Chamber	Soil_Wash	Pseudomonas sp. 2	Bacteria	Proteobacteria	Gammaproteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas
+E7	0.084	Absorbance	600	R431	Control	T0	0	Chamber	Soil_Wash	Streptomyces sp.	Bacteria	Actinobacteria	Actinobacteria	Actinomycetales	Streptomycetaceae	Streptomyces
+E8	0.0839	Absorbance	600	R431	Control	T0	0	Chamber	Soil_Wash	Streptomyces sp.	Bacteria	Actinobacteria	Actinobacteria	Actinomycetales	Streptomycetaceae	Streptomyces
+E9	0.0836	Absorbance	600	R431	Control	T0	0	Chamber	Soil_Wash	Streptomyces sp.	Bacteria	Actinobacteria	Actinobacteria	Actinomycetales	Streptomycetaceae	Streptomyces
+E10	0.0864	Absorbance	600	R318	Control	T0	0	Chamber	Soil_Wash	Variovorax sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Comamonadaceae	NA
+E11	0.0873	Absorbance	600	R318	Control	T0	0	Chamber	Soil_Wash	Variovorax sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Comamonadaceae	NA
+E12	0.0864	Absorbance	600	R318	Control	T0	0	Chamber	Soil_Wash	Variovorax sp.	Bacteria	Proteobacteria	Betaproteobacteria	Burkholderiales	Comamonadaceae	NA

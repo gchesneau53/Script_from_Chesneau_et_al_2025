@@ -1,0 +1,153 @@
+	Rep	Media	Chamber	Chamber_strain	Chamber_strain_2	Combinaison	Chamber_num	Plate	Well	Comment	Collect	Strains	Ct	Manip
+1	1	TSB50	1	R401	R401	R401_BSC	Chamber 1	P1	A1		150	Bacteria	16.6	Bacteria
+2	1	TSB50	2	BSC	BSC	R401_BSC	Chamber 2	P1	A2		150	Bacteria	17.67	Bacteria
+3	2	TSB50	1	R401	R401	R401_BSC	Chamber 1	P1	A3		150	Bacteria	16.57	Bacteria
+4	2	TSB50	2	BSC	BSC	R401_BSC	Chamber 2	P1	A4		150	Bacteria	17.64	Bacteria
+5	3	TSB50	1	R401	R401	R401_BSC	Chamber 1	P1	A5		150	Bacteria	17.12	Bacteria
+6	3	TSB50	2	BSC	BSC	R401_BSC	Chamber 2	P1	A6		150	Bacteria	17.97	Bacteria
+7	4	TSB50	1	R401	R401	R401_BSC	Chamber 1	P1	A7		150	Bacteria	16.3	Bacteria
+8	4	TSB50	2	BSC	BSC	R401_BSC	Chamber 2	P1	A8		150	Bacteria	18.6	Bacteria
+9	5	TSB50	1	MR401	MR401	MR401_BSC	Chamber 1	P1	A9		150	Bacteria	16.19	Bacteria
+10	5	TSB50	2	BSC	BSC	MR401_BSC	Chamber 2	P1	A10		150	Bacteria	15.75	Bacteria
+11	6	TSB50	1	MR401	MR401	MR401_BSC	Chamber 1	P1	A11		150	Bacteria	17.18	Bacteria
+12	6	TSB50	2	BSC	BSC	MR401_BSC	Chamber 2	P1	A12		150	Bacteria	15.41	Bacteria
+13	7	TSB50	1	MR401	MR401	MR401_BSC	Chamber 1	P1	B1		150	Bacteria	16.92	Bacteria
+14	7	TSB50	2	BSC	BSC	MR401_BSC	Chamber 2	P1	B2		150	Bacteria	15.62	Bacteria
+15	8	TSB50	1	MR401	MR401	MR401_BSC	Chamber 1	P1	B3		150	Bacteria	16.87	Bacteria
+16	8	TSB50	2	BSC	BSC	MR401_BSC	Chamber 2	P1	B4		150	Bacteria	15.24	Bacteria
+17	9	TSB50	1	C	C	MF_BSC	Chamber 1	P1	B5	Failed top	150	Bacteria		Bacteria
+18	9	TSB50	2	BSC	BSC	MF_BSC	Chamber 2	P1	B6	Failed top	150	Bacteria		Bacteria
+19	10	TSB50	1	C	C	MF_BSC	Chamber 1	P1	B7		150	Bacteria	32.37	Bacteria
+20	10	TSB50	2	BSC	BSC	MF_BSC	Chamber 2	P1	B8		150	Bacteria	15.14	Bacteria
+21	11	TSB50	1	C	C	MF_BSC	Chamber 1	P1	B9		150	Bacteria	34.21	Bacteria
+22	11	TSB50	2	BSC	BSC	MF_BSC	Chamber 2	P1	B10		150	Bacteria	15.47	Bacteria
+23	12	TSB50	1	C	C	MF_BSC	Chamber 1	P1	B11		150	Bacteria	32.82	Bacteria
+24	12	TSB50	2	BSC	BSC	MF_BSC	Chamber 2	P1	B12		150	Bacteria	14.25	Bacteria
+41	21	TSB50	1	C	C	Control	Chamber 1	P1	D5		150	Bacteria	31.17	C
+42	21	TSB50	2	C	C	Control	Chamber 2	P1	D6		150	Bacteria	32.27	C
+43	22	TSB50	1	C	C	Control	Chamber 1	P1	D7		150	Bacteria	36.1	C
+44	22	TSB50	2	C	C	Control	Chamber 2	P1	D8		150	Bacteria	34.98	C
+45	23	TSB50	1	C	C	Control	Chamber 1	P1	D9		150	Bacteria	38.89	C
+46	23	TSB50	2	C	C	Control	Chamber 2	P1	D10		150	Bacteria	30.26	C
+47	24	TSB50	1	C	C	Control	Chamber 1	P1	D11		150	Bacteria	32.75	C
+48	24	TSB50	2	C	C	Control	Chamber 2	P1	D12		150	Bacteria	33.26	C
+49		TSB50	1	Control	Bottle	Control_Bottle_1	Chamber 1	P1	E1		150	Bacteria	37.26	C
+50		TSB50	2	Control	Bottle	Control_Bottle_1	Chamber 2	P1	E2		150	Bacteria	37.01	C
+51		TSB50	1	Control	Bottle	Control_Bottle_1	Chamber 1	P1	E3		150	Bacteria	31.09	C
+52		TSB50	2	Control	Bottle	Control_Bottle_2	Chamber 2	P1	E4		150	Bacteria	34.81	C
+53		TSB50	1	Control	Bottle	Control_Bottle_2	Chamber 1	P1	E5		150	Bacteria	33.37	C
+54		TSB50	2	Control	Bottle	Control_Bottle_2	Chamber 2	P1	E6		150	Bacteria	32.85	C
+55	1	TSB50	1	R401	R401	R401_FSC	Chamber 1	P1	E7		150	Bacteria	17.65	Fungi
+56	1	TSB50	2	FSC	FSC	R401_FSC	Chamber 2	P1	E8		150	Bacteria	31.51	Fungi
+57	2	TSB50	1	R401	R401	R401_FSC	Chamber 1	P1	E9		150	Bacteria	15.17	Fungi
+58	2	TSB50	2	FSC	FSC	R401_FSC	Chamber 2	P1	E10		150	Bacteria	28.08	Fungi
+59	3	TSB50	1	R401	R401	R401_FSC	Chamber 1	P1	E11		150	Bacteria	16.46	Fungi
+60	3	TSB50	2	FSC	FSC	R401_FSC	Chamber 2	P1	E12		150	Bacteria	28.24	Fungi
+61	4	TSB50	1	R401	R401	R401_FSC	Chamber 1	P1	F1	Failed top	150	Bacteria		Fungi
+62	4	TSB50	2	FSC	FSC	R401_FSC	Chamber 2	P1	F2	Failed top	150	Bacteria		Fungi
+63	5	TSB50	1	MR401	MR401	MR401_FSC	Chamber 1	P1	F3		150	Bacteria	17.77	Fungi
+64	5	TSB50	2	FSC	FSC	MR401_FSC	Chamber 2	P1	F4		150	Bacteria	30.85	Fungi
+65	6	TSB50	1	MR401	MR401	MR401_FSC	Chamber 1	P1	F5		150	Bacteria	15.98	Fungi
+66	6	TSB50	2	FSC	FSC	MR401_FSC	Chamber 2	P1	F6		150	Bacteria	29.72	Fungi
+67	7	TSB50	1	MR401	MR401	MR401_FSC	Chamber 1	P1	F7		150	Bacteria	16.38	Fungi
+68	7	TSB50	2	FSC	FSC	MR401_FSC	Chamber 2	P1	F8		150	Bacteria	29.76	Fungi
+69	8	TSB50	1	MR401	MR401	MR401_FSC	Chamber 1	P1	F9		150	Bacteria	15.83	Fungi
+70	8	TSB50	2	FSC	FSC	MR401_FSC	Chamber 2	P1	F10		150	Bacteria	29.02	Fungi
+71	9	TSB50	1	C	C	MF_FSC	Chamber 1	P1	F11		150	Bacteria	35.07	Fungi
+72	9	TSB50	2	FSC	FSC	MF_FSC	Chamber 2	P1	F12		150	Bacteria	28.18	Fungi
+73	10	TSB50	1	C	C	MF_FSC	Chamber 1	P1	G1		150	Bacteria	31.75	Fungi
+74	10	TSB50	2	FSC	FSC	MF_FSC	Chamber 2	P1	G2		150	Bacteria	28.3	Fungi
+75	11	TSB50	1	C	C	MF_FSC	Chamber 1	P1	G3		150	Bacteria	30.46	Fungi
+76	11	TSB50	2	FSC	FSC	MF_FSC	Chamber 2	P1	G4		150	Bacteria	29.06	Fungi
+77	12	TSB50	1	C	C	MF_FSC	Chamber 1	P1	G5		150	Bacteria	28.21	Fungi
+78	12	TSB50	2	FSC	FSC	MF_FSC	Chamber 2	P1	G6		150	Bacteria	28.49	Fungi
+95	21	TSB50	1	C	C	Control	Chamber 1	P1	H11	Failed top	150	Bacteria		C
+96	21	TSB50	2	C	C	Control	Chamber 2	P1	H12	Failed top	150	Bacteria		C
+97	22	TSB50	1	C	C	Control	Chamber 1	P2	A1		150	Bacteria	29.25	C
+98	22	TSB50	2	C	C	Control	Chamber 2	P2	A2		150	Bacteria	29.55	C
+99	23	TSB50	1	C	C	Control	Chamber 1	P2	A3		150	Bacteria	28.83	C
+100	23	TSB50	2	C	C	Control	Chamber 2	P2	A4		150	Bacteria	29.61	C
+101	24	TSB50	1	C	C	Control	Chamber 1	P2	A5		150	Bacteria	31.04	C
+102	24	TSB50	2	C	C	Control	Chamber 2	P2	A6		150	Bacteria	27.08	C
+103		TSB50	1	Control	Bottle	Control_Bottle_1	Chamber 1	P2	A7		150	Bacteria	29.42	C
+104		TSB50	2	Control	Bottle	Control_Bottle_1	Chamber 2	P2	A8		150	Bacteria	30.47	C
+105		TSB50	1	Control	Bottle	Control_Bottle_1	Chamber 1	P2	A9		150	Bacteria	29.64	C
+106		TSB50	2	Control	Bottle	Control_Bottle_2	Chamber 2	P2	A10		150	Bacteria	30.86	C
+107		TSB50	1	Control	Bottle	Control_Bottle_2	Chamber 1	P2	A11		150	Bacteria	29.51	C
+108		TSB50	2	Control	Bottle	Control_Bottle_2	Chamber 2	P2	A12		150	Bacteria	31.42	C
+129	1	TSB50	1	R401	R401	R401_BSC	Chamber 1	P1	A1		150	Fungi	29.95	Bacteria
+130	1	TSB50	2	BSC	BSC	R401_BSC	Chamber 2	P1	A2		150	Fungi	28.46	Bacteria
+131	2	TSB50	1	R401	R401	R401_BSC	Chamber 1	P1	A3		150	Fungi	28.79	Bacteria
+132	2	TSB50	2	BSC	BSC	R401_BSC	Chamber 2	P1	A4		150	Fungi	28.68	Bacteria
+133	3	TSB50	1	R401	R401	R401_BSC	Chamber 1	P1	A5		150	Fungi	28.22	Bacteria
+134	3	TSB50	2	BSC	BSC	R401_BSC	Chamber 2	P1	A6		150	Fungi	28.69	Bacteria
+135	4	TSB50	1	R401	R401	R401_BSC	Chamber 1	P1	A7		150	Fungi	29.09	Bacteria
+136	4	TSB50	2	BSC	BSC	R401_BSC	Chamber 2	P1	A8		150	Fungi	28.46	Bacteria
+137	5	TSB50	1	MR401	MR401	MR401_BSC	Chamber 1	P1	A9		150	Fungi	28.95	Bacteria
+138	5	TSB50	2	BSC	BSC	MR401_BSC	Chamber 2	P1	A10		150	Fungi	28.54	Bacteria
+139	6	TSB50	1	MR401	MR401	MR401_BSC	Chamber 1	P1	A11		150	Fungi	29.05	Bacteria
+140	6	TSB50	2	BSC	BSC	MR401_BSC	Chamber 2	P1	A12		150	Fungi	28.69	Bacteria
+141	7	TSB50	1	MR401	MR401	MR401_BSC	Chamber 1	P1	B1		150	Fungi	28.73	Bacteria
+142	7	TSB50	2	BSC	BSC	MR401_BSC	Chamber 2	P1	B2		150	Fungi	28.47	Bacteria
+143	8	TSB50	1	MR401	MR401	MR401_BSC	Chamber 1	P1	B3		150	Fungi	28.48	Bacteria
+144	8	TSB50	2	BSC	BSC	MR401_BSC	Chamber 2	P1	B4		150	Fungi	28.34	Bacteria
+145	9	TSB50	1	C	C	MF_BSC	Chamber 1	P1	B5	Failed top	150	Fungi		Bacteria
+146	9	TSB50	2	BSC	BSC	MF_BSC	Chamber 2	P1	B6	Failed top	150	Fungi		Bacteria
+147	10	TSB50	1	C	C	MF_BSC	Chamber 1	P1	B7		150	Fungi	31.01	Bacteria
+148	10	TSB50	2	BSC	BSC	MF_BSC	Chamber 2	P1	B8		150	Fungi	28.41	Bacteria
+149	11	TSB50	1	C	C	MF_BSC	Chamber 1	P1	B9		150	Fungi	28.24	Bacteria
+150	11	TSB50	2	BSC	BSC	MF_BSC	Chamber 2	P1	B10		150	Fungi	28.52	Bacteria
+151	12	TSB50	1	C	C	MF_BSC	Chamber 1	P1	B11		150	Fungi	28.58	Bacteria
+152	12	TSB50	2	BSC	BSC	MF_BSC	Chamber 2	P1	B12		150	Fungi	29.01	Bacteria
+169	21	TSB50	1	C	C	Control	Chamber 1	P1	D5		150	Fungi	28.52	C
+170	21	TSB50	2	C	C	Control	Chamber 2	P1	D6		150	Fungi	28.22	C
+171	22	TSB50	1	C	C	Control	Chamber 1	P1	D7		150	Fungi	28.2	C
+172	22	TSB50	2	C	C	Control	Chamber 2	P1	D8		150	Fungi	29	C
+173	23	TSB50	1	C	C	Control	Chamber 1	P1	D9		150	Fungi	26.74	C
+174	23	TSB50	2	C	C	Control	Chamber 2	P1	D10		150	Fungi	28.06	C
+175	24	TSB50	1	C	C	Control	Chamber 1	P1	D11		150	Fungi	29.22	C
+176	24	TSB50	2	C	C	Control	Chamber 2	P1	D12		150	Fungi	28.63	C
+177		TSB50	1	Control	Bottle	Control_Bottle_1	Chamber 1	P1	E1		150	Fungi	28.6	C
+178		TSB50	2	Control	Bottle	Control_Bottle_1	Chamber 2	P1	E2		150	Fungi	28.74	C
+179		TSB50	1	Control	Bottle	Control_Bottle_1	Chamber 1	P1	E3		150	Fungi	28.53	C
+180		TSB50	2	Control	Bottle	Control_Bottle_2	Chamber 2	P1	E4		150	Fungi	28.25	C
+181		TSB50	1	Control	Bottle	Control_Bottle_2	Chamber 1	P1	E5		150	Fungi	28.14	C
+182		TSB50	2	Control	Bottle	Control_Bottle_2	Chamber 2	P1	E6		150	Fungi	28.5	C
+183	1	TSB50	1	R401	R401	R401_FSC	Chamber 1	P1	E7		150	Fungi	28.24	Fungi
+184	1	TSB50	2	FSC	FSC	R401_FSC	Chamber 2	P1	E8		150	Fungi	20.89	Fungi
+185	2	TSB50	1	R401	R401	R401_FSC	Chamber 1	P1	E9		150	Fungi	28.41	Fungi
+186	2	TSB50	2	FSC	FSC	R401_FSC	Chamber 2	P1	E10		150	Fungi	19.51	Fungi
+187	3	TSB50	1	R401	R401	R401_FSC	Chamber 1	P1	E11		150	Fungi	28.92	Fungi
+188	3	TSB50	2	FSC	FSC	R401_FSC	Chamber 2	P1	E12		150	Fungi	21.21	Fungi
+189	4	TSB50	1	R401	R401	R401_FSC	Chamber 1	P1	F1	Failed top	150	Fungi		Fungi
+190	4	TSB50	2	FSC	FSC	R401_FSC	Chamber 2	P1	F2	Failed top	150	Fungi		Fungi
+191	5	TSB50	1	MR401	MR401	MR401_FSC	Chamber 1	P1	F3		150	Fungi	28.68	Fungi
+192	5	TSB50	2	FSC	FSC	MR401_FSC	Chamber 2	P1	F4		150	Fungi	17.02	Fungi
+193	6	TSB50	1	MR401	MR401	MR401_FSC	Chamber 1	P1	F5		150	Fungi	27.89	Fungi
+194	6	TSB50	2	FSC	FSC	MR401_FSC	Chamber 2	P1	F6		150	Fungi	18.03	Fungi
+195	7	TSB50	1	MR401	MR401	MR401_FSC	Chamber 1	P1	F7		150	Fungi	27.49	Fungi
+196	7	TSB50	2	FSC	FSC	MR401_FSC	Chamber 2	P1	F8		150	Fungi	17.26	Fungi
+197	8	TSB50	1	MR401	MR401	MR401_FSC	Chamber 1	P1	F9		150	Fungi	28.62	Fungi
+198	8	TSB50	2	FSC	FSC	MR401_FSC	Chamber 2	P1	F10		150	Fungi	17.4	Fungi
+199	9	TSB50	1	C	C	MF_FSC	Chamber 1	P1	F11		150	Fungi	28.51	Fungi
+200	9	TSB50	2	FSC	FSC	MF_FSC	Chamber 2	P1	F12		150	Fungi	17.44	Fungi
+201	10	TSB50	1	C	C	MF_FSC	Chamber 1	P1	G1		150	Fungi	28.87	Fungi
+202	10	TSB50	2	FSC	FSC	MF_FSC	Chamber 2	P1	G2		150	Fungi	16.47	Fungi
+203	11	TSB50	1	C	C	MF_FSC	Chamber 1	P1	G3		150	Fungi	28.9	Fungi
+204	11	TSB50	2	FSC	FSC	MF_FSC	Chamber 2	P1	G4		150	Fungi	16.62	Fungi
+205	12	TSB50	1	C	C	MF_FSC	Chamber 1	P1	G5		150	Fungi	29.02	Fungi
+206	12	TSB50	2	FSC	FSC	MF_FSC	Chamber 2	P1	G6		150	Fungi	16.11	Fungi
+223	21	TSB50	1	C	C	Control	Chamber 1	P1	H11	Failed top	150	Fungi		C
+224	21	TSB50	2	C	C	Control	Chamber 2	P1	H12	Failed top	150	Fungi		C
+225	22	TSB50	1	C	C	Control	Chamber 1	P2	A1		150	Fungi	27.62	C
+226	22	TSB50	2	C	C	Control	Chamber 2	P2	A2		150	Fungi	27.98	C
+227	23	TSB50	1	C	C	Control	Chamber 1	P2	A3		150	Fungi	28.15	C
+228	23	TSB50	2	C	C	Control	Chamber 2	P2	A4		150	Fungi	28.15	C
+229	24	TSB50	1	C	C	Control	Chamber 1	P2	A5		150	Fungi	28.3	C
+230	24	TSB50	2	C	C	Control	Chamber 2	P2	A6		150	Fungi	28.11	C
+231		TSB50	1	Control	Bottle	Control_Bottle_1	Chamber 1	P2	A7		150	Fungi	28.28	C
+232		TSB50	2	Control	Bottle	Control_Bottle_1	Chamber 2	P2	A8		150	Fungi	27.82	C
+233		TSB50	1	Control	Bottle	Control_Bottle_1	Chamber 1	P2	A9		150	Fungi	27.28	C
+234		TSB50	2	Control	Bottle	Control_Bottle_2	Chamber 2	P2	A10		150	Fungi	28.29	C
+235		TSB50	1	Control	Bottle	Control_Bottle_2	Chamber 1	P2	A11		150	Fungi	28.1	C
+236		TSB50	2	Control	Bottle	Control_Bottle_2	Chamber 2	P2	A12		150	Fungi	27.16	C

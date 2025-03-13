@@ -1,0 +1,387 @@
+---
+title: "MetaFlowTrain: a highly-parallelized and modular fluidic system to study exometabolite-mediated inter-organismal Interaction"
+author: "Chesneau et al., 2025, Guillaume Chesneau"
+date: "06/09/2024"
+output:
+  html_document:
+    toc: yes
+    toc_float: yes
+  word_document:
+    toc: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache=FALSE, autodep = TRUE, warning = FALSE)
+#Set working direction
+knitr::opts_knit$set(root.dir = "") 
+```
+
+This script has been made on R 4.2.2 (and Rstudio 2022.12.0+353)
+```{r R version}
+R.version
+#Load theme set
+library(ggplot2)
+theme_set(theme_bw())
+```
+
+*****
+
+# A]  Targeted metabolomics
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE, results="hide"}
+#Open dataframe
+Met_Final <- read.csv("Met_tot_f.csv", header=TRUE, sep = ",",  dec=".", row.names=1)
+
+#Change 3PG 2PG name
+Met_Final$Metabolites <- ifelse(Met_Final$Metabolites == "X2.phosphoglyceric.acid..2PG..and..3PG.", "2PG.and.3PG",Met_Final$Metabolites) 
+```
+
+## 1) - PERMANOVA
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE, results="show"}
+#PERMANOVA
+library(vegan)
+Working_file <- Met_Final
+unique(Working_file$Metabolites)
+Working_file <- subset(Working_file, ORGANISM %in% c( "X.BF", "X.X"))
+Working_file <- subset(Working_file, !TREATMENT2 %in% c("Peat.A.B"))
+
+#Working file
+Working_file_tot <- Working_file
+
+#Select column of interest
+library(dplyr)
+Working_file_tot <- Working_file_tot %>% select(c("BIO_SAMPLE_ID3","PEAK_AREA_TIC_Log","Metabolites"))
+
+#Spread dataframe remove na
+Working_file_tot <- subset(Working_file_tot, !BIO_SAMPLE_ID3 %in% c(""))
+data <- tidyr::spread(Working_file_tot, Metabolites, PEAK_AREA_TIC_Log)
+data[data == '-Inf'] <- 0
+data <- na.omit(data)   
+
+#Creae environment
+env <- data
+library(stringr)
+env[c("Date","Numero_sample","ORGANISM", "Time_point","TREATMENT", "Bio.rep")] <- str_split_fixed(env$BIO_SAMPLE_ID3, '_', 6)
+env2 <- env[38:43]
+
+#Set up matrix distances canberra
+row.names(data) <- data$BIO_SAMPLE_ID3
+data$BIO_SAMPLE_ID3 <- NULL
+library(vegan)
+data.dist <- vegdist(data, method="canberra")
+
+#Overall PERMANOVA
+data.div.Time <- adonis2(data ~ TREATMENT/Time_point, data = env2, permutations = 999, method="canberra")
+data.div.TREATMENT <- adonis2(data ~ Time_point/TREATMENT, data = env2, permutations = 999, method="canberra")
+data.div.SYNCOM <- adonis2(data ~ TREATMENT/Time_point/ORGANISM, data = env2, permutations = 999, method="canberra")
+
+# R-squared value
+R_squared_TIME <- data.div.SYNCOM$R2[2]
+R_squared_TREATMENT <- data.div.SYNCOM$R2[1]
+R_squared_SYNCOM <- data.div.SYNCOM$R2[3]
+
+# p-value
+p.value_TIME <- data.div.SYNCOM$`Pr(>F)`[2]
+p.value_TREATMENT <- data.div.SYNCOM$`Pr(>F)`[1]
+p.value_SYNCOM <- data.div.SYNCOM$`Pr(>F)`[3]
+```
+
+## 2) - PcoA (Figure 3.d)
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE, results="hide"}
+
+#Open working file
+library(dplyr)
+Working_file <- Met_Final
+
+#Keep only full SynCom
+Working_file <- subset(Working_file, ORGANISM %in% c("X.BF", "X.X"))
+Working_file <- subset(Working_file, !TREATMENT2 %in% c("Peat.A.B")) #Remove condition just bacterial SynCom alone
+Working_file <- subset(Working_file, !BIO_SAMPLE_ID3 %in% c("45258_48_X.X_62h_Peat_B.1", "45268_58_X.BF_62h_Peat.A.BF_B.1", "45268_59_X.X_62h_Peat.A.BF_B.1","45258_48_X.X_62h_Peat_B.4", "45258_47_X.X_62h_Peat_B.4")) 
+
+#Select column of interest for plotting
+Met_Final_filtered <- Working_file %>% select(c("BIO_SAMPLE_ID3","Metabolites", "PEAK_AREA_TIC_Log")) #Change second criteria according to what you want analyse.
+
+#Spread table
+Met_Final_filtered_Spr <- tidyr::spread(Met_Final_filtered, key = Metabolites, value = PEAK_AREA_TIC_Log)
+
+#Put NA as 0 not detected
+Met_Final_filtered_Spr[is.na(Met_Final_filtered_Spr)] <- 0
+Met_Final_filtered_Spr[Met_Final_filtered_Spr == '-Inf'] <- 0
+
+#Arrange name rows
+row.names(Met_Final_filtered_Spr) <- Met_Final_filtered_Spr$BIO_SAMPLE_ID3
+Met_Final_filtered_Spr$BIO_SAMPLE_ID3 <- NULL
+library("FactoMineR")
+library("factoextra")
+
+#Create PCA
+res.pca <- PCA(Met_Final_filtered_Spr, graph = FALSE)
+
+#Check percent of variation
+plot_percent <- fviz_eig(res.pca, addlabels = TRUE, ylim = c(0, 100))
+
+Dim1 <- capture.output(cat(round(res.pca$eig[1,2], digits = 2), "%"))
+Dim2 <- capture.output(cat(round(res.pca$eig[2,2], digits = 2), "%"))
+
+res.pca$eig
+res.pca$svd
+
+library(data.table)
+data_plotting <- data.frame(res.pca$ind$coord)
+data_plotting$SP1 <- row.names(data_plotting)
+
+#Concatenate metadata
+library(stringr)
+data_plotting2 <- data_plotting
+data_plotting2[c("Date","Number", "ORGANISM","Time_point", "TREATMENT", "Bio_rep")] <- str_split_fixed(row.names(data_plotting2), '_', 6)
+
+#Remove Pool for plotting
+data_plotting2 <- subset(data_plotting2, !ORGANISM %in% c("Pool", "pool"))
+
+
+#Plot
+#Claculate for segments
+points_pcoa = data.frame(data_plotting2 %>% 
+                group_by(Time_point, TREATMENT, ORGANISM) %>% 
+                mutate(meanX=mean(Dim.1), meanY=mean(Dim.2)))
+
+
+#Plot full with all conditions
+#Claculate for segments
+points_pcoa = data.frame(data_plotting2 %>% 
+                group_by(Time_point, TREATMENT, ORGANISM) %>% 
+                mutate(meanX=mean(Dim.1), meanY=mean(Dim.2)))
+points_pcoa$ORGANISM_TimePoint <- paste(points_pcoa$ORGANISM, points_pcoa$Time_point, sep = "-")
+
+# Create a new column in your data that combines ORGANISM and New_Parameter
+data_plotting2$ORGANISM_TimePoint <- paste(data_plotting2$ORGANISM, data_plotting2$Time_point, sep = "-")
+
+#Plot
+Figure3d <- ggplot() + 
+   geom_segment(data = points_pcoa, mapping = aes(x = meanX, y = meanY, xend = Dim.1, yend = Dim.2, color = TREATMENT), size = 0.5, alpha = 0.4) +
+  geom_jitter(data = data_plotting2, aes(x = Dim.1, y = Dim.2, shape = ORGANISM_TimePoint, color = TREATMENT), alpha = 1, size = 0.4) + 
+  geom_point(data = points_pcoa, aes(x = meanX, y = meanY, shape = ORGANISM_TimePoint, color = TREATMENT), size = 4, alpha = 1) +
+  ggtitle("Targeted metabolic profiles (n=41)") + 
+   geom_hline(yintercept = 0, linetype = "dashed", color = "#585858") +
+  geom_vline(xintercept = 0, linetype = "dashed", color = "#585858") +
+  xlab(paste("PCoA1", Dim1)) + ylab(paste("PCoA2",Dim2)) +
+  theme(strip.background = element_rect(color = "white", fill = "#585858", size = 1, linetype = "solid"), 
+        strip.text.x = element_text(size = 12, color = "white"), 
+        strip.text.y = element_text(size = 12, color = "white")) +
+  scale_color_manual('Sterile washes', labels = c("Peat", "Peat + Plant", "Peat + Plant + SynCom"), values = c("#DDD5D0", "#988071", "#3B312B")) +
+ 
+  geom_text(aes(x = 2, y = 4.5, label = paste("Time Point : ", round(R_squared_TIME * 100, digits = 3), "% of variance; p =", format(p.value_TIME, digits = 2))), color = "black", size = 2.5) +
+  geom_text(aes(x = 2, y = 4, label = paste("Sterile washes : ", round(R_squared_TREATMENT * 100, digits = 3), "% of variance; p =", format(p.value_TREATMENT, digits = 2))), color = "black", size = 2.5) +
+geom_text(aes(x = 2, y = 3.5, label = paste("SynCom : ",round(R_squared_SYNCOM*100, digits = 3), "% of variance; p =", format(p.value_SYNCOM, digits = 2))), color = "black", size = 2.5) +
+  scale_shape_manual(values = c(17, 19, 2, 1), labels = c("BFSC 24h", "BFSC 62h", "MF 24h", "MF 62h")) 
+Figure3d
+```
+
+## 3) - Log2FC (Figure 3.e)  
+   
+### 3.1 - Calculate Log2C based on Control (Media)
+```{r, echo=FALSE, warning=FALSE, message=FALSE, results="hide"}
+#Prepare table
+# Full LOG2 plot with significant 
+Df <- Met_Final
+
+#Keep timepoint 62hours and remove the sterile wash conditioned with Plant and Bacteria, Focus 62h more significant
+Df <- subset(Df, Time_point %in% c("62h"))
+Df <- subset(Df, ORGANISM2 %in% c("Media.BacteriaFungi", "Media.Media") & !TREATMENT2 %in% c("Peat.A.B"))
+
+#Add concat column                           
+library(dplyr)
+Df$concat <- paste( Df$Metabolites, "-", Df$TREATMENT2)
+         
+#Keep Df                         
+Df_Soil <-Df 
+
+#Create what to compare
+Df_Soil$Met_Treat <- paste(Df_Soil$TREATMENT2, "_",Df_Soil$Metabolites)
+
+#Extract control Media or log transformation
+Df_Soil_med.med.bac <- subset(Df_Soil, ORGANISM2 %in% c("Media.Media"))
+Table_Peat_mean_bac <- aggregate(Df_Soil_med.med.bac$PEAK_AREA_TIC, list(Df_Soil_med.med.bac$concat), FUN=median)
+colnames(Table_Peat_mean_bac) <- c("concat", "Mean_Media")
+
+#Split
+library(stringr)
+Table_Peat_mean_bac[c("Metabolites","TREATMENT22")] <- str_split_fixed(Table_Peat_mean_bac$concat, ' - ', 2)
+
+#Create what to compare
+Table_Peat_mean_bac$Met_Treat <- paste(Table_Peat_mean_bac$TREATMENT22, "_", Table_Peat_mean_bac$Metabolites)
+
+#Prepare merge (keep only)
+Df_Soil.bac <- subset(Df_Soil, ORGANISM2 %in% c("Media.BacteriaFungi"))
+
+#Final merge
+Df_Soil.bac.f <-  merge(Df_Soil.bac, Table_Peat_mean_bac,  by = c("Met_Treat"))  
+
+#Calculate log2FC
+Df_Soil.bac.f['Mean_Media'][Df_Soil.bac.f['Mean_Media'] == 0] <- 0.1 #Log2FC cannot handle value = 0
+Df_Soil.bac.f$log2FC <- (log2(Df_Soil.bac.f$PEAK_AREA_TIC))-(log2(Df_Soil.bac.f$Mean_Media))
+
+
+#_INF = Not detected put -5 minimum value treshold
+Df_Soil.bac.f
+Df_Soil.bac.f['log2FC'][Df_Soil.bac.f['log2FC'] == '-Inf'] <- -5
+Df_Soil.bac.f['log2FC'][Df_Soil.bac.f['log2FC'] <  -5] <- -5
+
+#Merging table
+Table_S <- Df_Soil.bac.f %>% group_by(ORGANISM2,Metabolites.y,TREATMENT22) %>% summarise (log2FC_med = median(log2FC))
+Table_S$concat <-  paste(Table_S$Metabolites.y, "-",Table_S$ORGANISM2, "_", Table_S$TREATMENT22 )
+Table_S$ORGANISM2 <- NULL
+Table_S$Metabolites.y <- NULL
+Table_S$TREATMENT22 <- NULL
+Df_Soil.bac.f$concat <-  paste(Df_Soil.bac.f$Metabolites.y, "-",Df_Soil.bac.f$ORGANISM2, "_", Df_Soil.bac.f$TREATMENT22 )
+Final_tab <- merge(x = Table_S, y = Df_Soil.bac.f, by = c("concat"))
+
+#Keep only what is significant
+Final_tab$Significant <-   ifelse(Final_tab$log2FC_med >= 1 , "Significant",
+                           ifelse(Final_tab$log2FC_med <= -1, "Significant","Non Significant"))
+
+DATA_Log2_PEAT2_f <- Final_tab
+```
+
+### 3.2 - Statistics beween media
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE, results="hide"}
+
+#Calculate significance between BSC, FSC and BFSC for each individual metabolite in each individual wash.
+library(dplyr)
+library(dunn.test)
+
+#Load dataset Change accordingle (Table_f_S or Table_f_C)
+df <- Final_tab
+
+#Filter one with -7
+df_filtered <- subset(df, !Metabolites.x %in% c("alpha.ketoglutaric.acid", "fumaric.acid") )
+
+#Load again
+df <- df_filtered
+df$Metabolites.x_Class <- paste0(df$Metabolites.x, "/", df$Class)
+
+# Get unique conditions
+unique_conditions <- unique(df$Metabolites.x_Class)
+
+# Create empty data frames to store the results
+kruskal_results <- data.frame()
+dunn_results <- data.frame()
+
+# Loop over unique conditions and perform tests
+for (condition in unique_conditions) {
+  # Subset the data for the current condition
+  subset_data <- df[df$Metabolites.x_Class == condition, ]
+  
+  # Perform Kruskal-Wallis test
+  kruskal_result <- kruskal.test(log2FC ~ TREATMENT2, data = subset_data)
+  
+  # Perform Dunn's test for post hoc comparisons
+  dunn_result <- dunn.test(subset_data$log2FC, g = subset_data$TREATMENT2, method = "bh")
+  
+  # Store the results in data frames
+  kruskal_results <- rbind(kruskal_results, c(Condition = condition, kruskal_result$P.adjusted))
+  dunn_results <- rbind(dunn_results, data.frame(dunn_result$comparison, dunn_result$P.adjusted, condition))
+}
+
+# Print Kruskal-Wallis results
+print(kruskal_results)
+
+# Print Dunn test results
+print(dunn_results)
+
+#Create groups letters
+library(rcompanion)
+
+# Create empty data frames to store the results
+groups_results <- data.frame()
+
+for (condition in unique_conditions) {
+  # Subset the data for the current condition
+  subset_data <- dunn_results[dunn_results$condition == condition, ]
+   
+  group <- cldList(comparison = subset_data$dunn_result.comparison, 
+                    p.value    = subset_data$dunn_result.P.adjusted,
+                    threshold  = 0.05)
+  # Create a data frame for the results of the current condition
+  condition_results <- data.frame(Condition = condition,
+                                  Group = group$Group,
+                                  Letter = group$Letter,
+                                  MonoLetter = group$MonoLetter)
+  
+# Append the results to the groups_results data frame
+  groups_results <- rbind(groups_results, condition_results)
+
+}
+groups_results
+
+# Splitting the column into two
+library(tidyr)
+groups_results <- separate(groups_results, Condition, into = c("Metabolite.y", "Class"), sep = "/")
+
+#Arrange table to match the plot
+colnames(groups_results) <- c("Metabolites.y","Class","TREATMENT2", "Letter", "MonoLetter")
+groups_results$ORGANISM2 <- c("Media.BacteriaFungi")
+```
+
+Remove non significant metabolites in any condition for plotting.  
+Plot
+```{r, echo=FALSE, warning=FALSE, message=FALSE, results="hide"}
+#REmove Metabolites which are not signficiant in any condition
+Final_tab$remove <- ifelse(Final_tab$Significant == "Non Significant", 1,2)
+REMOVE <- Final_tab %>%  
+  group_by(Metabolites.y) %>% 
+  summarize(mean=mean(remove)) 
+To_remove <- subset(REMOVE, mean %in% c(1) )
+
+#Remove eveything between 0.5 and -0.5 (non significant)
+Final_tab_f <- subset(Final_tab, !Metabolites.y %in% c(To_remove$Metabolites.y))
+groups_results <- subset(groups_results, !Metabolites.y %in% c(To_remove$Metabolites.y))
+
+#Change 3PG 2PG
+Final_tab_f$Metabolites.y <- ifelse(Final_tab_f$Metabolites.y == "X2.phosphoglyceric.acid..2PG..and..3PG.", "2PG.and.3PG",Final_tab_f$Metabolites.y) 
+groups_results$Metabolites.y <- ifelse(groups_results$Metabolites.y == "X2.phosphoglyceric.acid..2PG..and..3PG.", "2PG.and.3PG",groups_results$Metabolites.y) 
+
+#Remove GABA (non significant)
+Final_tab_f <- subset(Final_tab_f, !Metabolites.y %in% c("GABA_1Bz"))
+groups_results <- subset(groups_results, !Metabolites.y %in% c("GABA_1Bz"))
+
+#Order plot
+x = tapply(Final_tab_f$log2FC_med, Final_tab_f$Metabolites.y, function(x) max(x))
+x = sort(x, FALSE)
+Final_tab_f$Metabolites.y = factor(as.character(Final_tab_f$Metabolites.y), levels=names(x))
+
+#Change facet_grid names
+Class_names <- setNames(c("Amino Acids", "TCA Glycolysis"), c("Amino_Acids", "TCA_Glycolysis"))
+
+#Plot
+Plot_bac <- ggplot(data=Final_tab_f, 
+                             aes_string(x='Metabolites.y',y='log2FC', fill = 'TREATMENT2')) + # Significant Or ORGANISM2
+  geom_boxplot(outlier.shape = NA, alpha = 0.8, size = 0.2) +
+  geom_point(alpha=1, size = 0.5, position = position_dodge(width=0.75),data=Final_tab_f, 
+                             aes_string(color = 'TREATMENT2')) +
+  theme(
+        strip.background = element_rect(color="black", fill="lightgray", size=1, linetype="solid"),
+        strip.text.x = element_text(size = 12, color = "black"),
+        strip.text.y = element_text(size = 12, color = "white"),
+        axis.title.y = element_text( size = 12),
+        plot.title = element_text(size = 16),
+        axis.text.x = element_text(angle = 90,  hjust=1), 
+        axis.text.y = element_text())+  
+  ylab ("Log2FC") + xlab ("") +
+   facet_grid(~Class, space="free", scale = "free", labeller = labeller(Class =Class_names)) +
+  geom_hline(yintercept = c(0.5,-0.5), linetype="dashed", size=0.5) +
+  ggtitle("Log 2 FC relative to the washes")+
+       scale_fill_manual('Sterile washes',labels = c("Peat", "Peat + Plant", "Peat + Plant + SynCom"), values=c("#DDD5D0", "#988071", "#3B312B" )) +
+     scale_color_manual('Sterile washes',labels = c("Peat", "Peat + Plant", "Peat + Plant + SynCom"), values=c("#DDD5D0", "#988071", "#3B312B" )) +
+        geom_text( data    = groups_results, mapping = aes(x =Metabolites.y , y = 4, label = Letter), size = 4,position = position_dodge(width=0.75))
+Plot_bac
+```
+
+*****
+
+# End of script
+
+*****
